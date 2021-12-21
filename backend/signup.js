@@ -3,36 +3,52 @@
 var mysql = require('../my/mysql.js');
 
 handle_request = ((data, callback) => {
-    let response = { 
+    let response = {
         status: 400
     };
 
     try {
-        let insertUser = "insert into User values ('" + 
-                        data.user_id + "', '" +
-                        data.user_name + "', '" + 
-                        data.password + "', '" + 
-                        data.money + "');";
-        
-        mysql.insertData(insertUser, function(err, res){
-            if(err){
+        let checkUser = "select * from User where user_name='" + data.user_name + "';";
+        mysql.fetchData(checkUser, function (err, fetch_res) {
+            if (err) {
                 console.log("err");
-                callback(err);
-            } else if(res.affectedRows == 1) {
-                response.status = 200;
-                response.msg = "success";
-                console.log("insert response 200");
-                callback(null, response);
+                response.status = 400;
+                response.msg = 'check user_name error';
+                callback(err, response);
+            } else if (fetch_res.length == 0) {
+                let insertUser = "insert into User (user_name, password, money) values ('" +
+                    //data.user_id + "', '" +
+                    data.user_name + "', '" +
+                    data.password + "', '" +
+                    data.money + "');";
+
+                mysql.insertData(insertUser, function (insert_err, insert_res) {
+                    if (insert_err) {
+                        console.log("err");
+                        response.msg = 'insert error';
+                        response.status = 400;
+                        callback(err, response);
+                    } else if (insert_res.affectedRows == 1) {
+                        response.status = 200;
+                        response.msg = "signup success";
+                        console.log("insert response 200");
+                        callback(null, response);
+                    } else {
+                        response.status = 400;
+                        response.msg = 'signup error';
+                        console.log("insert response 201");
+                        callback(null, response);
+                    }
+                });
             } else {
-                response.status = 201;
-                response.msg = 'error';
-                console.log("insert response 201");
+                response.status = 403;
+                response.msg = 'user name already used';
+                console.log("user name used");
                 callback(null, response);
             }
-        });
-    } catch(e) {
+        })
+    } catch (e) {
         console.log("catch");
-        //console.log(e);
         callback(e, response);
     }
 });

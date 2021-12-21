@@ -11,7 +11,7 @@ app.use(cp());
 app.use(cors());
 
 let signup = require('./signup.js');
-//let login = require('./login.js');
+let login = require('./login.js');
 
 app.get('/', function(req, res){
     console.log("connected to port 3000");
@@ -28,12 +28,24 @@ app.post('/signup', function(req, res){
     console.log(req.body);
     signup.handle_request(req.body, function(err, result){
         if(err){
-            //console.log(err);
-            res.sendStatus(400);
-        } else if (result.status == 200){
-            res.send(result).status(200);
+            console.log("signup handle_request error");
+            res.send(result).status(result.status);
         } else {
-            res.send(result).status(201);
+            res.send(result).status(result.status);
+        }
+    });
+});
+
+app.post('/login', function(req, res){
+    console.log('post login');
+    console.log('req.body:');
+    console.log(req.body);
+    login.handle_request(req.body, function(err, result){
+        if(err){
+            console.log("login handle_request error");
+            res.send(result).status(result.status);
+        } else {
+            res.send(result).status(result.status);
         }
     });
 })
