@@ -9,8 +9,7 @@ handle_request = ((data, callback) => {
 
     try {
         let checkUser = "select * from User where user_name='" + 
-                        data.user_name + "' and password='" + 
-                        data.password + "';";
+                        data.user_name + "';";
         mysql.fetchData(checkUser, function (err, fetch_res) {
             if (err) {
                 console.log("err");
@@ -23,11 +22,20 @@ handle_request = ((data, callback) => {
                 response.msg = "no user found";
                 callback(null, response);
             } else if (fetch_res.length == 1){
-                console.log("found user");
-                response.status = 200;
-                response.msg = "found user";
-                response.user_id = fetch_res[0].user_id;
-                callback(null, response); 
+                if (fetch_res[0].password == data.password){
+                    console.log("found user");
+                    response.status = 200;
+                    response.msg = "found user";
+                    response.user_id = fetch_res[0].user_id;
+                    callback(null, response);
+                }
+                else{
+                    console.log("password error");
+                    response.status = 204;
+                    response.msg = "password error";
+                    callback(null, response);
+                }
+                
             }
         });
     } catch(e) {

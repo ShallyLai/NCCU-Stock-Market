@@ -73,3 +73,223 @@ create table Own (
     foreign key (Ouser_id) references User(user_id),
     foreign key (Ostock_id) references Stock(stock_id)
 );
+
+create table History_101 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_102 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_103 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_104 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_202 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_203 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_204 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_205 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_206 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_207 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_208 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_209 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_301 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_302 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_303 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_304 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_305 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_306 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_307 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_308 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_401 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_402 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_403 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_405 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_501 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_502 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_504 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_506 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_507 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_508 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_509 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_510 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_601 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_701 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_702 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+create table History_703 (
+    Date_ date not null,
+    Time_ time not null,
+    price int not null 
+);
+
+
+
+
