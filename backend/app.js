@@ -12,6 +12,7 @@ app.use(cors());
 
 let signup = require('./signup.js');
 let login = require('./login.js');
+let getAllStock = require('./getAllStock.js');
 
 app.get('/', function(req, res){
     console.log("connected to port 3000");
@@ -47,6 +48,14 @@ app.post('/login', function(req, res){
         } else {
             res.send(result).status(result.status);
         }
+    });
+});
+
+app.get('/get_all_stock', function(req, res){
+    console.log('get all stock');
+
+    getAllStock.handle_request(function(err, result){
+
     });
 })
 
