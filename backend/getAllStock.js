@@ -2,7 +2,7 @@
 // 看你接SQL的檔案在哪裡
 var mysql = require('../my/mysql.js');
 
-let handle_request = ((data, callback) => {
+let handle_request = async((data, callback) => {
   let response = { status: 400 };
 
   try {
