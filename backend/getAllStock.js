@@ -12,7 +12,8 @@ handle_request = ((callback) => {
             if(err){
                 throw(err);
             } else {
-                
+                // result: 
+                console.log(result);
 
                 for (i = 0; i < result.length; i++){
 
