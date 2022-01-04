@@ -13,6 +13,7 @@ app.use(cors());
 let signup = require('./signup.js');
 let login = require('./login.js');
 let allStock = require('./getALLStock.js');
+let HighLow = require('./getHighLow.js');
 
 app.get('/', function(req, res){
     console.log("connected to port 3000");
@@ -64,6 +65,21 @@ app.get('/GetALLStock', function(req, res){
             res.send(result).status(result.status);
         }
     });
+});
+
+app.get('/getAllHighLow', function(req, res){
+    console.log("\nget all high low");
+    
+    let data = [101, 102, 103, 104, 202, 203, 204, 205, 206, 207, 208, 209, 301, 302, 303, 304, 305, 306, 307, 308, 401, 402, 403, 405, 501, 502, 504, 506, 507, 508, 509, 510, 601, 701, 702, 703];
+    
+    HighLow.handle_request(data, function(err, result){
+        if(err){
+            console.log("get all high low error\n");
+            res.send(result).status(result.status);
+        } else {
+            res.send(result).status(result.status);
+        }
+    })
 })
 
 app.post("/delete",function(req,res){

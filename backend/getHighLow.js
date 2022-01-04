@@ -3,37 +3,16 @@
 var mysql = require('../my/mysql.js');
 
 let handle_request = async (data, callback) => {
+
   let response = { status: 400 };
+  // assume data is company_id
+  console.log(data);
+  var id = [];
+  var high = [];
+  var low = [];
 
   try {
-
-    var price = [];
-    var name = [];
-    var id = [];
-    var high = [];
-    var low = [];
-    var length ;
-
-    let query = "select price, company_name, company_id from Stock, Company where Stock.scompany_id=Company.company_id;";
-
-    mysql.fetchData(query, function (err, result) {
-      if (err) {
-        console.log(err);
-        throw "get cur price error";
-      } else {
-        length = result.length;
-        for (i = 0; i < result.length; i++) {
-          price.push(result[i].price);
-          name.push(result[i].company_name);
-          id.push(result[i].company_id);
-        }
-        
-      }
-    });
-
-    let data_id = [101, 102, 103, 104, 202, 203, 204, 205, 206, 207, 208, 209, 301, 302, 303, 304, 305, 306, 307, 308, 401, 402, 403, 405, 501, 502, 504, 506, 507, 508, 509, 510, 601, 701, 702, 703];
-
-    const high_low = data_id.map(async (element, index) => {
+    const high_low = data.map(async (element, index) => {
       console.log("index:", index);
       console.log("element:", element);
 
@@ -49,8 +28,12 @@ let handle_request = async (data, callback) => {
         } else if (result.length == 0) {
           console.log("no data");
         } else {
-          console.log("\n" + element);
           console.log(result.length);
+
+          console.log("result[]");
+          console.log(result[0].price);
+          
+          if(result[1]) console.log(result[1].price);
           
           let max = 0;
           let min = 1000;
@@ -75,8 +58,6 @@ let handle_request = async (data, callback) => {
         console.log("num: ", num)
         console.log("awaited all promises");
         response.status = 200;
-        response.price = price;
-        response.name = name;
         response.id = id;
         response.high = high;
         response.low = low;
@@ -86,30 +67,12 @@ let handle_request = async (data, callback) => {
       
     });
 
-
-    // await Promise.all(high_low).then((num) => {
-    //   if(num[length] == 1){
-    //     console.log("num: ", num)
-    //     console.log("awaited all promises");
-    //     response.status = 200;
-    //     response.price = price;
-    //     response.name = name;
-    //     response.id = id;
-    //     response.high = high;
-    //     response.low = low;
-  
-    //     callback(null, response);
-  
-    //   }
-    // });
-
-
-
-  } catch (err) {
+  } catch (error) {
     console.log("catch error");
-    console.log(err);
-    callback(err, response);
+    console.log(error);
+    callback(error, response);
   }
-};
+
+}
 
 exports.handle_request = handle_request;
