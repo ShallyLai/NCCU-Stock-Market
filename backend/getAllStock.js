@@ -52,7 +52,7 @@ let handle_request = async (data, callback) => {
       console.log("index:", index);
       console.log("element:", element);
 
-      let table_name = "History_" + result[i].company_id;
+      let table_name = "History_" + name[i];
       let query2 = "select price from " + table_name + " where Date_=curDate();";
       // select * from History_101 order by Date_ DESC, Time_ DESC limit 1;
       // if query2.length >= 1, find high low
@@ -63,8 +63,8 @@ let handle_request = async (data, callback) => {
           throw "get high low error";
         } else if (result2.length == 0) {
           console.log("no curDate() price");
-          high.push(result[i].price);
-          low.push(result[i].price);
+          high.push(price[i]);
+          low.push(price[i]);
         } else {
           high.push(Math.max(...result2));
           low.push(Math.min(...result2));
