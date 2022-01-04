@@ -1,7 +1,6 @@
 // 這裡的路徑每個人可能不太一樣
 // 看你接SQL的檔案在哪裡
 var mysql = require('../my/mysql.js');
-const { handle_request } = require('./login.js');
 
 let handle_request = ((data, callback) => {
     let response = { status:400};
