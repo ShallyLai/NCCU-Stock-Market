@@ -44,8 +44,6 @@ handle_request = ((callback) => {
                         high.push(result[i].price);
                         low.push(result[i].price);
                       } else{
-                        //let maxQuery = "select max(price) from " + table_name + " where Date_=curDate();";
-                        //let minQuery = "select min(price) from " + table_name + " where Date_=curDate();";
                         high.push(Math.max(...result2));
                         low.push(Math.min(...result2));
                       }
