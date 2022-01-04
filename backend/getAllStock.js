@@ -48,7 +48,7 @@ let handle_request = async (data, callback) => {
       }
     });
 
-    const high_low = result.price.map(async (element, index) => {
+    const high_low = price.map(async (element, index) => {
       console.log("index:", index);
       console.log("element:", element);
 
