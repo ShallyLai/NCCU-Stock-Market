@@ -22,14 +22,6 @@ var pool = mysql.createPool({
 });
 const promisePool = pool.promise();
 
-connection.connect(function (err) {
-    if (err) {
-        console.log('error connecting: ' + err.stack);
-        return;
-    }
-    console.log('connected as id ' + connection.threadId);
-});
-
 const myFetch = async(sqlQuery, callback) => {
     console.log("myFetch SQL query: ", sqlQuery);
     const [rows, fields] = await promisePool.execute(sqlQuery);

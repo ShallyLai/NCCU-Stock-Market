@@ -15,7 +15,8 @@ let login = require('./login.js');
 let allStock = require('./getALLStock.js');
 let HighLow = require('./getHighLow.js');
 let myOrder = require('./getMyOrder.js');
-let getHistory = require('./getHistory.js');
+let myTrans = require('./getMyTransation.js');
+let getHistory = require("./getHistory.js");
 
 app.get('/', function(req, res){
     console.log("connected to port 3000");
@@ -67,7 +68,7 @@ app.get('/GetALLStock', function(req, res){
             res.send(result).status(result.status);
         }
     });
-});
+})
 
 app.get('/getAllHighLow', function(req, res){
     console.log("\nget all high low");
@@ -97,6 +98,20 @@ app.get('/getMyOrder', function(req, res){
         }
     });
 });
+
+app.post("/GetMyTransaction", function(req, res){
+  console.log("get my transaction");
+    console.log("req.body");
+    console.log(req.body);
+    myTrans.handle_request(req.body, function(err, result){
+        if(err){
+            console.log("get my transaction handle_request error");
+            res.send(result).status(result.status);
+        } else {
+            res.send(result).status(result.status);
+        }
+    });
+})
 
 app.get('/getHistory', function(req, res){
     var company_id = req.query.company_id;
