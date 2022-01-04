@@ -70,4 +70,4 @@ handle_request = ((callback) => {
     }
 });
 
-module.handle_request = handle_request;
+exports.handle_request = handle_request;
