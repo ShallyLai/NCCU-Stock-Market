@@ -14,6 +14,7 @@ let signup = require('./signup.js');
 let login = require('./login.js');
 let allStock = require('./getALLStock.js');
 let HighLow = require('./getHighLow.js');
+let myOrder = require('./getMyOrder.js');
 
 app.get('/', function(req, res){
     console.log("connected to port 3000");
@@ -79,8 +80,22 @@ app.get('/getAllHighLow', function(req, res){
         } else {
             res.send(result).status(result.status);
         }
-    })
-})
+    });
+});
+
+app.get('/getMyOrder', function(req, res){
+    var user_id = req.query.user_id;
+    console.log("getmyorder user:" + user_id);
+
+    myOrder.handle_request(user_id, function(err, result){
+        if(err){
+            console.log("get my order error");
+            res.send(result).status(result.status);
+        } else {
+            res.send(result).status(result.status);
+        }
+    });
+});
 
 app.post("/delete",function(req,res){
     console.log('post login');
