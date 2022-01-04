@@ -2,7 +2,7 @@
 // 看你接SQL的檔案在哪裡
 var mysql = require('../my/mysql.js');
 
-let handle_request = async((data, callback) => {
+let handle_request = async(data, callback) => {
   let response = { status: 400 };
 
   try {
@@ -86,6 +86,6 @@ let handle_request = async((data, callback) => {
     console.log("catch error");
     callback(err, response);
   }
-});
+};
 
 exports.handle_request = handle_request;
