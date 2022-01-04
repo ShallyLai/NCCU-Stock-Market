@@ -6,6 +6,21 @@ var connection = mysql.createConnection({
     password: 'Stock_1218',
     database: 'nccu_stock'
 });
+connection.connect(function (err) {
+    if (err) {
+        console.log('error connecting: ' + err.stack);
+        return;
+    }
+    console.log('connected as id ' + connection.threadId);
+});
+
+var pool = mysql.createPool({
+    host: 'localhost',
+    user: 'nccu_stock',
+    password: 'Stock_1218',
+    database: 'nccu_stock'
+});
+const promisePool = pool.promise();
 
 connection.connect(function (err) {
     if (err) {
@@ -14,6 +29,16 @@ connection.connect(function (err) {
     }
     console.log('connected as id ' + connection.threadId);
 });
+
+const myFetch = async(sqlQuery, callback) => {
+    console.log("myFetch SQL query: ", sqlQuery);
+    const [rows, fields] = await promisePool.execute(sqlQuery);
+    console.log("result after promisePool: ");
+    console.log([rows]);
+    callback(null, rows);
+
+}
+
 
 const fetchData = (sqlQuery, callback) => {
 	console.log("\nSQL query: ", sqlQuery);
