@@ -19,8 +19,6 @@ let handle_request = ((data, callback) => {
                 var high = [];
                 var low = [];
 
-                console.log(result);
-
                 for (i = 0; i<result.length; i++){
                   price.push(result[i].price);
                   name.push(result[i].company_name);
@@ -31,7 +29,7 @@ let handle_request = ((data, callback) => {
                 for (i = 0; i < result.length; i++){
 
                     let table_name = "History_" + result[i].company_id;
-                    let query2 = "select price from" + table_name +  "where Date_=curDate();";
+                    let query2 = "select price from " + table_name +  " where Date_=curDate();";
                     // select * from History_101 order by Date_ DESC, Time_ DESC limit 1;
                     // if query2.length >= 1, find high low
 
