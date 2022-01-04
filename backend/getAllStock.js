@@ -2,7 +2,7 @@
 // 看你接SQL的檔案在哪裡
 var mysql = require('../my/mysql.js');
 
-let handle_request = async(data, callback) => {
+let handle_request = async (data, callback) => {
   let response = { status: 400 };
 
   try {
@@ -71,16 +71,17 @@ let handle_request = async(data, callback) => {
     });
     await Promise.all(high_low).then(() => {
       console.log("awaited all promises");
+      response.status = 200;
+      response.price = price;
+      response.name = name;
+      response.id = id;
+      response.high = high;
+      response.low = low;
+
+      callback(null, response);
     });
 
-    response.status = 200;
-    response.price = price;
-    response.name = name;
-    response.id = id;
-    response.high = high;
-    response.low = low;
 
-    callback(null, response);
 
   } catch (err) {
     console.log("catch error");
