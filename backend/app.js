@@ -10,9 +10,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cp());
 app.use(cors());
 
-let signup = require('./backend/signup.js');
-let login = require('./backend/login.js');
-let allStock = require('./backend/getALLStock.js');
+let signup = require('./signup.js');
+let login = require('./login.js');
+let allStock = require('./getALLStock.js');
 
 app.get('/', function(req, res){
     console.log("connected to port 3000");
