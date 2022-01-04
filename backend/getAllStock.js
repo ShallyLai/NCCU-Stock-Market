@@ -17,7 +17,8 @@ let handle_request = async (data, callback) => {
 
     mysql.fetchData(query, function (err, result) {
       if (err) {
-        throw (err);
+        console.log(err);
+        throw "get cur price error";
       } else {
         for (i = 0; i < result.length; i++) {
           price.push(result[i].price);
@@ -58,7 +59,8 @@ let handle_request = async (data, callback) => {
       // not query2.length == 0, get current price
       mysql.fetchData(query2, function (err2, result2) {
         if (err2) {
-          throw (err2);
+          console.log(err2);
+          throw "get high low error";
         } else if (result2.length == 0) {
           console.log("no curDate() price");
           high.push(result[i].price);
@@ -85,6 +87,7 @@ let handle_request = async (data, callback) => {
 
   } catch (err) {
     console.log("catch error");
+    console.log(err);
     callback(err, response);
   }
 };
