@@ -23,12 +23,8 @@ let handle_request = ((data, callback) => {
                   price.push(result[i].price);
                   name.push(result[i].company_name);
                   id.push(result[i].company_id);
-                }
 
-
-                for (i = 0; i < result.length; i++){
-
-                    let table_name = "History_" + result[i].company_id;
+                  let table_name = "History_" + result[i].company_id;
                     let query2 = "select price from " + table_name +  " where Date_=curDate();";
                     // select * from History_101 order by Date_ DESC, Time_ DESC limit 1;
                     // if query2.length >= 1, find high low
@@ -38,6 +34,7 @@ let handle_request = ((data, callback) => {
                       if(err2){
                         throw(err2);
                       } else if(result2.length == 0){
+                        console.log("no curDate() price");
                         high.push(result[i].price);
                         low.push(result[i].price);
                       } else{
@@ -45,6 +42,29 @@ let handle_request = ((data, callback) => {
                         low.push(Math.min(...result2));
                       }
                     });
+                }
+
+
+                for (i = 0; i < result.length; i++){
+
+                    // let table_name = "History_" + result[i].company_id;
+                    // let query2 = "select price from " + table_name +  " where Date_=curDate();";
+                    // // select * from History_101 order by Date_ DESC, Time_ DESC limit 1;
+                    // // if query2.length >= 1, find high low
+
+                    // // not query2.length == 0, get current price
+                    // mysql.fetchData(query2, function(err2, result2){
+                    //   if(err2){
+                    //     throw(err2);
+                    //   } else if(result2.length == 0){
+                    //     console.log("no curDate() price");
+                    //     high.push(result[i].price);
+                    //     low.push(result[i].price);
+                    //   } else{
+                    //     high.push(Math.max(...result2));
+                    //     low.push(Math.min(...result2));
+                    //   }
+                    // });
 
                 }
 
