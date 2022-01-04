@@ -1,5 +1,6 @@
 let mysql = require("mysql2");
 
+//每個人的mysql都不一樣，這邊要記得改
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'nccu_stock',
@@ -14,6 +15,7 @@ connection.connect(function (err) {
     console.log('connected as id ' + connection.threadId);
 });
 
+//還有這邊也是，不要忘了改
 var pool = mysql.createPool({
     host: 'localhost',
     user: 'nccu_stock',
@@ -76,4 +78,4 @@ const deleteData = (sqlQuery, callback) => {
     });
 };
 
-module.exports = {fetchData, insertData, deleteData};
+module.exports = {fetchData, insertData, deleteData, myFetch};

@@ -10,13 +10,13 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cp());
 app.use(cors());
 
-let signup = require('./signup.js');
-let login = require('./login.js');
-let allStock = require('./getALLStock.js');
-let HighLow = require('./getHighLow.js');
-let myOrder = require('./getMyOrder.js');
-let myTrans = require('./getMyTransation.js');
-let getHistory = require("./getHistory.js");
+let signup = require('./backend/signup.js');
+let login = require('./backend/login.js');
+let allStock = require('./backend/getALLStock.js');
+let HighLow = require('./backend/getHighLow.js');
+let myOrder = require('./backend/getMyOrder.js');
+let getHistory = require("./backend/getHistory.js");
+let myTrans = require('./backend/getMyTransation.js');
 
 app.get('/', function(req, res){
     console.log("connected to port 3000");
