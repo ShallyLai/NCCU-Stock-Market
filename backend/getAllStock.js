@@ -1,6 +1,7 @@
 // 這裡的路徑每個人可能不太一樣
 // 看你接SQL的檔案在哪裡
-var mysql = require('/Users/shallylai/Desktop/DBMS/FinalProject/mysql/mysql.js');
+var mysql = require('../my/mysql.js');
+const { handle_request } = require('./login.js');
 
 handle_request = ((callback) => {
     let response = { status:400};
@@ -67,4 +68,6 @@ handle_request = ((callback) => {
         console.log("catch error");
         callback(err, response);
     }
-})
+});
+
+module.handle_request = handle_request;
