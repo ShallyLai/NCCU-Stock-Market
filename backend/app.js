@@ -15,6 +15,7 @@ let login = require('./login.js');
 let allStock = require('./getALLStock.js');
 let HighLow = require('./getHighLow.js');
 let myOrder = require('./getMyOrder.js');
+let getHistory = require('./getHistory.js');
 
 app.get('/', function(req, res){
     console.log("connected to port 3000");
@@ -90,6 +91,21 @@ app.get('/getMyOrder', function(req, res){
     myOrder.handle_request(user_id, function(err, result){
         if(err){
             console.log("get my order error");
+            res.send(result).status(result.status);
+        } else {
+            res.send(result).status(result.status);
+        }
+    });
+});
+
+app.get('/getHistory', function(req, res){
+    var company_id = req.query.company_id;
+    console.log('post getHistory');
+    console.log('req.body:');
+    console.log(req.body);
+    getHistory.handle_request(req.body, function(err, result){
+        if(err){
+            console.log("getHistory handle_request error");
             res.send(result).status(result.status);
         } else {
             res.send(result).status(result.status);
