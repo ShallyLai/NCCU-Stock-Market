@@ -3,7 +3,7 @@
 var mysql = require('../my/mysql.js');
 const { handle_request } = require('./login.js');
 
-handle_request = ((callback) => {
+let handle_request = ((data, callback) => {
     let response = { status:400};
 
     try{
