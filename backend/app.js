@@ -52,7 +52,7 @@ app.post('/login', function(req, res){
     });
 })
 
-app.get('/GetALLStock', function(reg, res){
+app.get('/GetALLStock', function(req, res){
     console.log("get all stocks");
     console.log("req.body");
     console.log(req.body);
