@@ -16,7 +16,7 @@ let allStock = require('./backend/getALLStock.js');
 let HighLow = require('./backend/getHighLow.js');
 let myOrder = require('./backend/getMyOrder.js');
 let getHistory = require("./backend/getHistory.js");
-let myTrans = require('./backend/getMyTransation.js');
+let myTrans = require('./backend/getMyTransaction.js');
 
 app.get('/', function(req, res){
     console.log("connected to port 3000");
