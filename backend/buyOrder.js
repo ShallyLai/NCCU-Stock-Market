@@ -54,6 +54,8 @@ handle_request = async(data, callback) => {
 
   } catch (err) {
     console.log(err);
-    callbacl(err, response);
+    callback(err, response);
   }
 }
+
+exports.handle_request = handle_request;
