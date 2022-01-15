@@ -17,6 +17,11 @@ handle_request = async(data, callback) => {
         throw err;
       } else if(money_res.length == 1){
         console.log("enough money");
+      } else {
+        console.log("no money");
+        response.status = 201;
+        response.msg = "no money";
+        callback(null, response);
       }
     })
 
@@ -83,7 +88,7 @@ handle_request = async(data, callback) => {
 
     let matcharr = [];
     // match buy and sell order
-    let matchq = "select SellOrder.order_id, SellOrder.num from BuyOrder, SellOrder, Stock where BuyOrder.order_id=" + 
+    let matchq = "select SellOrder.order_id, SellOrder.num, SellOrder.suser_id from BuyOrder, SellOrder, Stock where BuyOrder.order_id=" + 
                   orderID + " and SellOrder.stock_id=BuyOrder.stock_id and Stock.stock_id=BuyOrder.stock_id and " + 
                   "BuyOrder.num != 0 and SellOrder.num != 0 and " + 
                   "SellOrder.price <= Stock.price and Stock.price <= BuyOrder.price " + 
@@ -106,6 +111,7 @@ handle_request = async(data, callback) => {
 
     // match[][0]: id
     // match[][1]: num
+    // match[][2]: suser_id
     console.log("match arr");
     console.log(matcharr);
     console.log(matcharr.length);
@@ -115,11 +121,13 @@ handle_request = async(data, callback) => {
       console.log("element: " + element);
       console.log(element[0]);
       console.log(element[1]);
+      console.log(element[2]);
       console.log("index: " + index);
 
       let min = Math.min(data.num, element[1]);
       console.log("min" + min);
 
+      // 更新掛單數量
       let updateSellOrderNum = "update SellOrder set num=(" + element[1] + "-" + min + ") where order_id=" + element[0];
       await mysql.myFetch(updateSellOrderNum, function(err, updateSellNum_res){
         if(err){
@@ -145,6 +153,7 @@ handle_request = async(data, callback) => {
       });
       curBuyNum = curBuyNum - min;
 
+      // 更新交易紀錄
       let transact = "insert into MyTransaction (tbuy_order_id, tsell_order_id, finish_time, tstock_id, num, price) values (" + 
                       orderID + ", " + element[0] + ", curTime(), " + data.stock_id + ", " + min + ", " + newprice + ");";
 
@@ -159,9 +168,102 @@ handle_request = async(data, callback) => {
         }
       });
 
+      // 更新買方持有數量
+      let buy_own_now = 0;
+      let get_own = "select own from User where Ouser_id=" + data.buser_id + " and Ostock_id=" + data.stock_id + ";";
+      await mysql.myFetch(get_own, function(err, get_own_res){
+        if(err){
+          console.log("get own error");
+          throw err;
+        } else if(get_own_res.length == 1){
+          console.log("own:" + get_own_res[0][0]);
+          buy_own_now = get_own_res[0][0];
+        } else if(get_own_res.length == 0){
+          console.log("own 0");
+        }
+      })
+      let buy_own = "update Own set num=(" + buy_own_now + "+" + min + ") where Ouser_id=" + data.buser_id + " and Ostock_id=" + data.stock_id + ";";
+      await mysql.myFetch(buy_own, function(err, buy_own_res){
+        if(err){
+          console.log("buy own error");
+          throw err;
+        } else if(buy_own_res.affectedRows == 1){
+          console.log("updated");
+        } else if(get_own_res.length == 0){
+          console.log("not updated");
+        }
+      });
+      // 更新買方持有的錢
+      let cashflow = min*newprice;
+      let buy_money = 0;
+      let get_buy_money = "select money from User where user_id=" + data.buser_id + ";";
+      await mysql.myFetch(get_buy_money, function(err, getBuyMoney_res){
+        if(err){
+          throw err;
+        } else if(getBuyMoney_res.length == 1){
+          console.log(getBuyMoney_res[0][0]);
+          buy_money = getBuyMoney_res[0][0];
+        }
+      });
+      let cfc_buy = "update User set money=(" + buy_money + "-" + cashflow + ") where user_id=" + data.buser_id + ";";
+      await mysql.myFetch(cfc_buy, function(err, cfc_buy_res){
+        if(err){
+          throw err;
+        } else if(cfc_buy_res.affectedRows == 1){
+          console.log("update buy money");
+        }
+      });
+
+
+      // 更新賣方持有數量
+      let sell_own_now = 0;
+      let get_sell_own = "select own from User where Ouser_id=" + element[2] + " and Ostock_id=" + data.stock_id + ";";
+      await mysql.myFetch(get_sell_own, function(err, get_sell_own_res){
+        if(err){
+          console.log("get own error");
+          throw err;
+        } else if(get_own_res.length == 1){
+          console.log("sell own:" + get_sell_own_res[0][0]);
+          sell_own_now = get_sell_own_res[0][0];
+        } else if(get_own_res.length == 0){
+          console.log("own 0");
+        }
+      })
+      let sell_own = "update Own set num=(" + sell_own_now + "-" + min + ") where Ouser_id=" + element[2] + " and Ostock_id=" + data.stock_id + ";";
+      await mysql.myFetch(sell_own, function(err, sell_own_res){
+        if(err){
+          console.log("sell own error");
+          throw err;
+        } else if(sell_own_res.affectedRows == 1){
+          console.log("updated");
+        } else if(sell_own_res.length == 0){
+          console.log("not updated");
+        }
+      });
+
+      // 更新賣方持有的錢
+      let sell_money = 0;
+      let get_sell_money = "select money from User where user_id=" + element[2] + ";";
+      await mysql.myFetch(get_sell_money, function(err, getSellMoney_res){
+        if(err){
+          throw err;
+        } else if(getSellMoney_res.length == 1){
+          console.log(getSellMoney_res[0][0]);
+          sell_money = getSellMoney_res[0][0];
+        }
+      });
+      let cfc_sell = "update User set money=(" + sell_money + "+" + cashflow + ") where user_id=" + element[2] + ";";
+      await mysql.myFetch(cfc_sell, function(err, cfc_sell_res){
+        if(err){
+          throw err;
+        } else if(cfc_sell_res.affectedRows == 1){
+          console.log("update sell money");
+        }
+      });
+
       if(curBuyNum == 0){
         response.status = 200;
-        response
+        callback(null, response);
       }
 
 
