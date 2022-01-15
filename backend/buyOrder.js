@@ -50,7 +50,9 @@ handle_request = async(data, callback) => {
       } else if(getid_res.length == 1){
         console.log("get id");
         console.log(getid_res);
-        orderID = getid_res[0][0];
+        orderID = Object.values(getid_res[0]);
+        //orderID = getid_res[0][0];
+        console.log("orderID " + orderID);
       }
     });
 
@@ -67,14 +69,17 @@ handle_request = async(data, callback) => {
         console.log("get price:");
         console.log(get_res);
         console.log(get_res[0]);
-        console.log(get_res[0][0]);
-        oldprice = get_res[0][0];
+        //console.log(get_res[0][0]);
+        oldprice = Object.values(get_res[0]);
+        //oldprice = get_res[0][0];
+        console.log("after " + oldprice);
       }
     });
 
     console.log("oldprice:" + oldprice);
     console.log("priceChange:" + priceChange);
-    let newprice = oldprice + priceChange;
+    let newprice = Number(oldprice) + Number(priceChange);
+    console.log("newprice:" + newprice);
     let updatepriceQ = "update Stock set price=" + newprice + 
                         " where stock_id=" + data.stock_id + ";";
     await mysql.myFetch(updatepriceQ, function(err, update_res){
@@ -118,17 +123,20 @@ handle_request = async(data, callback) => {
 
     let curBuyNum = data.num;
     const mymap = matcharr.map(async(element, index) => {
-      console.log("element: " + element);
-      console.log(element[0]);
-      console.log(element[1]);
-      console.log(element[2]);
+      console.log("element: " + Object.values(element));
+      //Object.map(key);
+      let arr_element = Object.values(element);
+      console.log(arr_element);
+      console.log(arr_element[0]);
+      console.log(arr_element[1]);
+      console.log(arr_element[2]);
       console.log("index: " + index);
 
-      let min = Math.min(data.num, element[1]);
-      console.log("min" + min);
+      let min = Math.min(data.num, arr_element[1]);
+      console.log("min: " + min);
 
       // 更新掛單數量
-      let updateSellOrderNum = "update SellOrder set num=(" + element[1] + "-" + min + ") where order_id=" + element[0];
+      let updateSellOrderNum = "update SellOrder set num=(" + arr_element[1] + "-" + min + ") where order_id=" + arr_element[0];
       await mysql.myFetch(updateSellOrderNum, function(err, updateSellNum_res){
         if(err){
           console.log("update sell order num error");
@@ -140,7 +148,7 @@ handle_request = async(data, callback) => {
         }
       });
 
-      let updateBuyOrderNum = "update BuyOrder set num=(" + curBuyNum + "-" + min + ") where order_id=" + element[0];
+      let updateBuyOrderNum = "update BuyOrder set num=(" + curBuyNum + "-" + min + ") where order_id=" + arr_element[0];
       await mysql.myFetch(updateBuyOrderNum, function(err, updateBuyNum_res){
         if(err){
           console.log("update buy order num error");
@@ -154,8 +162,8 @@ handle_request = async(data, callback) => {
       curBuyNum = curBuyNum - min;
 
       // 更新交易紀錄
-      let transact = "insert into MyTransaction (tbuy_order_id, tsell_order_id, finish_time, tstock_id, num, price) values (" + 
-                      orderID + ", " + element[0] + ", curTime(), " + data.stock_id + ", " + min + ", " + newprice + ");";
+      let transact = "insert into MyTransaction (tbuy_order_id, tsell_order_id, finish_time, tstock_id, num, price) values ( ," + 
+                      orderID + ", " + arr_element[0] + ", curTime(), " + data.stock_id + ", " + min + ", " + newprice + ");";
 
       await mysql.myFetch(transact, function(err, tran_res){
         if(err){
@@ -217,7 +225,7 @@ handle_request = async(data, callback) => {
 
       // 更新賣方持有數量
       let sell_own_now = 0;
-      let get_sell_own = "select own from User where Ouser_id=" + element[2] + " and Ostock_id=" + data.stock_id + ";";
+      let get_sell_own = "select own from User where Ouser_id=" + arr_element[2] + " and Ostock_id=" + data.stock_id + ";";
       await mysql.myFetch(get_sell_own, function(err, get_sell_own_res){
         if(err){
           console.log("get own error");
@@ -243,7 +251,7 @@ handle_request = async(data, callback) => {
 
       // 更新賣方持有的錢
       let sell_money = 0;
-      let get_sell_money = "select money from User where user_id=" + element[2] + ";";
+      let get_sell_money = "select money from User where user_id=" + arr_element[2] + ";";
       await mysql.myFetch(get_sell_money, function(err, getSellMoney_res){
         if(err){
           throw err;
@@ -252,7 +260,7 @@ handle_request = async(data, callback) => {
           sell_money = getSellMoney_res[0][0];
         }
       });
-      let cfc_sell = "update User set money=(" + sell_money + "+" + cashflow + ") where user_id=" + element[2] + ";";
+      let cfc_sell = "update User set money=(" + sell_money + "+" + cashflow + ") where user_id=" + arr_element[2] + ";";
       await mysql.myFetch(cfc_sell, function(err, cfc_sell_res){
         if(err){
           throw err;
