@@ -9,14 +9,27 @@ class App extends React.Component {
     return (
       <div className="container">
         <Header title='NCCU Stock Market' />
-        <Login onType={login} />
+        <Login onType={loginSummit} />
       </div>
     );
   }
 }
 
-const login = (acc) =>{
-  console.log(acc)
-}
 
+
+const loginSummit = async (acc) => {
+  console.log(acc);
+  let payload = {
+    username: acc.acc,
+    password: acc.pwd
+  }
+  const res = await fetch(
+    'http://localhost:3000/login', {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+  });
+}
 export default App;
