@@ -13,14 +13,14 @@ class App extends React.Component {
       </div>
     );
   }
-}
+} 
 
 
 
 const loginSummit = async (acc) => {
   console.log(acc);
   let payload = {
-    username: acc.acc,
+    user_name: acc.acc,
     password: acc.pwd
   }
   const res = await fetch(
