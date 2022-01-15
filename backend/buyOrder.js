@@ -1,6 +1,6 @@
 var mysql = require('../mysql/mysql.js');
 
-handle_request = (data, callback) => {
+handle_request = async(data, callback) => {
 
   console.log("buyOrder handle request");
   console.log(data);
