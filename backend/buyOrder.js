@@ -3,7 +3,6 @@ var mysql = require('../mysql/mysql.js');
 handle_request = async(data, callback) => {
 
   console.log("buyOrder handle request");
-  console.log(data);
 
   let response = { status: 400 };
 
@@ -36,10 +35,12 @@ handle_request = async(data, callback) => {
       } else if(get_res.length == 1){
         console.log("get price:");
         console.log(get_res);
-        oldprice = get_res.price;
+        oldprice = get_res[0].price;
       }
     });
 
+    console.log("oldprice:" + oldprice);
+    console.log("priceChange:" + priceChange);
     let newprice = oldprice + priceChange;
     let updatepriceQ = "update Stock set price=" + newprice + 
                         " where stock_id=" + data.stock_id + ";";
@@ -50,7 +51,9 @@ handle_request = async(data, callback) => {
       } else if(update_res.length == 1){
         console.log("update price:");
       }
-    })
+    });
+
+    
 
   } catch (err) {
     console.log(err);
