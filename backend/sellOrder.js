@@ -288,7 +288,7 @@ handle_request = async (data, callback) => {
           sell_money = Object.values(getSellMoney_res[0]);
         }
       });
-      let cfc_sell = "update User set money=(" + buy_money + "+" + cashflow + ") where user_id=" + data.suser_id + ";";
+      let cfc_sell = "update User set money=(" + sell_money + "+" + cashflow + ") where user_id=" + data.suser_id + ";";
       await mysql.myFetch(cfc_sell, function (err, cfc_sell_res) {
         if (err) {
           throw err;
