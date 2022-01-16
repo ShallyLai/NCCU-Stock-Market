@@ -18,6 +18,7 @@ let myOrder = require('./getMyOrder.js');
 let getHistory = require("./getHistory.js");
 let myTrans = require('./getMyTransaction.js');
 let buyOrder = require('./buyOrder.js');
+let sellOrder = require("./sellOrder.js");
 
 app.get('/', function(req, res){
     console.log("connected to port 3000");
@@ -137,6 +138,23 @@ app.post('/buyOrder', function(req, res){
     buyOrder.handle_request(req.body, function(err, result){
         if(err){
             console.log("buyOrder handle_request error");
+            res.send(result).status(result.status);
+        } else {
+            console.log("result");
+            console.log(result);
+            res.send(result).status(result.status);
+        }
+    });
+});
+
+app.post('/sellOrder', function(req, res){
+    console.log("post sell order");
+    console.log("req.body:");
+    console.log(req.body);
+
+    sellOrder.handle_request(req.body, function(err, result){
+        if(err){
+            console.log("sellOrder handle_request error");
             res.send(result).status(result.status);
         } else {
             console.log("result");
