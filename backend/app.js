@@ -19,6 +19,9 @@ let getHistory = require("./getHistory.js");
 let myTrans = require('./getMyTransaction.js');
 let buyOrder = require('./buyOrder.js');
 let sellOrder = require("./sellOrder.js");
+let reset = require('./reset.js');
+
+
 
 app.get('/', function(req, res){
     console.log("connected to port 3000");
@@ -172,4 +175,20 @@ app.post("/delete",function(req,res){
 
 var server = app.listen(3000, function() {
     console.log('Listening on port 3000');
+    setTimeout(() => reset.handle_request(null, function(err, result){
+        if(err){
+            console.log("reset handle request error");
+        } else {
+            console.log("reset");
+            console.log("result:" + result);
+        }
+    }), 2000);
+    // reset.handle_request(null, function(err, result){
+    //     if(err){
+    //         console.log("reset handle request error");
+    //     } else {
+    //         console.log("reset");
+    //         console.log("result:" + result);
+    //     }
+    // })
 });
