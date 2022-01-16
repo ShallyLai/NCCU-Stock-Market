@@ -2,15 +2,14 @@ var mysql = require('../mysql/mysql.js');
 
 handle_request = async (data, callback) => {
 
-  console.log("buyOrder handle request");
+  console.log("sellOrder handle request");
 
   let response = { status: 400 };
 
   try {
 
-    // check money
-    let need_money = data.num * data.price;
-    let moneyq = "select * from User where user_id=" + data.buser_id + " and money>=" + need_money + ";";
+    // check stock num
+    let check_num = "select num from Own where Ouser_id = " + data.suser_id + "stock_id = "
     await mysql.myFetch(moneyq, function (err, money_res) {
       if (err) {
         console.log("check money err");
