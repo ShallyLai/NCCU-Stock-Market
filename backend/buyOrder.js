@@ -191,6 +191,7 @@ handle_request = async (data, callback) => {
     console.log(matcharr.length);
 
     let curBuyNum = data.num;
+    let stopMapFlag = 0;
     console.log("curBuyNum: " + curBuyNum);
     const mymap = matcharr.map(async (element, index) => {
       console.log("element: " + Object.values(element));
@@ -351,7 +352,10 @@ handle_request = async (data, callback) => {
       if (curBuyNum <= 0) {
         response.status = 200;
         response.msg = 'cur buy num is 0';
-        callback(null, response);
+        if(stopMapFlag==0){
+          callback(null, response);
+        }
+        stopMapFlag = 1;
       }
 
     })
@@ -361,7 +365,9 @@ handle_request = async (data, callback) => {
       console.log("catch stop");
     } else {
       console.log(err);
-      callback(err, response);
+      if(stopMapFlag==0){
+        callback(err, response);
+      }
     }
 
   }
