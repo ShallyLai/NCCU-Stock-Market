@@ -69,10 +69,8 @@ handle_request = async(data, callback) => {
         console.log("get price:");
         console.log(get_res);
         console.log(get_res[0]);
-        //console.log(get_res[0][0]);
         oldprice = Object.values(get_res[0]);
-        //oldprice = get_res[0][0];
-        console.log("after " + oldprice);
+        console.log("oldprice: " + oldprice);
       }
     });
 
@@ -124,7 +122,6 @@ handle_request = async(data, callback) => {
     let curBuyNum = data.num;
     const mymap = matcharr.map(async(element, index) => {
       console.log("element: " + Object.values(element));
-      //Object.map(key);
       let arr_element = Object.values(element);
       console.log(arr_element);
       console.log(arr_element[0]);
@@ -270,7 +267,7 @@ handle_request = async(data, callback) => {
           console.log("update sell money");
         }
       });
-      
+
       if(curBuyNum == 0){
         response.status = 200;
         callback(null, response);
