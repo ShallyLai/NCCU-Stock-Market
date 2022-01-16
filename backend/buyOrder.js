@@ -148,7 +148,8 @@ handle_request = async (data, callback) => {
         }
       });
 
-      let updateBuyOrderNum = "update BuyOrder set num=(" + curBuyNum + "-" + min + ") where order_id=" + arr_element[0];
+      console.log("index: " + index);
+      let updateBuyOrderNum = "update BuyOrder set num=(" + curBuyNum + "-" + min + ") where order_id=" + orderID;
       await mysql.myFetch(updateBuyOrderNum, function (err, updateBuyNum_res) {
         if (err) {
           console.log("update buy order num error");
@@ -163,6 +164,7 @@ handle_request = async (data, callback) => {
 
       // 更新交易紀錄
       trans_id = orderID + data.stock_id + arr_element[0];
+      console.log("index: " + index);
       console.log("trans_id: " + trans_id);
       let transact = "insert into MyTransaction (transaction_id, tbuy_order_id, tsell_order_id, finish_time, tstock_id, num, price) values (" +
         trans_id + ", " + orderID + ", " + arr_element[0] + ", curTime(), " + data.stock_id + ", " + min + ", " + newprice + ");";
@@ -179,6 +181,7 @@ handle_request = async (data, callback) => {
       });
 
       // 更新買方持有數量
+      console.log("index: " + index);
       let buy_own_now = 0;
       let get_own = "select num from Own where Ouser_id=" + data.buser_id + " and Ostock_id=" + data.stock_id + ";";
       await mysql.myFetch(get_own, function (err, get_num_res) {
@@ -199,11 +202,12 @@ handle_request = async (data, callback) => {
           throw err;
         } else if (buy_own_res.affectedRows == 1) {
           console.log("updated");
-        } else if (get_own_res.length == 0) {
+        } else if (buy_own_res.length == 0) {
           console.log("not updated");
         }
       });
       // 更新買方持有的錢
+      console.log("index: " + index);
       let cashflow = min * newprice;
       let buy_money = 0;
       let get_buy_money = "select money from User where user_id=" + data.buser_id + ";";
@@ -226,6 +230,7 @@ handle_request = async (data, callback) => {
 
 
       // 更新賣方持有數量
+      console.log("index: " + index);
       let sell_own_now = 0;
       let get_sell_own = "select num from Own where Ouser_id=" + arr_element[2] + " and Ostock_id=" + data.stock_id + ";";
       await mysql.myFetch(get_sell_own, function (err, get_sell_num_res) {
@@ -252,6 +257,7 @@ handle_request = async (data, callback) => {
       });
 
       // 更新賣方持有的錢
+      console.log("index: " + index);
       let sell_money = 0;
       let get_sell_money = "select money from User where user_id=" + arr_element[2] + ";";
       await mysql.myFetch(get_sell_money, function (err, getSellMoney_res) {
