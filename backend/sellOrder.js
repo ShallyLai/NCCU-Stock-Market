@@ -195,169 +195,174 @@ handle_request = async (data, callback) => {
     console.log("curSellNum: " + curSellNum);
     const mymap = matcharr.map(async (element, index) => {
 
-      console.log("element: " + Object.values(element));
-      let arr_element = Object.values(element);
-      console.log(arr_element);
-      console.log(arr_element[0]);
-      console.log(arr_element[1]);
-      console.log(arr_element[2]);
-      console.log("index: " + index);
+      if (stopMapFlag == 0) {
+        console.log("element: " + Object.values(element));
+        let arr_element = Object.values(element);
+        console.log(arr_element);
+        console.log(arr_element[0]);
+        console.log(arr_element[1]);
+        console.log(arr_element[2]);
+        console.log("index: " + index);
 
-      let min = Math.min(data.num, arr_element[1]);
-      console.log("min: " + min);
+        let min = Math.min(data.num, arr_element[1]);
+        console.log("min: " + min);
 
-      // 更新掛單數量
-      let updateBuyOrderNum = "update BuyOrder set num=(" + arr_element[1] + "-" + min + ") where order_id=" + arr_element[0];
-      await mysql.myFetch(updateBuyOrderNum, function (err, updateBuyNum_res) {
-        if (err) {
-          console.log("update buy order num error");
-          throw err;
-        } else if (updateBuyNum_res.affectedRows == 1) {
-          console.log("updated");
-        } else {
-          console.log("asdfl;");
-        }
-      });
+        // 更新掛單數量
+        let updateBuyOrderNum = "update BuyOrder set num=(" + arr_element[1] + "-" + min + ") where order_id=" + arr_element[0];
+        await mysql.myFetch(updateBuyOrderNum, function (err, updateBuyNum_res) {
+          if (err) {
+            console.log("update buy order num error");
+            throw err;
+          } else if (updateBuyNum_res.affectedRows == 1) {
+            console.log("updated");
+          } else {
+            console.log("asdfl;");
+          }
+        });
 
-      console.log("index: " + index);
-      let updateSellOrderNum = "update SellOrder set num=(" + curSellNum + "-" + min + ") where order_id=" + orderID;
-      await mysql.myFetch(updateSellOrderNum, function (err, updateSellNum_res) {
-        if (err) {
-          console.log("update buy order num error");
-          throw err;
-        } else if (updateSellNum_res.affectedRows == 1) {
-          console.log("updated");
-        } else {
-          console.log("asdfl;");
-        }
-      });
-      curSellNum = curSellNum - min;
-      console.log("curSellNum_2: " + curSellNum);
+        console.log("index: " + index);
+        let updateSellOrderNum = "update SellOrder set num=(" + curSellNum + "-" + min + ") where order_id=" + orderID;
+        await mysql.myFetch(updateSellOrderNum, function (err, updateSellNum_res) {
+          if (err) {
+            console.log("update buy order num error");
+            throw err;
+          } else if (updateSellNum_res.affectedRows == 1) {
+            console.log("updated");
+          } else {
+            console.log("asdfl;");
+          }
+        });
+        curSellNum = curSellNum - min;
+        console.log("curSellNum_2: " + curSellNum);
 
-      // 更新交易紀錄
-      trans_id = orderID + data.stock_id + arr_element[0];
-      console.log("index: " + index);
-      console.log("trans_id: " + trans_id);
-      let transact = "insert into MyTransaction (transaction_id, tbuy_order_id, tsell_order_id, finish_time, tstock_id, num, price) values (" +
-        trans_id + ", " + arr_element[0] + ", " + orderID + ", curTime(), " + data.stock_id + ", " + min + ", " + newprice + ");";
+        // 更新交易紀錄
+        trans_id = orderID + data.stock_id + arr_element[0];
+        console.log("index: " + index);
+        console.log("trans_id: " + trans_id);
+        let transact = "insert into MyTransaction (transaction_id, tbuy_order_id, tsell_order_id, finish_time, tstock_id, num, price) values (" +
+          trans_id + ", " + arr_element[0] + ", " + orderID + ", curTime(), " + data.stock_id + ", " + min + ", " + newprice + ");";
 
-      await mysql.myFetch(transact, function (err, tran_res) {
-        if (err) {
-          console.log("transaction error");
-          throw err;
-        } else if (tran_res.affectedRows == 1) {
-          console.log("transaction inserted");
-        } else {
-          console.log("transaction insertion error");
-        }
-      });
+        await mysql.myFetch(transact, function (err, tran_res) {
+          if (err) {
+            console.log("transaction error");
+            throw err;
+          } else if (tran_res.affectedRows == 1) {
+            console.log("transaction inserted");
+          } else {
+            console.log("transaction insertion error");
+          }
+        });
 
-      // 更新賣方持有數量
-      console.log("index: " + index);
-      let sell_own_now = 0;
-      let get_own = "select num from Own where Ouser_id=" + data.suser_id + " and Ostock_id=" + data.stock_id + ";";
-      await mysql.myFetch(get_own, function (err, get_num_res) {
-        if (err) {
-          console.log("get num error");
-          throw err;
-        } else if (get_num_res.length == 1) {
-          console.log("num:" + Object.values(get_num_res[0]));
-          sell_own_now = Object.values(get_num_res[0]);
-        } else if (get_num_res.length == 0) {
-          console.log("num 0");
-        }
-      })
-      let sell_own = "update Own set num=(" + sell_own_now + "+" + min + ") where Ouser_id=" + data.suser_id + " and Ostock_id=" + data.stock_id + ";";
-      await mysql.myFetch(sell_own, function (err, sell_own_res) {
-        if (err) {
-          console.log("buy own error");
-          throw err;
-        } else if (sell_own_res.affectedRows == 1) {
-          console.log("updated");
-        } else if (sell_own_res.length == 0) {
-          console.log("not updated");
-        }
-      });
-      // 更新賣方持有的錢
-      console.log("index: " + index);
-      let cashflow = min * newprice;
-      let sell_money = 0;
-      let get_sell_money = "select money from User where user_id=" + data.suser_id + ";";
-      await mysql.myFetch(get_sell_money, function (err, getSellMoney_res) {
-        if (err) {
-          throw err;
-        } else if (getSellMoney_res.length == 1) {
-          console.log(Object.values(getSellMoney_res[0]));
-          sell_money = Object.values(getSellMoney_res[0]);
-        }
-      });
-      let cfc_sell = "update User set money=(" + sell_money + "+" + cashflow + ") where user_id=" + data.suser_id + ";";
-      await mysql.myFetch(cfc_sell, function (err, cfc_sell_res) {
-        if (err) {
-          throw err;
-        } else if (cfc_sell_res.affectedRows == 1) {
-          console.log("update sell money");
-        }
-      });
+        // 更新賣方持有數量
+        console.log("index: " + index);
+        let sell_own_now = 0;
+        let get_own = "select num from Own where Ouser_id=" + data.suser_id + " and Ostock_id=" + data.stock_id + ";";
+        await mysql.myFetch(get_own, function (err, get_num_res) {
+          if (err) {
+            console.log("get num error");
+            throw err;
+          } else if (get_num_res.length == 1) {
+            console.log("num:" + Object.values(get_num_res[0]));
+            sell_own_now = Object.values(get_num_res[0]);
+          } else if (get_num_res.length == 0) {
+            console.log("num 0");
+          }
+        })
+        let sell_own = "update Own set num=(" + sell_own_now + "+" + min + ") where Ouser_id=" + data.suser_id + " and Ostock_id=" + data.stock_id + ";";
+        await mysql.myFetch(sell_own, function (err, sell_own_res) {
+          if (err) {
+            console.log("buy own error");
+            throw err;
+          } else if (sell_own_res.affectedRows == 1) {
+            console.log("updated");
+          } else if (sell_own_res.length == 0) {
+            console.log("not updated");
+          }
+        });
+        // 更新賣方持有的錢
+        console.log("index: " + index);
+        let cashflow = min * newprice;
+        let sell_money = 0;
+        let get_sell_money = "select money from User where user_id=" + data.suser_id + ";";
+        await mysql.myFetch(get_sell_money, function (err, getSellMoney_res) {
+          if (err) {
+            throw err;
+          } else if (getSellMoney_res.length == 1) {
+            console.log(Object.values(getSellMoney_res[0]));
+            sell_money = Object.values(getSellMoney_res[0]);
+          }
+        });
+        let cfc_sell = "update User set money=(" + sell_money + "+" + cashflow + ") where user_id=" + data.suser_id + ";";
+        await mysql.myFetch(cfc_sell, function (err, cfc_sell_res) {
+          if (err) {
+            throw err;
+          } else if (cfc_sell_res.affectedRows == 1) {
+            console.log("update sell money");
+          }
+        });
 
 
-      // 更新買方持有數量
-      console.log("index: " + index);
-      let buy_own_now = 0;
-      let get_buy_own = "select num from Own where Ouser_id=" + arr_element[2] + " and Ostock_id=" + data.stock_id + ";";
-      await mysql.myFetch(get_buy_own, function (err, get_buy_num_res) {
-        if (err) {
-          console.log("get num error");
-          throw err;
-        } else if (get_buy_num_res.length == 1) {
-          console.log("buy num:" + Object.values(get_buy_num_res[0]));
-          buy_own_now = Object.values(get_buy_num_res[0]);
-        } else if (get_buy_num_res.length == 0) {
-          console.log("num 0");
-        }
-      })
-      let buy_own = "update Own set num=(" + buy_own_now + "+" + min + ") where Ouser_id=" + arr_element[2] + " and Ostock_id=" + data.stock_id + ";";
-      await mysql.myFetch(buy_own, function (err, buy_own_res) {
-        if (err) {
-          console.log("buy own error");
-          throw err;
-        } else if (buy_own_res.affectedRows == 1) {
-          console.log("updated");
-        } else if (buy_own_res.length == 0) {
-          console.log("not updated");
-        }
-      });
+        // 更新買方持有數量
+        console.log("index: " + index);
+        let buy_own_now = 0;
+        let get_buy_own = "select num from Own where Ouser_id=" + arr_element[2] + " and Ostock_id=" + data.stock_id + ";";
+        await mysql.myFetch(get_buy_own, function (err, get_buy_num_res) {
+          if (err) {
+            console.log("get num error");
+            throw err;
+          } else if (get_buy_num_res.length == 1) {
+            console.log("buy num:" + Object.values(get_buy_num_res[0]));
+            buy_own_now = Object.values(get_buy_num_res[0]);
+          } else if (get_buy_num_res.length == 0) {
+            console.log("num 0");
+          }
+        })
+        let buy_own = "update Own set num=(" + buy_own_now + "+" + min + ") where Ouser_id=" + arr_element[2] + " and Ostock_id=" + data.stock_id + ";";
+        await mysql.myFetch(buy_own, function (err, buy_own_res) {
+          if (err) {
+            console.log("buy own error");
+            throw err;
+          } else if (buy_own_res.affectedRows == 1) {
+            console.log("updated");
+          } else if (buy_own_res.length == 0) {
+            console.log("not updated");
+          }
+        });
 
-      // 更新買方持有的錢
-      console.log("index: " + index);
-      let buy_money = 0;
-      let get_buy_money = "select money from User where user_id=" + arr_element[2] + ";";
-      await mysql.myFetch(get_buy_money, function (err, getBuyMoney_res) {
-        if (err) {
-          throw err;
-        } else if (getBuyMoney_res.length == 1) {
-          console.log(Object.values(getBuyMoney_res[0]));
-          buy_money = Object.values(getBuyMoney_res[0]);
-        }
-      });
-      let cfc_buy = "update User set money=(" + buy_money + "-" + cashflow + ") where user_id=" + arr_element[2] + ";";
-      await mysql.myFetch(cfc_buy, function (err, cfc_buy_res) {
-        if (err) {
-          throw err;
-        } else if (cfc_buy_res.affectedRows == 1) {
-          console.log("update buy money");
-        }
-      });
+        // 更新買方持有的錢
+        console.log("index: " + index);
+        let buy_money = 0;
+        let get_buy_money = "select money from User where user_id=" + arr_element[2] + ";";
+        await mysql.myFetch(get_buy_money, function (err, getBuyMoney_res) {
+          if (err) {
+            throw err;
+          } else if (getBuyMoney_res.length == 1) {
+            console.log(Object.values(getBuyMoney_res[0]));
+            buy_money = Object.values(getBuyMoney_res[0]);
+          }
+        });
+        let cfc_buy = "update User set money=(" + buy_money + "-" + cashflow + ") where user_id=" + arr_element[2] + ";";
+        await mysql.myFetch(cfc_buy, function (err, cfc_buy_res) {
+          if (err) {
+            throw err;
+          } else if (cfc_buy_res.affectedRows == 1) {
+            console.log("update buy money");
+          }
+        });
 
-      console.log("curSellNum_3: " + curSellNum);
-      if (curSellNum <= 0) {
-        response.status = 200;
-        response.msg = 'cur sell num is 0';
-        if(stopMapFlag == 0){
-          callback(null, response);
+        console.log("curSellNum_3: " + curSellNum);
+        if (curSellNum <= 0) {
+          response.status = 200;
+          response.msg = 'cur sell num is 0';
+          if (stopMapFlag == 0) {
+            callback(null, response);
+          }
+          stopMapFlag = 1;
+          //throw "stop";
         }
-        stopMapFlag = 1;
-        //throw "stop";
+      } else {
+        console.log("index:" + index);
+        console.log("cur num is 0");
       }
 
 
@@ -369,7 +374,7 @@ handle_request = async (data, callback) => {
       console.log("catch stop");
     } else {
       console.log(err);
-      if(stopMapFlag == 0){
+      if (stopMapFlag == 0) {
         callback(err, response);
       }
     }
