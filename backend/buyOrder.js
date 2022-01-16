@@ -90,6 +90,74 @@ handle_request = async (data, callback) => {
       }
     });
 
+    // 增加到history
+    let recent_price = 0;
+    let recent_date = '';
+    let flag_history = 0;
+    let add_flag = 0;
+    let get_today_price = "select price from History_" + data.stock_id + " where Date_ = curDate();";
+    await mysql.myFetch(get_today_price, function(err, history_res){
+      if(err){
+        console.log("get history err");
+        throw err;
+      }else if(history_res.length >= 1){
+        flag_history = 1;
+      } else {
+        flag_history = 0;
+      }
+    });
+
+    if(flag_history == 1){
+      // only add new price
+      let add_history = "insert into History_" + data.stock_id + " values (curDate(), curTime(), " + newprice + ");";
+      await mysql.myFetch(add_history, function(err, add_hist_res){
+        if(err){
+          console.log("add history err");
+          throw err;
+        } else {
+          console.log("inserted");
+        }
+      }) ;
+    } else if (flag_history == 0){
+      // add old price and new price
+      let recent_priceq = "select price from History_" + data.stock_id + " order by Date_ desc, Time_ desc limit 1";
+      await mysql.myFetch(recent_priceq, function(err, recent_price_res){
+        if(err){
+          console.log("get recent history err");
+          throw err;
+        } else {
+          console.log("get recent");
+          recent_price = recent_price_res[0][0];
+          add_flag = 1;
+        }
+      });
+      let add_history = "insert into History_" + data.stock_id + " values (curDate(), curTime(), " + newprice + ");";
+      await mysql.myFetch(add_history, function(err, add_new_hist_res){
+        if(err){
+          console.log("add history err");
+          throw err;
+        } else if(add_new_hist_res.affectedRows == 1){
+          console.log("inserted");
+        } else {
+          console.log("add new history err");
+        }
+      }) ;
+    }
+    if(add_flag == 1){
+      let insert_history = "insert into History_" + data.stock_id + " values (curDate(), curTime(), " + recent_price + ");";
+      await mysql.myFetch(insert_history, function(err, insert_hist_res){
+        if(err){
+          console.log("insert recent history err");
+          throw err;
+        } else if(insert_hist_res.affectedRows == 1){
+          console.log("inserted recent");
+        } else {
+          console.log("insert recent history err");
+        }
+      });
+
+    }
+
     let matcharr = [];
     // match buy and sell order
     let matchq = "select SellOrder.order_id, SellOrder.num, SellOrder.suser_id from BuyOrder, SellOrder, Stock where BuyOrder.order_id=" +
