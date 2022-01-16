@@ -139,6 +139,8 @@ app.post('/buyOrder', function(req, res){
             console.log("buyOrder handle_request error");
             res.send(result).status(result.status);
         } else {
+            console.log("result");
+            console.log(result);
             res.send(result).status(result.status);
         }
     });
