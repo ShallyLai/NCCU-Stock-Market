@@ -348,10 +348,11 @@ handle_request = async (data, callback) => {
       });
 
       console.log("curSellNum_3: " + curSellNum);
-      if (curSellNum == 0) {
+      if (curSellNum <= 0) {
         response.status = 200;
         response.msg = 'cur sell num is 0';
         callback(null, response);
+        //throw "stop";
       }
 
     })
