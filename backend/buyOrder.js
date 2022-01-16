@@ -348,7 +348,7 @@ handle_request = async (data, callback) => {
       });
 
       console.log("curBuyNum_3: " + curBuyNum);
-      if (curBuyNum == 0) {
+      if (curBuyNum <= 0) {
         response.status = 200;
         response.msg = 'cur buy num is 0';
         callback(null, response);
