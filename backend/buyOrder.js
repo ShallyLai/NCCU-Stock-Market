@@ -10,7 +10,7 @@ handle_request = async (data, callback) => {
 
     // check money
     let need_money = data.num * data.price;
-    let moneyq = "select * from User where user_id=" + data.buser_id + " and money<=" + need_money + ";";
+    let moneyq = "select * from User where user_id=" + data.buser_id + " and money>=" + need_money + ";";
     await mysql.myFetch(moneyq, function (err, money_res) {
       if (err) {
         console.log("check money err");
