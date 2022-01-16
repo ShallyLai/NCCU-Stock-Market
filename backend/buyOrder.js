@@ -163,6 +163,7 @@ handle_request = async (data, callback) => {
       orderID + " and SellOrder.stock_id=BuyOrder.stock_id and Stock.stock_id=BuyOrder.stock_id and " +
       "BuyOrder.num != 0 and SellOrder.num != 0 and " +
       "SellOrder.price <= Stock.price and Stock.price <= BuyOrder.price " +
+      "and Date(SellOrder.time)=curDate() " + 
       "order by SellOrder.time;";
     await mysql.myFetch(matchq, function (err, match_res) {
       if (err) {
