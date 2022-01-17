@@ -1,35 +1,35 @@
 import './App.css';
 import React from 'react';
-import Header from './component/Header';
-import Login from './component/Login';
 
+import { 
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+} from "react-router-dom";
+
+//Pages
+import LoginPage from "./pages/index";
+import NotFoundPage from './pages/404';
+import HistoryPage from './pages/history';
+import StockPage from './pages/stock';
 
 class App extends React.Component {
   render() {
     return (
-      <div className="container">
-        <Header title='NCCU Stock Market' />
-        <Login onType={loginSummit} />
-      </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LoginPage/>}></Route>
+          <Route path="/history" element={<HistoryPage/>} ></Route>
+          <Route path="/stock" element={<StockPage/>} ></Route>
+          <Route path="/404" element={<NotFoundPage/>} ></Route>
+          <Route path="/404" element={<NotFoundPage/>} ></Route>
+          <Route path="*" element={<Navigate to ="/404" />}/> 
+        </Routes>
+      </Router>
     );
   }
 } 
 
-
-
-const loginSummit = async (acc) => {
-  console.log(acc);
-  let payload = {
-    user_name: acc.acc,
-    password: acc.pwd
-  }
-  const res = await fetch(
-    'http://localhost:3000/login', {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      })
-  });
-}
 export default App;
