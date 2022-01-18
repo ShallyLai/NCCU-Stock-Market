@@ -107,7 +107,7 @@ app.post('/getMyOrder', function(req, res){
     });
 });
 
-app.post("/GetMyTransaction", function(req, res){
+app.post("/getMyTransaction", function(req, res){
   console.log("get my transaction");
     console.log("req.body");
     console.log(req.body);
