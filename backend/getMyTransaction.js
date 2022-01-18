@@ -22,11 +22,11 @@ handle_request = (async(data, callback) => {
     			console.log("Buy Transaction Get ");
     			response.status = 204;
     			for(a=0;a<result.length;a++){
-    				stock_name.push(result[a][0]);
+    				stock_name.push(result[a].company_name);
     				BuyOrSell.push("TRUE");
-    				TransactionPrice.push(result[a][1]);
-    				num.push(result[a][2]);
-    				TransactionTime.push(result[a][3]);
+    				TransactionPrice.push(result[a].price);
+    				num.push(result[a].num);
+    				TransactionTime.push(result[a].finish_time);
     			}
     		}	
 
@@ -39,11 +39,11 @@ handle_request = (async(data, callback) => {
     			console.log("Sell Transaction Get ");
     			response.status = 204;
     			for(a=0;a<result.length;a++){
-    				stock_name.push(result[a][0]);
+    				stock_name.push(result[a].company_name);
     				BuyOrSell.push("FALSE");
-    				TransactionPrice.push(result[a][1]);
-    				num.push(result[a][2]);
-    				TransactionTime.push(result[a][3]);
+    				TransactionPrice.push(result[a].price);
+    				num.push(result[a].num);
+    				TransactionTime.push(result[a].finish_time);
     			}
     		}	
 
@@ -53,7 +53,7 @@ handle_request = (async(data, callback) => {
     	response.TransactionPrice = TransactionPrice;
     	response.num = num;
     	response.TransactionTime = TransactionTime;
-      response.msg = "get transaction";
+		response.msg = "get transaction";
 
     	callback(null, response);
     } catch(err){
