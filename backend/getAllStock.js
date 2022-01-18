@@ -10,7 +10,7 @@ let handle_request = async (data, callback) => {
     var id = [];
     var high = [];
     var low = [];
-    var length ;
+    var length;
 
     let query = "select price, company_name, company_id from Stock, Company where Stock.scompany_id=Company.company_id;";
 
@@ -25,7 +25,7 @@ let handle_request = async (data, callback) => {
           name.push(result[i].company_name);
           id.push(result[i].company_id);
         }
-        
+
       }
     });
 
@@ -37,8 +37,8 @@ let handle_request = async (data, callback) => {
 
       let table_name = "History_" + element;
       let max_min_query = "select price from " + table_name +
-                          " where Date_=curDate() union select price from Stock where stock_id='" +
-                          element + "';";
+        " where Date_=curDate() union select price from Stock where stock_id='" +
+        element + "';";
 
       await mysql.myFetch(max_min_query, async function (err, result) {
         if (err) {
@@ -49,58 +49,45 @@ let handle_request = async (data, callback) => {
         } else {
           console.log("\n" + element);
           console.log(result.length);
-          
+
           let max = 0;
           let min = 1000;
           let i;
-          for(i = 0; i < result.length; i++){
-            if(result[i].price < min){
-              min = result[i].price;
+          for (i = 0; i < result.length; i++) {
+            if (result[i][0] < min) {
+              min = result[i][0];
             }
-            if(result[i].price > max){
-              max = result[i].price;
+            if (result[i][0] > max) {
+              max = result[i][0];
             }
-
+            if (i == result.length - 1) {
+              high.push(max);
+              low.push(min);
+              id.push(element);
+            }
           }
-          high.push(max);
-          low.push(min);
-          id.push(element);
+
           return '1';
         }
       });
+
+      return '2';
     });
     await Promise.all(high_low).then((num) => {
-        console.log("num: ", num)
-        console.log("awaited all promises");
-        response.status = 200;
-        response.price = price;
-        response.name = name;
-        response.id = id;
-        response.high = high;
-        response.low = low;
-        console.log("\n---callback---\n");
-        callback(null, response);
+      console.log("num: ", num)
+      console.log("awaited all promises");
+      response.status = 200;
+      response.price = price;
+      response.name = name;
+      response.id = id;
+      response.high = high;
+      response.low = low;
+      console.log("\n---callback---\n");
+      callback(null, response);
 
-      
     });
 
-
-    // await Promise.all(high_low).then((num) => {
-    //   if(num[length] == 1){
-    //     console.log("num: ", num)
-    //     console.log("awaited all promises");
-    //     response.status = 200;
-    //     response.price = price;
-    //     response.name = name;
-    //     response.id = id;
-    //     response.high = high;
-    //     response.low = low;
-  
-    //     callback(null, response);
-  
-    //   }
-    // });
-
+    console.log(response);
 
 
   } catch (err) {
