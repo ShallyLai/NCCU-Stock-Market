@@ -2,7 +2,7 @@ var mysql = require('../mysql/mysql.js');
 
 let handle_request = async (user, callback) => {
   let response = { status: 400 };
-  console.log("handle request user:" + user);
+  console.log("handle request user:" + user.user_id);
   var buy_order_id = [];
   var buy_stock_id = [];
   var buy_num = [];
@@ -16,34 +16,34 @@ let handle_request = async (user, callback) => {
   var sell_time = [];
 
   try {
-    let buyQuery = "select * from BuyOrder where buser_id='" + user + "';";
+    let buyQuery = "select * from BuyOrder where buser_id='" + user.user_id + "';";
     await mysql.myFetch(buyQuery, function (err, result) {
       if (err) {
         console.log(err);
         throw "select buy order error";
       } else {
         for(i = 0; i < result.length; i++){
-          buy_order_id.push(result[i].order_id);
-          buy_stock_id.push(result[i].stock_id);
-          buy_num.push(result[i].num);
-          buy_price.push(result[i].price);
-          buy_time.push(result[i].time);
+          buy_order_id.push(result[i][0]);
+          buy_stock_id.push(result[i][1]);
+          buy_num.push(result[i][2]);
+          buy_price.push(result[i][3]);
+          buy_time.push(result[i][4]);
         }
       }
     });
 
-    let sellQuery = "select * from SellOrder where suser_id='" + user + "';";
+    let sellQuery = "select * from SellOrder where suser_id='" + user.user_id + "';";
     await mysql.myFetch(sellQuery, function (err, result) {
       if (err) {
         console.log(err);
         throw "select sell order error";
       } else {
         for(i = 0; i < result.length; i++){
-          sell_order_id.push(result[i].order_id);
-          sell_stock_id.push(result[i].stock_id);
-          sell_num.push(result[i].num);
-          sell_price.push(result[i].price);
-          sell_time.push(result[i].time);
+          sell_order_id.push(result[i][0]);
+          sell_stock_id.push(result[i][1]);
+          sell_num.push(result[i][2]);
+          sell_price.push(result[i][3]);
+          sell_time.push(result[i][4]);
         }
       }
     });

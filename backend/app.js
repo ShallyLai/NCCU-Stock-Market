@@ -91,11 +91,10 @@ app.get('/getAllHighLow', function(req, res){
     });
 });
 
-app.get('/getMyOrder', function(req, res){
-    var user_id = req.query.user_id;
-    console.log("getmyorder user:" + user_id);
-
-    myOrder.handle_request(user_id, function(err, result){
+app.post('/getMyOrder', function(req, res){
+    console.log("get my order");
+    console.log(req.body);
+    myOrder.handle_request(req.body, function(err, result){
         if(err){
             console.log("get my order error");
             res.send(result).status(result.status);
