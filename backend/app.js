@@ -22,6 +22,7 @@ let sellOrder = require("./sellOrder.js");
 let reset = require('./reset.js');
 let getMoney = require('./getMoney.js');
 let storeValue = require('./storeValue.js');
+let getMyStock = require('./getMyStock.js');
 
 app.get('/', function(req, res){
     console.log("connected to port 3000");
@@ -120,7 +121,7 @@ app.post("/GetMyTransaction", function(req, res){
 
 app.get('/getHistory', function(req, res){
     var company_id = req.query.company_id;
-    console.log('post getHistory');
+    console.log('getHistory');
     console.log('company_id:');
     console.log(company_id);
     getHistory.handle_request(company_id, function(err, result){
@@ -128,6 +129,21 @@ app.get('/getHistory', function(req, res){
             console.log("getHistory handle_request error");
             res.send(result).status(result.status);
         } else {
+            res.send(result).status(result.status);
+        }
+    });
+});
+
+app.get('/getMyStock', function(req, res){
+    var user_id = req.query.user_id;
+    console.log('getMyStock');
+    console.log('user_id:');
+    console.log(user_id);
+    getMyStock.handle_request(user_id, function(err, result){
+        if(err){
+            console.log("getMyStock handle_requet error");
+            res.send(result).status(result.status);
+        } else{
             res.send(result).status(result.status);
         }
     });
