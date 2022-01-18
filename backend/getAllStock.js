@@ -10,6 +10,7 @@ let handle_request = async (data, callback) => {
     var id = [];
     var high = [];
     var low = [];
+    var global_result;
     var length;
 
     let query = "select price, company_name, company_id from Stock, Company where Stock.scompany_id=Company.company_id;";
@@ -20,11 +21,12 @@ let handle_request = async (data, callback) => {
         throw "get cur price error";
       } else {
         length = result.length;
-        for (i = 0; i < result.length; i++) {
-          price.push(result[i].price);
-          name.push(result[i].company_name);
-          id.push(result[i].company_id);
-        }
+        global_result = result;
+        // for (i = 0; i < result.length; i++) {
+        //   price.push(result[i].price);
+        //   name.push(result[i].company_name);
+        //   id.push(result[i].company_id);
+        // }
 
       }
     });
@@ -64,6 +66,7 @@ let handle_request = async (data, callback) => {
               high.push(max);
               low.push(min);
               id.push(element);
+              
             }
           }
 
