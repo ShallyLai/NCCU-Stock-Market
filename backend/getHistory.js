@@ -27,8 +27,13 @@ handle_request = ((data, callback) => {
             else{
                 console.log(data.company_id + "'s history")
                 response.status = 204;
-                for(var i=0; i<fetch_res.length; i++){
-                    date.push(fetch_res[i].Date_);
+                let i;
+                for(i=0; i<fetch_res.length; i++){
+                    // console.log(fetchTime.getFullYear());
+                    // console.log(fetchTime.getMonth() + 1);
+                    // console.log(fetchTime.getDate());
+
+                    date.push(fetchTime[i].Date_);
                     time.push(fetch_res[i].Time_);
                     price.push(fetch_res[i].price);
                 }
