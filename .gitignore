@@ -3,3 +3,4 @@
 /myreact/node_modules
 /mysql/node_modules
 /node_modules
+.gitignore

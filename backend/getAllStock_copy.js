@@ -1,6 +1,6 @@
 var mysql = require('../mysql/mysql.js');
 
-let handle_request = async (data, callback) => {
+let handle_request = async (group, callback) => {
   let response = { status: 400 };
 
   try {
@@ -32,6 +32,24 @@ let handle_request = async (data, callback) => {
       }
     });
 
+    let subGroup = "select company_id from Company where cgroup_id = " + group.group_id + ";";
+    mysql.fetchData(subGroup, function(error, fetch_subGroup_res){
+      if(error){
+        response.status = 400;
+        console.log("fetch subGroup error");
+        response.msg = "fetch subGroup error";
+        callback(error, response);
+      } else if(fetch_subGroup_res.length == 0){
+        console.log("No Company");
+        response.status = 400;
+        response.msg = "No company found";
+        callback(null, response);
+      } else{
+        console.log("Find Companies");
+        response.status = 204;
+      }
+    });
+    
     console.log("data id length:" + data_id.length);
     let i = 0;
     for (i = 0; i < data_id.length; i++) {

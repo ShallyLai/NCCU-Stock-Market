@@ -16,7 +16,7 @@ let handle_request = async (user, callback) => {
   var sell_time = [];
 
   try {
-    let buyQuery = "select * from BuyOrder where buser_id='" + user.user_id + "';";
+    let buyQuery = "select * from BuyOrder where buser_id='" + user.user_id + "' and Date(time)=curDate();";
     await mysql.myFetch(buyQuery, function (err, result) {
       if (err) {
         console.log(err);
@@ -32,7 +32,7 @@ let handle_request = async (user, callback) => {
       }
     });
 
-    let sellQuery = "select * from SellOrder where suser_id='" + user.user_id + "';";
+    let sellQuery = "select * from SellOrder where suser_id='" + user.user_id + "' and Date(time)=curDate();";
     await mysql.myFetch(sellQuery, function (err, result) {
       if (err) {
         console.log(err);
