@@ -16,7 +16,16 @@ let handle_request = async (group, callback) => {
     let all_id = [101, 102, 103, 104, 202, 203, 204, 205, 206, 207, 208, 209, 301, 302, 303, 304, 305, 306, 307, 308, 401, 402, 403, 405, 501, 502, 504, 506, 507, 508, 509, 510, 601, 701, 702, 703];
 
     var subGroup_data = [];
-    let subGroup = "select company_id from Company where cgroup_id = " + group.group_id + ";";
+    
+    let group_in_set = group.group_id;
+    // group_in_set[0] = "(";
+    // group_in_set[group_in_set.length-1] = ")"
+    let newset = group_in_set.replace("[", "(");
+    newset = newset.replace("]", ")");
+    console.log("*****group_in_set:*****");
+    console.log(typeof(group.group_id));
+    console.log(newset);
+    let subGroup = "select company_id from Company where cgroup_id in " + newset + ";";
     await mysql.myFetch(subGroup, function(error, fetch_subGroup_res){
       if(error){
         response.status = 400;
@@ -109,6 +118,7 @@ let handle_request = async (group, callback) => {
 
     console.log("awaited all promises");
     response.status = 200;
+    response.msg = "get all";
     response.price = price;
     response.name = name;
     response.id = id;
