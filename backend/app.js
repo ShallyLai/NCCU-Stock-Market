@@ -12,7 +12,8 @@ app.use(cors());
 
 let signup = require('./signup.js');
 let login = require('./login.js');
-let allStock = require('./getALLStock.js');
+//let allStock = require('./getALLStock.js');
+let allStock = require('./getALLStock_copy.js');
 let HighLow = require('./getHighLow.js');
 let myOrder = require('./getMyOrder.js');
 let getHistory = require("./getHistory.js");
