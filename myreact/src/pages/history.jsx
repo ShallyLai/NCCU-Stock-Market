@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from 'react'
+import MyHistory from "./component/MyHistory";
 import UserInfo from "./component/UserInfo";
 
 const HistoryPage = () => {
@@ -53,12 +54,14 @@ const HistoryPage = () => {
                 user_id={user_id}
                 user_money={user_money}
                 store_value={store_Value} />
+            <MyHistory
+                user_id={user_id} />
         </div>
     );
 };
 
 const store_Value = async (id) => {
-/*    let data = {
+    let data = {
         user_id: id,
     }
     const res = await fetch(
@@ -73,20 +76,18 @@ const store_Value = async (id) => {
         console.log(response.status);
         return response.json();
     }).then((response_json) => {
-        if (response_json.msg === 'get money error') {
-            alert('無法取得存款');
+        if (response_json.msg === 'money error') {
+            console.log('儲值失敗');
             return;
         }
-        else if (response_json.msg === 'get money') {
-            // alert('取得存款');
-            user_money = response_json.money;
-            return user_money;
+        else if (response_json.msg === 'store successsful') {
+            alert('儲值成功！\n增加 500 元。');
+            return
         }
     });
     //  console.log(res);
-    return res;
-
-*/
+    window.location.reload();
+    return;
 }
 
 

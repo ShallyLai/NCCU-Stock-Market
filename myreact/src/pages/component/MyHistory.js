@@ -4,7 +4,7 @@ import Button2 from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { alpha } from '@mui/material/styles';
 
-const UserInfo = (props) => {
+const MyHistory = (props) => {
 
     const onClick = async () => {
         console.log('儲值');
@@ -55,15 +55,15 @@ const UserInfo = (props) => {
     )
 }
 
-UserInfo.defaultProps = {
+MyHistory.defaultProps = {
     user_name: '使用者名稱',
     user_money: '0',
 }
 
-UserInfo.protoType = {
+MyHistory.protoType = {
     user_name: PropTypes.string.isRequired,
     user_money: PropTypes.string.isRequired,
 }
 
 
-export default UserInfo
+export default MyHistory
