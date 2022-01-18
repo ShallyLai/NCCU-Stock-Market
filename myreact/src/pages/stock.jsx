@@ -17,10 +17,11 @@ const StockPage = () => {
     const fetchAllStocks = async () => {
         const res = await fetch('http://localhost:3000/getAllStock')
         const data = await res.json()
+        console.log(data)
         return data
     }
     
-    //console.log(allStocks.name)
+    
     return (
         <div>
             <h3>StockPage</h3>
