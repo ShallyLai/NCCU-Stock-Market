@@ -21,7 +21,7 @@ let buyOrder = require('./buyOrder.js');
 let sellOrder = require("./sellOrder.js");
 let reset = require('./reset.js');
 let getMoney = require('./getMoney.js');
-
+let storeValue = require('./storeValue.js');
 
 app.get('/', function(req, res){
     console.log("connected to port 3000");
@@ -180,6 +180,22 @@ app.post('/sellOrder', function(req, res){
             res.send(result).status(result.status);
         }
     });
+});
+
+app.post("/storeValue", function(req,res){
+  console.log("post store value");
+  console.log("req.body");
+  console.log(req.body);
+  storeValue.handle_request(req.body.user_id, function(err,result){
+    if(err){
+      console.log("storeValue handle_request error");
+      res.send(result).status(result.status);
+    } else{
+        console.log("result");
+        console.log(result);
+        res.send(result).status(result.status);
+    }
+  });
 });
 
 app.post("/delete",function(req,res){
