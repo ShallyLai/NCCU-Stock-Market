@@ -33,7 +33,7 @@ handle_request = ((data, callback) => {
                     // console.log(fetchTime.getMonth() + 1);
                     // console.log(fetchTime.getDate());
 
-                    date.push(fetchTime[i].Date_);
+                    date.push(fetch_res[i].Date_);
                     time.push(fetch_res[i].Time_);
                     price.push(fetch_res[i].price);
                 }
