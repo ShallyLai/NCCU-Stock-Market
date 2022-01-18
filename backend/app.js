@@ -13,7 +13,7 @@ app.use(cors());
 let signup = require('./signup.js');
 let login = require('./login.js');
 //let allStock = require('./getALLStock.js');
-let allStock = require('./getALLStock_copy.js');
+let allStock = require('./getALLStock_copy_1.js');
 let HighLow = require('./getHighLow.js');
 let myOrder = require('./getMyOrder.js');
 let getHistory = require("./getHistory.js");
@@ -64,7 +64,7 @@ app.post('/login', function(req, res){
     });
 })
 
-app.post('/GetALLStock', function(req, res){
+app.get('/GetALLStock', function(req, res){
     console.log("get all stocks");
     console.log("req.body");
     console.log(req.body);
