@@ -41,8 +41,8 @@ const loginSummit = async (acc) => {
       else if (response_json.msg === 'found user') {
         alert('登入成功');
         sessionStorage.setItem('user_name', response_json.user_name );
-        sessionStorage.setItem('user_id', response_json.id);
-        window.location.href="../history"
+        sessionStorage.setItem('user_id', response_json.user_id);
+        window.location.href="../history";
         return;
       }
   
