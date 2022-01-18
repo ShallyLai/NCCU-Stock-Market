@@ -4,7 +4,7 @@ let handle_request = async (data, callback) => {
   let response = { status: 400 };
 
   try{
-    let money  = "select money from User where user_id = " + data + ";";
+    let money  = "select money from User where user_id = " + data.user_id + ";";
     mysql.fetchData(money, function(error, fetch_money){
       if(error){
         console.log(error);

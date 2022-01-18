@@ -133,16 +133,18 @@ app.get('/getHistory', function(req, res){
     });
 });
 
-app.get('/getMoney', function(req,res){
-  var user_id = req.query.user_id;
+app.post('/getMoney', function(req,res){
+    //var user_id = req.query.user_id;
     console.log('get Money');
-    console.log('user_id:');
-    console.log(user_id);
-    getMoney.handle_request(user_id, function(err, result){
+    console.log('req.body:');
+    console.log(req.body);
+    getMoney.handle_request(req.body, function(err, result){
         if(err){
             console.log("getMoney handle_request error");
             res.send(result).status(result.status);
-        } else {
+        } else {  
+            console.log("result");
+            console.log(result);
             res.send(result).status(result.status);
         }
     });
