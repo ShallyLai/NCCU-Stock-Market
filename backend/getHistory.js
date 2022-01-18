@@ -9,6 +9,7 @@ handle_request = ((data, callback) => {
         var date=[];
         var time=[];
         var price=[];
+        var dateandtime = [];
         
         let getHistory = "select * from History_" + data.company_id + ";";
         mysql.fetchData(getHistory, function(err, fetch_res) {
@@ -33,12 +34,22 @@ handle_request = ((data, callback) => {
                     // console.log(fetchTime.getMonth() + 1);
                     // console.log(fetchTime.getDate());
 
-                    date.push(fetch_res[i].Date_);
-                    time.push(fetch_res[i].Time_);
+                    let fetchTime = fetch_res[i].Time_.split(':');
+                    let fetchDate = fetch_res[i].Date_;
+                    let myTime = fetchDate.getFullYear() + "-" + 
+                    ((fetchDate.getMonth() + 1 >= 10) ? (fetchDate.getMonth() + 1) : ('0' + (fetchDate.getMonth() + 1).toString())) + "-" + 
+                    (fetchDate.getDate() >= 10 ? fetchDate.getDate() : ('0' + fetchDate.getDate().toString())) + " " + 
+                                    fetchTime[0] + ":" + fetchTime[1] + ":" + fetchTime[2];
+                    
+                    console.log("mytime " + myTime);
+                    let timeObject = new Date(myTime);
+                    console.log("timeobject: " + timeObject);
+                    console.log(timeObject.getTime());
+
+                    dateandtime.push(myTime);
                     price.push(fetch_res[i].price);
                 }
-                response.date = date;
-                response.time = time;
+                response.datetime = dateandtime;
                 response.price = price;
 
                 callback(null, response)
