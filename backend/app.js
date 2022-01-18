@@ -20,7 +20,7 @@ let myTrans = require('./getMyTransaction.js');
 let buyOrder = require('./buyOrder.js');
 let sellOrder = require("./sellOrder.js");
 let reset = require('./reset.js');
-
+let getMoney = require('./getMoney.js');
 
 
 app.get('/', function(req, res){
@@ -121,11 +121,26 @@ app.post("/GetMyTransaction", function(req, res){
 app.get('/getHistory', function(req, res){
     var company_id = req.query.company_id;
     console.log('post getHistory');
-    console.log('req.body:');
-    console.log(req.body);
-    getHistory.handle_request(req.body, function(err, result){
+    console.log('company_id:');
+    console.log(company_id);
+    getHistory.handle_request(company_id, function(err, result){
         if(err){
             console.log("getHistory handle_request error");
+            res.send(result).status(result.status);
+        } else {
+            res.send(result).status(result.status);
+        }
+    });
+});
+
+app.get('/getMoney', function(req,res){
+  var user_id = req.query.user_id;
+    console.log('get Money');
+    console.log('user_id:');
+    console.log(user_id);
+    getMoney.handle_request(user_id, function(err, result){
+        if(err){
+            console.log("getMoney handle_request error");
             res.send(result).status(result.status);
         } else {
             res.send(result).status(result.status);

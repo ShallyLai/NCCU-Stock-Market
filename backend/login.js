@@ -25,6 +25,7 @@ handle_request = ((data, callback) => {
                     response.status = 200;
                     response.msg = "found user";
                     response.user_id = fetch_res[0].user_id;
+                    response.user_name = fetch_res[0].user_name;
                     callback(null, response);
                 }
                 else{
