@@ -150,7 +150,6 @@ app.get('/getMyStock', function(req, res){
 });
 
 app.get('/getMoney', function(req,res){
-  var user_id = req.query.user_id;
     console.log('get Money');
     console.log('req.body:');
     console.log(req.body);

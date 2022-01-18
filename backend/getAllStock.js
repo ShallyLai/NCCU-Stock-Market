@@ -22,11 +22,11 @@ let handle_request = async (data, callback) => {
       } else {
         length = result.length;
         global_result = result;
-        // for (i = 0; i < result.length; i++) {
-        //   price.push(result[i].price);
-        //   name.push(result[i].company_name);
-        //   id.push(result[i].company_id);
-        // }
+         for (i = 0; i < result.length; i++) {
+           price.push(result[i].price);
+           name.push(result[i].company_name);
+           id.push(result[i].company_id);
+         }
 
       }
     });
