@@ -32,7 +32,7 @@ handle_request = ((data, callback) => {
                     time.push(fetch_res[i].Time_);
                     price.push(fetch_res[i].price);
                 }
-                response.data = data;
+                response.date = date;
                 response.time = time;
                 response.price = price;
 
