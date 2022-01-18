@@ -53,7 +53,6 @@ handle_request = (async(data, callback) => {
     	response.TransactionPrice = TransactionPrice;
     	response.num = num;
     	response.TransactionTime = TransactionTime;
-		response.msg = "get transaction";
 
     	callback(null, response);
     } catch(err){

@@ -82,7 +82,7 @@ const HistoryPage = () => {
                 return;
             }
             else if (response_json.msg === 'get transaction') {
-             alert('取得存款');
+               // alert('取得存款');
                 row = response_json.stock_name;
                 console.log(response_json);
                 return row;
