@@ -3,3 +3,6 @@
 backend/node_modules
 myreact/node_modules
 mysql/node_modules
+start.sh
+stop.sh
+.gitignore
