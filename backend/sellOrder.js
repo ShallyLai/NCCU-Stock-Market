@@ -351,6 +351,7 @@ handle_request = async (data, callback) => {
         });
 
         console.log("curSellNum_3: " + curSellNum);
+        console.log("stop map flag:" + stopMapFlag);
         if (curSellNum <= 0) {
           response.status = 200;
           response.msg = 'cur sell num is 0';
