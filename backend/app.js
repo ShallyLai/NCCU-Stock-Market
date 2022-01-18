@@ -119,12 +119,11 @@ app.post("/GetMyTransaction", function(req, res){
     });
 })
 
-app.get('/getHistory', function(req, res){
-    var company_id = req.query.company_id;
+app.post('/getHistory', function(req, res){
     console.log('getHistory');
-    console.log('company_id:');
-    console.log(company_id);
-    getHistory.handle_request(company_id, function(err, result){
+    console.log('req.body:');
+    console.log(req.body);
+    getHistory.handle_request(req.body, function(err, result){
         if(err){
             console.log("getHistory handle_request error");
             res.send(result).status(result.status);
@@ -134,12 +133,11 @@ app.get('/getHistory', function(req, res){
     });
 });
 
-app.get('/getMyStock', function(req, res){
-    var user_id = req.query.user_id;
+app.post('/getMyStock', function(req, res){
     console.log('getMyStock');
-    console.log('user_id:');
-    console.log(user_id);
-    getMyStock.handle_request(user_id, function(err, result){
+    console.log('req.body:');
+    console.log(req.body);
+    getMyStock.handle_request(req.body, function(err, result){
         if(err){
             console.log("getMyStock handle_requet error");
             res.send(result).status(result.status);
@@ -149,7 +147,7 @@ app.get('/getMyStock', function(req, res){
     });
 });
 
-app.get('/getMoney', function(req,res){
+app.post('/getMoney', function(req,res){
     console.log('get Money');
     console.log('req.body:');
     console.log(req.body);

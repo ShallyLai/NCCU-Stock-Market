@@ -13,7 +13,7 @@ let handle_request = ((data, callback) => {
         // var ROI = [];
 
         let MyStockQuery = "select company_name, Own.num, Stock.price from Stock, Company, Own" + 
-        " where Stock.stock_id=Company.company_id and Ostock_id=Stock.stock_id and Ouser_id=" + data + ";";
+        " where Stock.stock_id=Company.company_id and Ostock_id=Stock.stock_id and Ouser_id=" + data.user_id + ";";
 
         mysql.fetchData(MyStockQuery, function(err, fetch_my_stock){
             if(err){

@@ -10,7 +10,7 @@ handle_request = ((data, callback) => {
         var time=[];
         var price=[];
         
-        let getHistory = "select * from History_" + data + ";";
+        let getHistory = "select * from History_" + data.company_id + ";";
         mysql.fetchData(getHistory, function(err, fetch_res) {
             if (err) {
                 console.log("err");
@@ -25,7 +25,7 @@ handle_request = ((data, callback) => {
                 callback(null, response);
             }
             else{
-                console.log(data + "'s history")
+                console.log(data.company_id + "'s history")
                 response.status = 204;
                 for(var i=0; i<fetch_res.length; i++){
                     date.push(fetch_res[i].Date_);
