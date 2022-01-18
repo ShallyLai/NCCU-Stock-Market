@@ -13,43 +13,59 @@ let handle_request = async (group, callback) => {
     var global_result;
     var length;
 
-    let data_id = [101, 102, 103, 104, 202, 203, 204, 205, 206, 207, 208, 209, 301, 302, 303, 304, 305, 306, 307, 308, 401, 402, 403, 405, 501, 502, 504, 506, 507, 508, 509, 510, 601, 701, 702, 703];
+    let all_id = [101, 102, 103, 104, 202, 203, 204, 205, 206, 207, 208, 209, 301, 302, 303, 304, 305, 306, 307, 308, 401, 402, 403, 405, 501, 502, 504, 506, 507, 508, 509, 510, 601, 701, 702, 703];
 
-    let query = "select price, company_name, company_id from Stock, Company where Stock.scompany_id=Company.company_id;";
-
-    await mysql.myFetch(query, function (err, result) {
-      if (err) {
-        console.log(err);
-        throw "get cur price error";
-      } else {
-        let i;
-        for (i = 0; i < result.length; i++) {
-          price.push(result[i][0]);
-          name.push(result[i][1]);
-          //id.push(result[i].company_id);
-        }
-
-      }
-    });
-
+    var subGroup_data = [];
     let subGroup = "select company_id from Company where cgroup_id = " + group.group_id + ";";
-    mysql.fetchData(subGroup, function(error, fetch_subGroup_res){
+    await mysql.myFetch(subGroup, function(error, fetch_subGroup_res){
       if(error){
         response.status = 400;
         console.log("fetch subGroup error");
         response.msg = "fetch subGroup error";
-        callback(error, response);
       } else if(fetch_subGroup_res.length == 0){
         console.log("No Company");
         response.status = 400;
         response.msg = "No company found";
-        callback(null, response);
       } else{
         console.log("Find Companies");
         response.status = 204;
+        for(var a=0;a<fetch_subGroup_res.length;a++){
+          subGroup_data.push(fetch_subGroup_res[a][0]);
+        }
       }
     });
-    
+    console.log("subGroup_data:");
+    console.log(subGroup_data);
+
+    if(subGroup_data.length == 0){
+      data_id = all_id;
+    }
+    else{
+      data_id = subGroup_data;
+    }
+
+    let query = "select price, company_name, company_id from Stock, Company where Stock.scompany_id=Company.company_id;";
+    await mysql.myFetch(query, function (err, result) {
+      if (err) {
+        console.log(err);
+        throw "get cur price error";
+      } else if(subGroup_data.length != 0){
+        let i;
+        for (i = 0; i < result.length; i++) {
+          if(subGroup_data.includes(result[i][2])){
+            price.push(result[i][0]);
+            name.push(result[i][1]);
+          }
+        }
+      } else{
+        let i;
+        for (i = 0; i < result.length; i++) {
+          price.push(result[i][0]);
+          name.push(result[i][1]);
+        }
+      }
+    });
+
     console.log("data id length:" + data_id.length);
     let i = 0;
     for (i = 0; i < data_id.length; i++) {
