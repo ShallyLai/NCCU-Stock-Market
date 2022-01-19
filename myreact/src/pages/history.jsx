@@ -3,12 +3,13 @@ import { useState, useEffect } from 'react'
 import Header from './component/Header';
 import UserInfo from "./component/UserInfo";
 import Tabs from "./component/Tabs";
+import SelectGroup from "./component/SelectGroup";
 
 const HistoryPage = () => {
 
     if (!sessionStorage.getItem("user_name")) {
         alert('您尚未登入！');
-        window.location.href="./";
+        window.location.href = "./";
     }
 
     const user_name = sessionStorage.getItem("user_name");
@@ -21,7 +22,6 @@ const HistoryPage = () => {
     useEffect(() => {
         const getMoney = async () => {
             const userMoney = await fetchMoney(user_id);
-            console.log("userMoney: " + userMoney);
             setUserMoney(userMoney);
         }
         getMoney()
@@ -47,7 +47,6 @@ const HistoryPage = () => {
                     trans_history[i]['BuyOrSell'] = "賣";
                 }
             }
-            console.log(trans_history);
             setHistory(trans_history);
         }
         getHistory()
@@ -78,7 +77,6 @@ const HistoryPage = () => {
                     "stock_name": userHistory_dct['sell_name'][i],
                 });
             }
-            console.log(order_history);
             setOrderHistory(order_history);
         }
         getOrder()
@@ -98,7 +96,7 @@ const HistoryPage = () => {
             })
         }
         ).then((response) => {
-            console.log("response status: " + response.status);
+        //    console.log("response status: " + response.status);
             return response.json();
         }).then((response_json) => {
             if (response_json.msg === 'get money error') {
@@ -127,7 +125,7 @@ const HistoryPage = () => {
             })
         }
         ).then((response) => {
-            console.log("response status: " + response.status);
+          //  console.log("response status: " + response.status);
             return response.json();
         }).then((response_json) => {
             if (response_json.msg === 'catch error') {
@@ -159,7 +157,7 @@ const HistoryPage = () => {
             })
         }
         ).then((response) => {
-            console.log("response status: " + response.status);
+         //   console.log("response status: " + response.status);
             return response.json();
         }).then((response_json) => {
             if (response_json.msg === 'catch error') {
@@ -169,7 +167,6 @@ const HistoryPage = () => {
             else if (response_json.msg === 'get order') {
                 console.log('取得掛單紀錄');
                 row = response_json;
-                console.log(row);
                 return row;
             } else if (response_json.msg === 'no order') {
                 alert('沒有掛單紀錄');
@@ -181,11 +178,14 @@ const HistoryPage = () => {
     return (
         <div className="container">
             <Header title='歷史紀錄' />
+             <SelectGroup apply={apply} />
             <UserInfo
                 user_name={user_name}
                 user_id={user_id}
                 user_money={user_money}
                 store_value={store_Value} />
+
+            
             <Tabs dataT={trans_history} dataO={order_history} />
         </div>
     );
@@ -220,5 +220,26 @@ const store_Value = async (id) => {
     return;
 }
 
+const apply = async (data) => {
+    console.log('套用 check box');
+  //  console.log(data);
+    
+  let group_in_set = [];
+
+    data['g100']&&(group_in_set.push('100'));
+    data['g102']&&(group_in_set.push('102'));
+    data['g200']&&(group_in_set.push('200'));
+    data['g203']&&(group_in_set.push('203'));
+    data['g300']&&(group_in_set.push('300'));
+    data['g400']&&(group_in_set.push('400'));
+    data['g500']&&(group_in_set.push('500'));
+    data['g600']&&(group_in_set.push('600'));
+    data['g700']&&(group_in_set.push('700'));
+    data['g703']&&(group_in_set.push('703'));
+
+    let group_set_str = "['"+group_in_set.join('\',\'')+"']";
+    console.log(group_set_str);
+
+}
 
 export default HistoryPage;

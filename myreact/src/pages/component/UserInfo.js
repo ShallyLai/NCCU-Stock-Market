@@ -13,15 +13,17 @@ const UserInfo = (props) => {
           <Box
           sx={{
             display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
+            flexDirection: 'row',
             alignItems: 'center',
             bgcolor: 'background.paper',
             overflow: 'hidden',
             borderRadius: '12px',
             boxShadow: 1,
             fontWeight: 'bold',
+            margin: '5px',
           }}
         >
+          <Box sx={{  height: 233,  width: 50 }}   />
           <Box
             component="img"
             sx={{
@@ -33,22 +35,23 @@ const UserInfo = (props) => {
             alt="頭貼"
             src="https://i.imgur.com/zLjoyLI.jpg"
           />
+           <Box sx={{  height: 233,  width: 50 }}   />
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              alignItems: { xs: 'center', md: 'flex-start' },
+              alignItems:'flex-start',
               m: 3,
               minWidth: { md: 350 },
             }}
           >
-            <Box component="span" sx={{ fontSize: 24, mt: 1 }}>
+            <Box component="span" sx={{ fontSize: 24, mt: 1 , margin: '5px' }}>
               {props.user_name}
             </Box>
-            <Box component="span" sx={{ color: 'primary.main', fontSize: 22 }}>
+            <Box component="span" sx={{ color: 'primary.main', fontSize: 22, margin: '5px' }}>
               $: {props.user_money}
             </Box>
-            <Button2 variant="contained" onClick = {onClick} size="small">儲值</Button2>
+            <Button2 variant="contained" onClick = {onClick} size="small" sx={{ margin: '5px' }}>儲值</Button2>
           </Box>
         </Box>
     )

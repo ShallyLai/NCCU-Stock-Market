@@ -48,7 +48,7 @@ export default function BasicTabs(props) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="交易紀錄" {...a11yProps(0)} />
           <Tab label="掛單紀錄" {...a11yProps(1)} />

@@ -10,11 +10,6 @@ import Paper from '@mui/material/Paper';
 
 const HistoryTable = ({data}) => {
 
-    // const onClick = async () => {
-    //     console.log('儲值');
-    //     props.store_value(props.user_id)
-    // }\
-   console.log(typeof(data));
     return (
       <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table" >
