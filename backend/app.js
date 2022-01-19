@@ -13,14 +13,15 @@ app.use(cors());
 let signup = require('./signup.js');
 let login = require('./login.js');
 //let allStock = require('./getALLStock.js');
-let allStock = require('./getALLStock_copy_1.js');
+let allStock = require('./getALLStock_copy.js');
 let HighLow = require('./getHighLow.js');
 let myOrder = require('./getMyOrder.js');
 let getHistory = require("./getHistory.js");
 let myTrans = require('./getMyTransaction.js');
 //let buyOrder = require('./buyOrder.js');
 let buyOrder = require('./buyOrder_copy.js');
-let sellOrder = require("./sellOrder.js");
+// let sellOrder = require("./sellOrder.js");
+let sellOrder = require("./sellOrder_copy.js");
 let reset = require('./reset.js');
 let getMoney = require('./getMoney.js');
 let storeValue = require('./storeValue.js');
@@ -64,7 +65,7 @@ app.post('/login', function(req, res){
     });
 })
 
-app.get('/GetALLStock', function(req, res){
+app.post('/GetALLStock', function(req, res){
     console.log("get all stocks");
     console.log("req.body");
     console.log(req.body);
@@ -106,7 +107,7 @@ app.post('/getMyOrder', function(req, res){
     });
 });
 
-app.post("/GetMyTransaction", function(req, res){
+app.post("/getMyTransaction", function(req, res){
   console.log("get my transaction");
     console.log("req.body");
     console.log(req.body);

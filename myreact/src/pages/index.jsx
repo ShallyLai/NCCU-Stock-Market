@@ -42,7 +42,7 @@ const loginSummit = async (acc) => {
         alert('登入成功');
         sessionStorage.setItem('user_name', response_json.user_name );
         sessionStorage.setItem('user_id', response_json.user_id);
-        window.location.href="../history"
+        window.location.href="../history";
         return;
       }
   

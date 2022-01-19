@@ -3,20 +3,34 @@ import { useState, useEffect } from 'react'
 import MyHistory from "./component/MyHistory";
 import UserInfo from "./component/UserInfo";
 
+
+
 const HistoryPage = () => {
 
     const user_name = sessionStorage.getItem("user_name")
     const user_id = sessionStorage.getItem("user_id")
     const [user_money, setUserMoney] = useState(0);
+    const [user_history, setHistory] = useState("");
 
     useEffect(() => {
         const getMoney = async () => {
-            const userMoney = await fetchMoney(user_id)
-            //    console.log(userMoney)
-            setUserMoney(userMoney)
+            const userMoney = await fetchMoney(user_id);
+            //console.log("userMoney: " + userMoney);
+            //setUserMoney(userMoney)
         }
         getMoney()
-    })
+    }, [])
+    useEffect(() => {
+        const getHistory = async () => {
+            console.log(user_id);
+            const userHistory = await fetchHistory(user_id);
+               
+            //setHistory(userHistory);
+            //console.log(userHistory);
+        }
+        getHistory()
+    },[])
+    ////////////////////////////////////////////
     const fetchMoney = async (id) => {
         let user_money;
         let data = {
@@ -31,7 +45,7 @@ const HistoryPage = () => {
             })
         }
         ).then((response) => {
-            console.log(response.status);
+            console.log("response status: " + response.status);
             return response.json();
         }).then((response_json) => {
             if (response_json.msg === 'get money error') {
@@ -41,12 +55,46 @@ const HistoryPage = () => {
             else if (response_json.msg === 'get money') {
                 // alert('取得存款');
                 user_money = response_json.money;
+                console.log("user money: " + user_money);
+                setUserMoney(user_money);
                 return user_money;
             }
         });
-        //  console.log(res);
-        return res;
     }
+    const fetchHistory = async (id) => {
+        let row =[];
+        let data = {
+            user_id: id,
+        };
+        const res2 = await fetch(
+            'http://localhost:3000/getMyTransaction', {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        }
+        ).then((response) => {
+            console.log("response status: " + response.status);
+            return response.json();
+        }).then((response_json) => {
+            console.log("response json");
+            console.log(response_json);
+            if (response_json.msg === 'catch error') {
+                alert('無法取得歷史資料');
+                return;
+            }
+            else if (response_json.msg === 'get transaction') {
+                alert('取得交易紀錄');
+                //row = response_json.stock_name;
+                //console.log(response_json);
+                //return row;
+            } else if(response_json.msg === 'no transaction'){
+                alert('沒有交易紀錄');
+            }
+        });
+    }
+    //////////////////////////////////////////
     return (
         <div className="container">
             <UserInfo
@@ -54,12 +102,11 @@ const HistoryPage = () => {
                 user_id={user_id}
                 user_money={user_money}
                 store_value={store_Value} />
-            <MyHistory
-                user_id={user_id} />
+            
         </div>
     );
 };
-
+//  <MyHistory            data={user_history} />
 const store_Value = async (id) => {
     let data = {
         user_id: id,
