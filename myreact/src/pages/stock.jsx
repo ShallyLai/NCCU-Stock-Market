@@ -60,8 +60,6 @@ const StockPage = () => {
 
     }
 
-
-
     //Fetch first History
     const [options, setOptions] = useState([]);
     useEffect(() => {
@@ -117,7 +115,6 @@ const StockPage = () => {
         getOptions();
     }, [])
 
-
     //Fetch My Stocks
     const [myStocks, setMyStocks] = useState([]);
     useEffect(() => {
@@ -137,10 +134,8 @@ const StockPage = () => {
                 return response.json();
             });
             setMyStocks(res)
-            console.log("pppp")
-            console.log(res.name)
-            setSelectedData({name:res.name[0], price:res.price[0], id:res.id[0], high:res.high[0], low:res.low[0]})
-           
+            //console.log(res.name)
+            setSelectedData({name:res.name[0], price:res.price[0], id:res.id[0], high:res.high[0], low:res.low[0]})  
         }
         getMyStocks()
     }, [])
@@ -148,6 +143,7 @@ const StockPage = () => {
 
     //Fetch All Stocks
     const [allStocks, setAllStocks] = useState([]);
+
     useEffect(() => {
         const getAllStocks = async () => {
             let payload = {
@@ -165,7 +161,7 @@ const StockPage = () => {
                 return response.json();
             });
             setAllStocks(res)
-            console.log(res.name)
+          //  console.log(res.name)
             setSelectedData({name:res.name[0], price:res.price[0], id:res.id[0], high:res.high[0], low:res.low[0]})
         }
         getAllStocks()
@@ -233,7 +229,6 @@ const StockPage = () => {
         }
     }
 
-
     //Handle Click
     const getClickId = async (data) => {
         //console.log(data.id, "======")
@@ -262,9 +257,6 @@ const StockPage = () => {
             //console.log(my_date)
             myDataPoints.push({ x: my_date, y: res.price[i] });
         }
-
-        //console.log(res)
-        //console.log(myDataPoints)
         setOptions(
             {
                 theme: "light2",
@@ -350,8 +342,6 @@ const StockPage = () => {
             }
         )
     }
-
-
 
     return (
 

@@ -15,9 +15,8 @@ import TextField from '@mui/material/TextField';
 
 
 const Trade = (props) => {
-    console.log(props.data)
 
-    const [sellPrice, setSellPrice] = useState(props.data.price);
+    const [sellPrice, setSellPrice] = useState(0);
     const [sellNum, setSellNum] = useState(1);
 
     const SellSubmit = (e) => {
@@ -32,8 +31,8 @@ const Trade = (props) => {
     }
 
     return (
-        <Card sx={{ maxWidth: 600, padding: '10px', }}>
-            <CardContent>
+        <Card sx={{ maxWidth: 600, padding: '5px', backgroundColor:'#f4f9fd', margin: '10px',}}>
+            <CardContent >
                 <Typography gutterBottom variant="h4" component="div">
                     {props.data.name}
                 </Typography>
@@ -42,7 +41,7 @@ const Trade = (props) => {
                     <Chip icon={<UpIcon />} label={"最高：" + props.data.high} color="error" />
                     <Chip icon={<DownIcon />} label={"最低：" + props.data.low} color="success" />
                 </Stack>
-                <Card sx={{ maxWidth: 500, padding: '5px 10px',  margin: '10px 0px',}}>
+                <Card sx={{ maxWidth: 500, padding: '0px 20px',  margin: '10px 0px',}}  >
                         <form className='sell_form' onSubmit={SellSubmit}>
                             <div className='form-control'>
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary"> 掛單： </Typography>
