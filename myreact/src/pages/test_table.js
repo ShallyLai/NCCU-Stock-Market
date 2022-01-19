@@ -12,7 +12,7 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
 import { visuallyHidden } from '@mui/utils';
-import {CanvasJSChart} from 'canvasjs-react-charts'
+//import {CanvasJSChart} from 'canvasjs-react-charts'
 
 
 function descendingComparator(a, b, orderBy) {
@@ -131,12 +131,13 @@ export default function EnhancedTable(props) {
     return { name, price, id, high, low};
   }
   const rows = [];
+  // console.log(props.data);
+  // console.log("----")
   if(props.data.name!== undefined) {
     for ( var i=0; i<props.data.name.length; i++){
       rows.push(createData(props.data.name[i], props.data.price[i], props.data.id[i], props.data.high[i], props.data.low[i]) )
     }
   }
-  //console.log(rows)
   
   
   const [order, setOrder] = React.useState('asc');
@@ -154,10 +155,12 @@ export default function EnhancedTable(props) {
 
 
   const handleClick = (event, data) => {
+    
     const selectedIndex = selected.indexOf(data.name);
     let newSelected = [];
     newSelected = (selected, data.name);
     console.log(data)
+    props.func( data.id )
     setSelected(newSelected);
     //console.log( name);
   };
@@ -178,59 +181,41 @@ export default function EnhancedTable(props) {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     /////////
-    const options = {
-      animationEnabled: true,
-      exportEnabled: true,
-      theme: "light2", // "light1", "dark1", "dark2"
-      title:{
-          text: "Bounce Rate by Week of Year"
-      },
-      axisY: {
-          title: "Bounce Rate",
-          suffix: "%"
-      },
-      axisX: {
-          title: "Week of Year",
-          prefix: "W",
-          interval: 2
-      },
-      data: [{
-          type: "line",
-          toolTipContent: "Week {x}: {y}%",
-          dataPoints: [
-              { x: 1, y: 64 },
-              { x: 2, y: 61 },
-              { x: 3, y: 64 },
-              { x: 4, y: 62 },
-              { x: 5, y: 64 },
-              { x: 6, y: 60 },
-              { x: 7, y: 58 },
-              { x: 8, y: 59 },
-              { x: 9, y: 53 },
-              { x: 10, y: 54 },
-              { x: 11, y: 61 },
-              { x: 12, y: 60 },
-              { x: 13, y: 55 },
-              { x: 14, y: 60 },
-              { x: 15, y: 56 },
-              { x: 16, y: 60 },
-              { x: 17, y: 59.5 },
-              { x: 18, y: 63 },
-              { x: 19, y: 58 },
-              { x: 20, y: 54 },
-              { x: 21, y: 59 },
-              { x: 22, y: 64 },
-              { x: 23, y: 59 }
-          ]
-      }]
-  }
+  //   const options = {
+  //     animationEnabled: true,
+  //     exportEnabled: true,
+  //     theme: "light2", // "light1", "dark1", "dark2"
+  //     title:{
+  //         //text: "Bounce Rate by Week of Year"
+  //     },
+  //     axisY: {
+  //         //title: "Bounce Rate",
+  //         suffix: "%"
+  //     },
+  //     axisX: {
+  //         // stitle: "Week of Year",
+  //         prefix: "W",
+  //         interval: 2
+  //     },
+  //     data: [{
+  //         type: "line",
+  //         toolTipContent: "Week {x}: {y}%",
+  //         dataPoints: [
+  //             { x: 1, y: 64 },
+  //             { x: 2, y: 61 },
+  //             { x: 3, y: 64 },
+  //             { x: 16, y: 60 } 
+             
+  //         ]
+  //     }]
+  // }
 
 
 
 
   return (
-    <Box sx={{ width: '500px' }}>
-      <CanvasJSChart options = {options}/>
+    <Box sx={{ width: '600px' }}>
+      {/* <CanvasJSChart options = {options}/> */}
       <Paper sx={{ width: '100%', mb: 2 }}>
         {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
         <TableContainer>
