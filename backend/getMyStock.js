@@ -8,11 +8,12 @@ let handle_request = ((data, callback) => {
         var stock_name = [];
         var stock_num = [];
         var cur_price = [];
+        var stock_id = [];
         // var buy_price = [];
         // var income = [];
         // var ROI = [];
 
-        let MyStockQuery = "select company_name, Own.num, Stock.price from Stock, Company, Own" + 
+        let MyStockQuery = "select company_id, company_name, Own.num, Stock.price from Stock, Company, Own" + 
         " where Stock.stock_id=Company.company_id and Ostock_id=Stock.stock_id and Ouser_id=" + data.user_id + ";";
 
         mysql.fetchData(MyStockQuery, function(err, fetch_my_stock){
@@ -35,11 +36,12 @@ let handle_request = ((data, callback) => {
                     stock_name.push(fetch_my_stock[i].company_name);
                     stock_num.push(fetch_my_stock[i].num);
                     cur_price.push(fetch_my_stock[i].price);
+                    stock_id.push(fetch_my_stock[i].company_id);
                 }
                 response.stock_name = stock_name;
+                response.stock_id = stock_id;
                 response.stock_num = stock_num;
                 response.cur_price = cur_price;
-
                 callback(null, response);
             }
         });
