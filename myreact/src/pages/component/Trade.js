@@ -9,6 +9,8 @@ import Stack from '@mui/material/Stack';
 import UpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import DownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import MoneyIcon from '@mui/icons-material/AttachMoney';
+import AddIcon from '@mui/icons-material/AddShoppingCart';
+import SellIcon from '@mui/icons-material/RequestQuote';
 
 
 const Trade = (props) => {
@@ -16,8 +18,6 @@ const Trade = (props) => {
 
     const [sellPrice, setSellPrice] = useState('')
     const [sellNum, setSellNum] = useState('')
-    const [buyPrice, setBuyPrice] = useState('')
-    const [buyNum, setBuyNum] = useState('')
 
     const SellSubmit = (e) => {
 
@@ -35,29 +35,29 @@ const Trade = (props) => {
     return (
         <Card sx={{ maxWidth: 400 }}>
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="h4" component="div">
                     {props.data.name}
                 </Typography>
                 <Stack direction="row" spacing={1}>
-                    <Chip icon={<MoneyIcon />} label={"當前："+props.data.price} variant="outlined" color="primary" />
-                    <Chip icon={<UpIcon />} label={"最高："+props.data.high} variant="outlined" color="success" />
-                    <Chip icon={<DownIcon />} label={"最低："+props.data.low} variant="outlined" color="success" />
+                    <Chip icon={<MoneyIcon />} label={"當前：" + props.data.price} color="primary" />
+                    <Chip icon={<UpIcon />} label={"最高：" + props.data.high} color="error" />
+                    <Chip icon={<DownIcon />} label={"最低：" + props.data.low} color="success" />
                 </Stack>
             </CardContent>
 
-            <div style={{ width: "500px" }}>
+            <div style={{ width: "600px" }}>
                 <form className='sell_form' onSubmit={SellSubmit}>
                     <div className='form-control'>
                         <font>金額：</font>
                         <input type='number' placeholder='$$' style={{ width: "60px" }}
                             value={sellPrice} onChange={(e) => setSellPrice(e.target.value)} />
-
                         <font>張數：</font>
                         <input type='number' placeholder='' style={{ width: "60px" }}
                             value={sellNum} onChange={(e) => setSellNum(e.target.value)} />
-                        <br /> <CardActions>
-                            <Button type='submit' >售出</Button>
-                            <Button type="button"  onClick={BuySubmit}>買入</Button>
+                        <br />
+                        <CardActions>
+                            <Chip icon={<SellIcon />} label="售出" onClick={SellSubmit} />
+                            <Chip icon={<AddIcon />} label="買入" onClick={BuySubmit} />
                         </CardActions>
                     </div>
                 </form>
