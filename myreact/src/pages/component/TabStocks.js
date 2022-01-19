@@ -5,6 +5,8 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import EnhancedTable from "../test_table";
+import MyStockTable from "./MyStockTable";
+
 
 
 function TabPanel(props) {
@@ -41,6 +43,7 @@ function a11yProps(index) {
 
 export default function BasicTabs(props) {
     console.log(props.data1)
+    console.log(props.data2)
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -59,10 +62,7 @@ export default function BasicTabs(props) {
         <EnhancedTable data={props.data1} func={props.func1} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
+        <MyStockTable data={props.data2} func={props.func2} />  
       </TabPanel>
     </Box>
   );
