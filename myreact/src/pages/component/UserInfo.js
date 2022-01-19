@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
-import Button2 from '@mui/material/Button';
+import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import AddIcon from '@mui/icons-material/AddCircle';
 
 const UserInfo = (props) => {
 
@@ -46,9 +47,9 @@ const UserInfo = (props) => {
         <Box component="span" sx={{ fontSize: 24, mt: 1, margin: '5px' }}>
           {props.user_name}
         </Box>
-        <Box component="span" sx={{ color: 'primary.main', fontSize: 20, margin: '5px' }}>
-          $: {props.user_money}　
-          <Button2 variant="contained" onClick={onClick} size="small" sx={{ margin: '5px' }}>儲值</Button2>
+        <Box component="span" sx={{ color: 'warning.main', fontSize: 20 }}>
+         <b> $:  </b>{props.user_money}　
+          <Button startIcon = {<AddIcon/>} variant="contained"  color= 'warning' onClick={onClick} size="small" sx={{  margin: '5px' }}>儲值</Button>
         </Box>
       </Box>
     </Box>
