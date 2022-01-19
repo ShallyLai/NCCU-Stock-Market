@@ -7,8 +7,6 @@ import { CanvasJSChart } from 'canvasjs-react-charts'
 const StockPage = () => {
 
     let my_options = {
-        animationEnabled: true,
-        exportEnabled: true,
         theme: "light2",
         title: {
         },
@@ -76,12 +74,14 @@ const StockPage = () => {
         let myDataPoints = []
 
         let my_date_base = new Date(res.datetime[0]).getTime();
+        console.log(res);
         for (var i = 0; i < res.datetime.length; i++) {
-            let my_date = new Date(res.datetime[i]).getTime();
+            //let my_date = new Date(res.datetime[i]).getTime();
+            let my_date = new Date(res.datetime[i])
             console.log(my_date)
            
             //let xx = (my_date-my_date_base)/100000
-            let xx = i;
+            let xx = my_date;
             myDataPoints.push( {x: xx, y: res.price[i]} );
             //my_new_options.data[0].dataPoints.push(myDataPoint);
         }
@@ -90,31 +90,29 @@ const StockPage = () => {
         console.log(myDataPoints)
         setOptions( 
             {
-                animationEnabled: true,
-                exportEnabled: true,
                 theme: "light2",
                 title: {
                 },
+                subtitles: [{
+                    text: "Price-Volume Trend"
+                }],
+                axisX: {
+                    crosshair: {
+                        enabled: true,
+                        snapToDataPoint: true
+                    },
+                    valueFormatString: "YYYY/MM/DD "
+                },
                 axisY: {
+                    
                     prefix: "$"
                 },
-                axisX: {
-                    //prefix: "W",
-                    interval: 1
-                },
                 data: [{
-                    type: "line",
-                    toolTipContent: "${y}",
+                    type: "spline",
+                    //toolTipContent: "${y}",
+                    xValueFormatString: "YYYY/MM/DD h:mm:ss",
+                    toolTipContent: " {x}: ${y}",
                     dataPoints: myDataPoints
-                    // [
-                    //     //`${myDataPoints}`
-                    //     {x: 10000, y: 30},
-                    //     {x: 15000, y: 20},
-                    //     {x: 17281, y: 25}
-                    //     // { x: 22, y: 2 },
-                    //     // { x: 26, y: 100 },
-                    //     // { x: 29, y: 100 }
-                    // ]
                 }]
             }
 
