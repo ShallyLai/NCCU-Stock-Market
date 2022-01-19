@@ -28,7 +28,6 @@ let handle_request = async (user, callback) => {
       } else {
         for(i = 0; i < result.length; i++){
           buy_length = result.length;
-
           buy_order_id.push(result[i][0]);
           buy_stock_id.push(result[i][1]);
           buy_num.push(result[i][2]);
@@ -37,7 +36,6 @@ let handle_request = async (user, callback) => {
         }
       }
     });
-
     for(var a=0;a<buy_length;a++){
       let buyCompany = "select company_name from Company where company_id = " + buy_stock_id[a] + ";";
       await mysql.myFetch(buyCompany, function (error, c_name) {
@@ -51,6 +49,7 @@ let handle_request = async (user, callback) => {
         }
       });
     }
+
     // get sell order history
     var sell_length = 0;
     let sellQuery = "select * from SellOrder where suser_id=" + user.user_id + " and Date(time)=curDate();";
