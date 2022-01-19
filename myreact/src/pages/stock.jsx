@@ -17,6 +17,7 @@ const StockPage = () => {
     const user_name = sessionStorage.getItem("user_name");
     const user_id = sessionStorage.getItem("user_id");
 
+    const [selected_data, setSelectedData] = useState({});
     //Filter
     const apply = async (data) => {
         console.log('套用 check box');
@@ -111,6 +112,7 @@ const StockPage = () => {
                     }]
                 }
             );
+           
         }
         getOptions();
     }, [])
@@ -136,7 +138,9 @@ const StockPage = () => {
             });
             setMyStocks(res)
             console.log("pppp")
-            console.log(res)
+            console.log(res.name)
+            setSelectedData({name:res.name[0], price:res.price[0], id:res.id[0], high:res.high[0], low:res.low[0]})
+           
         }
         getMyStocks()
     }, [])
@@ -161,12 +165,14 @@ const StockPage = () => {
                 return response.json();
             });
             setAllStocks(res)
+            console.log(res.name)
+            setSelectedData({name:res.name[0], price:res.price[0], id:res.id[0], high:res.high[0], low:res.low[0]})
         }
         getAllStocks()
     }, [])
 
     //Handle Transaction
-    const [selected_data, setSelectedData] = useState({});
+    
     const sellStocks = async (num, price, stock_id) => {
         console.log(stock_id)
         console.log(num, price)
@@ -234,6 +240,7 @@ const StockPage = () => {
         //console.log(data.name)
 
         setSelectedData(data)
+        console.log(data);
         //Fetch History by id
         let payload = { company_id: data.id };
         const res = await fetch(
@@ -384,3 +391,4 @@ const StockPage = () => {
 
 
 export default StockPage;
+
