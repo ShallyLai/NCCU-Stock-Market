@@ -6,29 +6,60 @@ import { CanvasJSChart } from 'canvasjs-react-charts'
 
 const StockPage = () => {
 
-    let my_options = {
-        theme: "light2",
-        title: {
-        },
-        axisY: {
-            suffix: "%"
-        },
-        axisX: {
-            prefix: "W",
-            interval: 500
-        },
-        data: [{
-            type: "line",
-            toolTipContent: "Week {x}: {y}%",
-            dataPoints: [
-                { x: 500, y: 64 },
-                { x: 1000, y: 61 },
-                { x: 1500, y: 64 },
-                { x: 2000, y: 60 }
-            ]
-        }]
-    }
-   
+    //Fetch first History
+    const [options, setOptions] = useState([]);
+    useEffect(() => {
+        const getOptions = async () => {
+            let payload = { company_id: 101 };
+            const res = await fetch(
+                'http://localhost:3000/getHistory', {
+                method: "POST",
+                body: JSON.stringify(payload),
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            }).then((response) => {
+                console.log(response.status);
+                return response.json();
+            });
+            let myDataPoints = []
+            console.log(res);
+            for (var i = 0; i < res.datetime.length; i++) {
+                let my_date = new Date(res.datetime[i])
+                console.log(my_date)
+                myDataPoints.push({ x: my_date, y: res.price[i] });
+            }
+            setOptions(
+                {
+                    theme: "light2",
+                    title: {
+                    },
+                    subtitles: [{
+                        text: "股價走勢圖"
+                    }],
+                    axisX: {
+                        crosshair: {
+                            enabled: true,
+                            snapToDataPoint: true
+                        },
+                        valueFormatString: "YYYY/MM/DD "
+                    },
+                    axisY: {
+
+                        prefix: "$"
+                    },
+                    data: [{
+                        type: "spline",
+                        xValueFormatString: "YYYY/MM/DD h:mm:ss",
+                        toolTipContent: " {x}: ${y}",
+                        dataPoints: myDataPoints
+                    }]
+                }
+            );
+        }
+        getOptions();
+    }, [])
+
     //Fetch All Stocks
     const [allStocks, setAllStocks] = useState([]);
     useEffect(() => {
@@ -52,13 +83,10 @@ const StockPage = () => {
         getAllStocks()
     }, [])
 
-
-
-    const [options, setOptions] = useState(my_options);
-
     const getClickId = async (id) => {
         console.log(id, "======")
-        let payload = {company_id: id};
+        //Fetch History by id
+        let payload = { company_id: id };
         const res = await fetch(
             'http://localhost:3000/getHistory', {
             method: "POST",
@@ -72,29 +100,22 @@ const StockPage = () => {
             return response.json();
         });
         let myDataPoints = []
-
-        let my_date_base = new Date(res.datetime[0]).getTime();
         console.log(res);
         for (var i = 0; i < res.datetime.length; i++) {
-            //let my_date = new Date(res.datetime[i]).getTime();
             let my_date = new Date(res.datetime[i])
             console.log(my_date)
-           
-            //let xx = (my_date-my_date_base)/100000
-            let xx = my_date;
-            myDataPoints.push( {x: xx, y: res.price[i]} );
-            //my_new_options.data[0].dataPoints.push(myDataPoint);
+            myDataPoints.push({ x: my_date, y: res.price[i] });
         }
 
         console.log(res)
         console.log(myDataPoints)
-        setOptions( 
+        setOptions(
             {
                 theme: "light2",
                 title: {
                 },
                 subtitles: [{
-                    text: "Price-Volume Trend"
+                    text: "股價走勢圖"
                 }],
                 axisX: {
                     crosshair: {
@@ -104,21 +125,18 @@ const StockPage = () => {
                     valueFormatString: "YYYY/MM/DD "
                 },
                 axisY: {
-                    
+
                     prefix: "$"
                 },
                 data: [{
                     type: "spline",
-                    //toolTipContent: "${y}",
                     xValueFormatString: "YYYY/MM/DD h:mm:ss",
                     toolTipContent: " {x}: ${y}",
                     dataPoints: myDataPoints
                 }]
             }
-
         )
     }
-
 
     return (
         <div>
