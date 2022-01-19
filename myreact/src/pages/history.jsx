@@ -1,14 +1,18 @@
 import React from "react";
 import { useState, useEffect } from 'react'
-import HistoryTable from "./component/HistoryTable";
 import Header from './component/Header';
 import UserInfo from "./component/UserInfo";
 import Tabs from "./component/Tabs";
 
 const HistoryPage = () => {
 
-    const user_name = sessionStorage.getItem("user_name")
-    const user_id = sessionStorage.getItem("user_id")
+    if (!sessionStorage.getItem("user_name")) {
+        alert('您尚未登入！');
+        window.location.href="./";
+    }
+
+    const user_name = sessionStorage.getItem("user_name");
+    const user_id = sessionStorage.getItem("user_id");
     const [user_money, setUserMoney] = useState(0);
     const [trans_history, setHistory] = useState([]);
     const [order_history, setOrderHistory] = useState([]);
@@ -61,7 +65,7 @@ const HistoryPage = () => {
                     "TransactionTime": userHistory_dct['buy_time'][i].substr(0, 10)
                         + " " + userHistory_dct['buy_time'][i].substr(11, 5),
                     "num": userHistory_dct['buy_num'][i],
-                    "stock_name": userHistory_dct['buy_stock_id'][i],
+                    "stock_name": userHistory_dct['buy_name'][i],
                 });
             }
             for (let i = 0; i < userHistory_dct['sell_num'].length; i++) {
@@ -71,7 +75,7 @@ const HistoryPage = () => {
                     "TransactionTime": userHistory_dct['sell_time'][i].substr(0, 10)
                         + " " + userHistory_dct['sell_time'][i].substr(11, 5),
                     "num": userHistory_dct['sell_num'][i],
-                    "stock_name": userHistory_dct['sell_stock_id'][i],
+                    "stock_name": userHistory_dct['sell_name'][i],
                 });
             }
             console.log(order_history);

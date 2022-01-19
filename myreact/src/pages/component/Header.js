@@ -6,22 +6,23 @@ import Box from '@mui/material/Box';
 const Header = (props) => {
 
     const goToStock = () => {
-        console.log('click');
+        console.log('to Stock');
         window.location.href="../stock";
     }
     const goToHistory = () => {
-        console.log('click');
+        console.log('to History');
         window.location.href="../history";
     }
     const goToIndex = () => {
-        console.log('click');
+        console.log('log out');
+        sessionStorage.clear();
         window.location.href="../";
     }
     return (
         <header className='header'>
 
             <h2>{props.title}</h2>
-            <h4>NCCU Stock Market</h4><br />
+            <h4>NCCU Stock Market</h4>
             <Box
                 sx={{
                     display: 'flex',

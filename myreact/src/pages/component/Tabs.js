@@ -61,6 +61,7 @@ export default function BasicTabs(props) {
       <TabPanel value={value} index={1}>
         <HistoryTable
           data={props.dataO} />
+        <br/>
         <p>* 僅顯示本日掛單</p>
       </TabPanel>
 

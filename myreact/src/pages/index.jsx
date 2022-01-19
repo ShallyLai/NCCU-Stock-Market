@@ -1,5 +1,4 @@
 import React from "react";
-import Header from './component/Header';
 import Login from './component/Login';
 import Box from '@mui/material/Box';
 
@@ -13,7 +12,6 @@ const LoginPage = () => {
           alignItems: 'center',
           m: 3,
           minWidth: { md: 350 },
-         
         }}
       > 
         <h4>NCCU Stock Market</h4><br/>
