@@ -58,8 +58,10 @@ handle_request = (async(data, callback) => {
     	response.TransactionPrice = TransactionPrice;
     	response.num = num;
     	response.TransactionTime = TransactionTime;
+
 			console.log("callback response");
 			console.log(response);
+
     	callback(null, response);
     } catch(err){
     	console.log("catch");
