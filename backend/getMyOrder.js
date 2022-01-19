@@ -20,7 +20,7 @@ let handle_request = async (user, callback) => {
   try {
     // get buy order history
     var buy_length = 0;
-    let buyQuery = "select * from BuyOrder where buser_id=" + user.user_id + " and Date(time)=curDate();";
+    let buyQuery = "select * from BuyOrder where buser_id=" + user.user_id + " and Date(time)=curDate() and num!=0;";
     await mysql.myFetch(buyQuery, function (err, result) {
       if (err) {
         console.log(err);
@@ -52,7 +52,7 @@ let handle_request = async (user, callback) => {
 
     // get sell order history
     var sell_length = 0;
-    let sellQuery = "select * from SellOrder where suser_id=" + user.user_id + " and Date(time)=curDate();";
+    let sellQuery = "select * from SellOrder where suser_id=" + user.user_id + " and Date(time)=curDate() and num!=0;";
     await mysql.myFetch(sellQuery, function (err, result) {
       if (err) {
         console.log(err);

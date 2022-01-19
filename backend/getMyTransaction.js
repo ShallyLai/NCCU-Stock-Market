@@ -25,7 +25,7 @@ handle_request = (async(data, callback) => {
     				BuyOrSell.push("TRUE");
     				TransactionPrice.push(result[a][1]);
     				num.push(result[a][2]);
-    				TransactionTime.push(result[a][3]);
+    				TransactionTime.push((result[a][3].toString());
     			}
     		}	
 
