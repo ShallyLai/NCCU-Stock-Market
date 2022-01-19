@@ -4,66 +4,65 @@ import Box from '@mui/material/Box';
 
 const UserInfo = (props) => {
 
-    const onClick = async () => {
-        console.log('儲值');
-        props.store_value(props.user_id)
-    }
-    return (
-          <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            bgcolor: 'background.paper',
-            overflow: 'hidden',
-            borderRadius: '12px',
-            boxShadow: 1,
-            fontWeight: 'bold',
-            margin: '5px',
-          }}
-        >
-          <Box sx={{  height: 233,  width: 50 }}   />
-          <Box
-            component="img"
-            sx={{
-              height: 233,
-              width: 350,
-              maxHeight: { xs: 200, md: 150 },
-              maxWidth: { xs: 200, md: 150 },
-            }}
-            alt="頭貼"
-            src="https://i.imgur.com/zLjoyLI.jpg"
-          />
-           <Box sx={{  height: 233,  width: 50 }}   />
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems:'flex-start',
-              m: 3,
-              minWidth: { md: 350 },
-            }}
-          >
-            <Box component="span" sx={{ fontSize: 24, mt: 1 , margin: '5px' }}>
-              {props.user_name}
-            </Box>
-            <Box component="span" sx={{ color: 'primary.main', fontSize: 22, margin: '5px' }}>
-              $: {props.user_money}
-            </Box>
-            <Button2 variant="contained" onClick = {onClick} size="small" sx={{ margin: '5px' }}>儲值</Button2>
-          </Box>
+  const onClick = async () => {
+    console.log('儲值');
+    props.store_value(props.user_id)
+  }
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        bgcolor: 'background.paper',
+        overflow: 'hidden',
+        borderRadius: '12px',
+        boxShadow: 1,
+        fontWeight: 'bold',
+        margin: '5px',
+        padding: '20px 10px',
+        width: 250,   
+      }}
+    >
+      <Box
+        component="img"
+        sx={{
+          maxHeight: 200,
+          maxWidth: 200,
+          padding: '1px',
+        }}
+        alt="頭貼"
+        src="https://i.imgur.com/zLjoyLI.jpg"
+      />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          m: 3,
+          margin: '5px'
+        }}
+      >
+        <Box component="span" sx={{ fontSize: 24, mt: 1, margin: '5px' }}>
+          {props.user_name}
         </Box>
-    )
+        <Box component="span" sx={{ color: 'primary.main', fontSize: 20, margin: '5px' }}>
+          $: {props.user_money}　
+          <Button2 variant="contained" onClick={onClick} size="small" sx={{ margin: '5px' }}>儲值</Button2>
+        </Box>
+      </Box>
+    </Box>
+  )
 }
 
 UserInfo.defaultProps = {
-    user_name: '使用者名稱',
-    user_money: '0',
+  user_name: '使用者名稱',
+  user_money: '0',
 }
 
 UserInfo.protoType = {
-    user_name: PropTypes.string.isRequired,
-    user_money: PropTypes.string.isRequired,
+  user_name: PropTypes.string.isRequired,
+  user_money: PropTypes.string.isRequired,
 }
 
 

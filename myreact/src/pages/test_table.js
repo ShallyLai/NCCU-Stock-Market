@@ -102,7 +102,7 @@ function EnhancedTableHead(props) {
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
-              {headCell.label}
+              <b> {headCell.label}</b>
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
@@ -128,18 +128,18 @@ EnhancedTableHead.propTypes = {
 export default function EnhancedTable(props) {
 
   function createData(name, price, id, high, low) {
-    return { name, price, id, high, low};
+    return { name, price, id, high, low };
   }
   const rows = [];
   // console.log(props.data);
   // console.log("----")
-  if(props.data.name!== undefined) {
-    for ( var i=0; i<props.data.name.length; i++){
-      rows.push(createData(props.data.name[i], props.data.price[i], props.data.id[i], props.data.high[i], props.data.low[i]) )
+  if (props.data.name !== undefined) {
+    for (var i = 0; i < props.data.name.length; i++) {
+      rows.push(createData(props.data.name[i], props.data.price[i], props.data.id[i], props.data.high[i], props.data.low[i]))
     }
   }
-  
-  
+
+
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
@@ -155,12 +155,12 @@ export default function EnhancedTable(props) {
 
 
   const handleClick = (event, data) => {
-    
+
     const selectedIndex = selected.indexOf(data.name);
     let newSelected = [];
     newSelected = (selected, data.name);
     //console.log(data)
-    props.func( data)
+    props.func(data)
     setSelected(newSelected);
     //console.log( name);
   };
@@ -180,7 +180,7 @@ export default function EnhancedTable(props) {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    /////////
+  /////////
   //   const options = {
   //     animationEnabled: true,
   //     exportEnabled: true,
@@ -205,7 +205,7 @@ export default function EnhancedTable(props) {
   //             { x: 2, y: 61 },
   //             { x: 3, y: 64 },
   //             { x: 16, y: 60 } 
-             
+
   //         ]
   //     }]
   // }
@@ -222,7 +222,7 @@ export default function EnhancedTable(props) {
           <Table
             sx={{ minWidth: 300 }}
             aria-labelledby="tableTitle"
-            //size={dense ? 'small' : 'medium'}
+          //size={dense ? 'small' : 'medium'}
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -257,7 +257,7 @@ export default function EnhancedTable(props) {
                         //component="th"
                         id={labelId}
                         scope="row"
-                        //padding="none"
+                      //padding="none"
                       >
                         {row.name}
                       </TableCell>
@@ -269,10 +269,10 @@ export default function EnhancedTable(props) {
                 })}
               {emptyRows > 0 && (
                 <TableRow
-                //   style={{
-                //     height: (dense ? 33 : 53) * emptyRows,
-                //   }}
-                    style = {{height : 53 * emptyRows}}
+                  //   style={{
+                  //     height: (dense ? 33 : 53) * emptyRows,
+                  //   }}
+                  style={{ height: 53 * emptyRows }}
                 >
                   <TableCell colSpan={6} />
                 </TableRow>

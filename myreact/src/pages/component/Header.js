@@ -32,10 +32,10 @@ const Header = (props) => {
                     },
                 }}
             >
-                <ButtonGroup variant="outlined" aria-label="text button group">
-                    <Button  onClick={goToStock} size="small">當前股市</Button>
-                    <Button  onClick={goToHistory} size="small">我的紀錄</Button>
-                    <Button  onClick={goToIndex} size="small">登出</Button>
+                <ButtonGroup variant="text" size="large" aria-label="text button group" >
+                    <Button  onClick={goToStock} ><b>當前股市</b></Button>
+                    <Button  onClick={goToHistory} ><b>我的紀錄</b></Button>
+                    <Button  onClick={goToIndex} ><b>登出</b></Button>
                 </ButtonGroup></Box>
         </header >
     )

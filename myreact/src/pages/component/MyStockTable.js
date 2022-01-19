@@ -68,7 +68,7 @@ const headCells = [
         disablePadding: false,
         label: '擁有股數',
     },
-   
+
 ];
 
 function EnhancedTableHead(props) {
@@ -95,7 +95,7 @@ function EnhancedTableHead(props) {
                             direction={orderBy === headCell.id ? order : 'asc'}
                             onClick={createSortHandler(headCell.id)}
                         >
-                            {headCell.label}
+                            <b>{headCell.label}</b>
                             {orderBy === headCell.id ? (
                                 <Box component="span" sx={visuallyHidden}>
                                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
@@ -122,13 +122,13 @@ export default function MyStockTable(props) {
 
     console.log(props)
     function createData(id, name, price, num) {
-        return {id, name, price, num };
+        return { id, name, price, num };
     }
     const rows = [];
     console.log("jjjjj")
     console.log(props.data);
     // console.log("----")
-       console.log(props)
+    console.log(props)
     if (props.data.stock_name !== undefined) {
         console.log("~")
         for (var i = 0; i < props.data.stock_name.length; i++) {

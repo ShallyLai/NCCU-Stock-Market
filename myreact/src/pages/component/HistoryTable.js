@@ -11,8 +11,8 @@ import Paper from '@mui/material/Paper';
 const HistoryTable = ({data}) => {
 
     return (
-      <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table" >
+      <TableContainer component={Paper} >
+      <Table sx={{ minWidth: 650,}} aria-label="simple table" >
         <TableHead>
           <TableRow align="center">
             <TableCell><b>股票名稱</b></TableCell>

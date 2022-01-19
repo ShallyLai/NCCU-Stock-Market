@@ -2,7 +2,6 @@ import { useState } from 'react'
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
@@ -31,7 +30,7 @@ const Trade = (props) => {
     }
 
     return (
-        <Card sx={{ maxWidth: 600, padding: '5px', backgroundColor:'#f4f9fd', margin: '10px',}}>
+        <Card variant="Standard" sx={{ maxWidth: 600, padding: '5px', backgroundColor:'#f4f9fd',}}>
             <CardContent >
                 <Typography gutterBottom variant="h4" component="div">
                     {props.data.name}
@@ -45,7 +44,7 @@ const Trade = (props) => {
                         <form className='sell_form' onSubmit={SellSubmit}>
                             <div className='form-control'>
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary"> 掛單： </Typography>
-                                <Stack direction="row" spacing={2}>
+                                <Stack direction="row" spacing={2} margin='0px 10px'>
                                     <TextField label="金額" type="number" style={{ width: "160px", }} size="small"
                                         InputLabelProps={{ shrink: true, }} value={sellPrice} onChange={(e) => setSellPrice(e.target.value)}
                                     />
@@ -55,8 +54,10 @@ const Trade = (props) => {
                                 </Stack>
                                 <br />
                                 <CardActions>
+                                <Stack direction="row" spacing={2}>
                                     <Chip icon={<SellIcon />} label="售出" style={{ width: "160px" }} onClick={SellSubmit} />
                                     <Chip icon={<AddIcon />} label="買入" style={{ width: "160px" }} onClick={BuySubmit} />
+                                </Stack>
                                 </CardActions>
                             </div>
                         </form>

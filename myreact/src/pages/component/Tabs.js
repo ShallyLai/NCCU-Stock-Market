@@ -47,25 +47,25 @@ export default function BasicTabs(props) {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
+    <Box sx={{ width: '1000px', padding: '10px 20px', }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', margin: '0px 25px' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="交易紀錄" {...a11yProps(0)} />
           <Tab label="掛單紀錄" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <HistoryTable
-          data={props.dataT} />
+          <HistoryTable
+            data={props.dataT} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <HistoryTable
-          data={props.dataO} />
-        <br/>
-        <p>* 僅顯示本日掛單</p>
+          <HistoryTable
+            data={props.dataO} />
+          <br />
+          <p>* 僅顯示本日掛單</p>
       </TabPanel>
 
-    </Box>
+    </Box >
   );
 }
 

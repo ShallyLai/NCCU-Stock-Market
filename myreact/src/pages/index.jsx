@@ -4,33 +4,33 @@ import Box from '@mui/material/Box';
 
 const LoginPage = () => {
   return (
-    <Box  sx={{
+    <Box sx={{
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      Width:  450 ,
+      Width: 450,
     }}>
-    <br/>
-    <h4>NCCU Stock Market</h4><br/>
+      <br />
+      <h4>NCCU Stock Market</h4><br />
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           m: 3,
-          maxWidth:  400 ,
-          minWidth:  400 ,
+          maxWidth: 400,
+          minWidth: 400,
           borderRadius: '12px',
           boxShadow: 2,
           margin: '5px',
-          padding:'10px',
+          padding: '10px',
         }}
-      > 
-      <br/>
+      >
+        <br />
         <h2>帳號登入</h2>
         <Login onType={loginSummit} />
       </Box>
-      </Box>
+    </Box>
   );
 };
 

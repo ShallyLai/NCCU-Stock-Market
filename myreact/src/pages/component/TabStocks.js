@@ -50,17 +50,21 @@ export default function BasicTabs(props) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', margin: '0px 25px' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="所有股票" {...a11yProps(0)} />
           <Tab label="我的股票" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <EnhancedTable data={props.data1} func={props.func1} />
+        <Box >
+          <EnhancedTable data={props.data1} func={props.func1} />
+        </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <MyStockTable data={props.data2} func={props.func2} />  
+        <Box>
+          <MyStockTable data={props.data2} func={props.func2} />
+        </Box>
       </TabPanel>
     </Box>
   );

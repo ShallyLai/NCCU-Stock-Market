@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react'
 import Header from './component/Header';
 import UserInfo from "./component/UserInfo";
 import Tabs from "./component/Tabs";
-//import SelectGroup from "./component/SelectGroup";
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 
 const HistoryPage = () => {
 
@@ -96,7 +97,7 @@ const HistoryPage = () => {
             })
         }
         ).then((response) => {
-        //    console.log("response status: " + response.status);
+            //    console.log("response status: " + response.status);
             return response.json();
         }).then((response_json) => {
             if (response_json.msg === 'get money error') {
@@ -125,7 +126,7 @@ const HistoryPage = () => {
             })
         }
         ).then((response) => {
-          //  console.log("response status: " + response.status);
+            //  console.log("response status: " + response.status);
             return response.json();
         }).then((response_json) => {
             if (response_json.msg === 'catch error') {
@@ -135,7 +136,7 @@ const HistoryPage = () => {
             else if (response_json.msg === 'get transaction') {
                 console.log('取得交易紀錄');
                 row = response_json;
-              //  console.log(row);
+                //  console.log(row);
                 return row;
             } else if (response_json.msg === 'no transaction') {
                 alert('沒有交易紀錄');
@@ -157,7 +158,7 @@ const HistoryPage = () => {
             })
         }
         ).then((response) => {
-         //   console.log("response status: " + response.status);
+            //   console.log("response status: " + response.status);
             return response.json();
         }).then((response_json) => {
             if (response_json.msg === 'catch error') {
@@ -167,7 +168,7 @@ const HistoryPage = () => {
             else if (response_json.msg === 'get order') {
                 console.log('取得掛單紀錄');
                 row = response_json;
-               // console.log(row);
+                // console.log(row);
                 return row;
             } else if (response_json.msg === 'no order') {
                 alert('沒有掛單紀錄');
@@ -178,14 +179,34 @@ const HistoryPage = () => {
 
     return (
         <div className="container">
+
             <Header title='我的紀錄' />
-            <UserInfo
-                user_name={user_name}
-                user_id={user_id}
-                user_money={user_money}
-                store_value={store_Value} />
-            <Tabs dataT={trans_history} dataO={order_history} />
-        </div>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                bgcolor: 'background.paper',
+                overflow: 'hidden',
+                borderRadius: '12px',
+                fontWeight: 'bold',
+                margin: '5px',
+            }}>
+                <Stack
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="flex-start"
+                    spacing={1}
+                >
+                <UserInfo
+                    user_name={user_name}
+                    user_id={user_id}
+                    user_money={user_money}
+                    store_value={store_Value} />
+
+                <Tabs dataT={trans_history} dataO={order_history} />
+                </Stack>
+            </Box>
+        </div >
     );
 };
 
@@ -202,7 +223,7 @@ const store_Value = async (id) => {
         })
     }
     ).then((response) => {
-        console.log(response.status);
+        // console.log(response.status);
         return response.json();
     }).then((response_json) => {
         if (response_json.msg === 'money error') {

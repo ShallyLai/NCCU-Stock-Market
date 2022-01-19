@@ -43,61 +43,61 @@ const SelectGroup = (props) => {
                    maxWidth: 250,
                    borderRadius: '12px',
                    boxShadow: 1,
-                   padding:'10px',
+                   padding:'10px 20px',
                    margin: '5px' }}>
                 <FormControl
                     required
                     error={error}
                     component="fieldset"
-                    sx={{ m: 3 }}
+                    sx={{ m: 3, margin: '5px'  }}
                     variant="standard"
                 >
                     <FormLabel component="legend">請選擇您想查看的學院</FormLabel>
-                    <FormGroup>
+                    <FormGroup sx={{ '& .MuiSvgIcon-root': { fontSize: 20 } }} >
                         <FormControlLabel
-                            control={<Checkbox checked={g100} onChange={handleChange} name="g100" size="small" />}
+                            control={<Checkbox checked={g100} onChange={handleChange} name="g100" />}
                             label="文學院"
                         />
                         <FormControlLabel
-                            control={<Checkbox checked={g102} onChange={handleChange} name="g102" size="small" />}
+                            control={<Checkbox checked={g102} onChange={handleChange} name="g102" />}
                             label="教育學院"
                         />
                         <FormControlLabel
-                            control={<Checkbox checked={g200} onChange={handleChange} name="g200" size="small" />}
+                            control={<Checkbox checked={g200} onChange={handleChange} name="g200" />}
                             label="社科院"
                         />
                         <FormControlLabel
-                            control={<Checkbox checked={g203} onChange={handleChange} name="g203" size="small" />}
+                            control={<Checkbox checked={g203} onChange={handleChange} name="g203" />}
                             label="國務院"
                         />
                         <FormControlLabel
-                            control={<Checkbox checked={g300} onChange={handleChange} name="g300" size="small" />}
+                            control={<Checkbox checked={g300} onChange={handleChange} name="g300" />}
                             label="商學院"
                         />
                         <FormControlLabel
-                            control={<Checkbox checked={g400} onChange={handleChange} name="g400" size="small" />}
+                            control={<Checkbox checked={g400} onChange={handleChange} name="g400" />}
                             label="傳院"
                         />
                         <FormControlLabel
-                            control={<Checkbox checked={g500} onChange={handleChange} name="g500" size="small" />}
+                            control={<Checkbox checked={g500} onChange={handleChange} name="g500" />}
                             label="外語學院"
                         />
                         <FormControlLabel
-                            control={<Checkbox checked={g600} onChange={handleChange} name="g600" size="small" />}
+                            control={<Checkbox checked={g600} onChange={handleChange} name="g600" />}
                             label="法學院"
                         />
                         <FormControlLabel
-                            control={<Checkbox checked={g700} onChange={handleChange} name="g700" size="small" />}
-                            label="理學院"
+                            control={<Checkbox checked={g700} onChange={handleChange} name="g700" />}
+                            label="理學院" 
                         />
                         <FormControlLabel
-                            control={<Checkbox checked={g703} onChange={handleChange} name="g703" size="small" />}
+                            control={<Checkbox checked={g703} onChange={handleChange} name="g703" />}
                             label="資訊學院"
                         />
                     </FormGroup>
                     <FormHelperText>請至少擇一</FormHelperText>
                 </FormControl>
-                <Button variant="contained" onClick={onClick}>套用</Button>
+                <Button variant="contained" sx={{ maxWidth: '90%'}} onClick={onClick}>套用</Button>
         </Box>
 
     );

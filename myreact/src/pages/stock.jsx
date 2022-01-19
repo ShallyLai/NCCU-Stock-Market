@@ -7,6 +7,9 @@ import Trade from './component/Trade';
 import SelectGroup from "./component/SelectGroup";
 import TabStocks from "./component/TabStocks";
 import Box from '@mui/material/Box';
+import UserInfo from "./component/UserInfo";
+import Stack from '@mui/material/Stack';
+
 
 
 const StockPage = () => {
@@ -110,7 +113,7 @@ const StockPage = () => {
                     }]
                 }
             );
-           
+
         }
         getOptions();
     }, [])
@@ -135,11 +138,48 @@ const StockPage = () => {
             });
             setMyStocks(res)
             //console.log(res.name)
-            setSelectedData({name:res.name[0], price:res.price[0], id:res.id[0], high:res.high[0], low:res.low[0]})  
+            setSelectedData({ name: res.name[0], price: res.price[0], id: res.id[0], high: res.high[0], low: res.low[0] })
         }
         getMyStocks()
     }, [])
 
+    const [user_money, setUserMoney] = useState(0);
+    useEffect(() => {
+        const getMoney = async () => {
+            const userMoney = await fetchMoney(user_id);
+            setUserMoney(userMoney);
+        }
+        getMoney()
+    }, [])
+    const fetchMoney = async (id) => {
+        let user_money;
+        let data = {
+            user_id: id,
+        }
+        const res = await fetch(
+            'http://localhost:3000/getMoney', {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        }
+        ).then((response) => {
+            //    console.log("response status: " + response.status);
+            return response.json();
+        }).then((response_json) => {
+            if (response_json.msg === 'get money error') {
+                alert('無法取得存款');
+                return;
+            }
+            else if (response_json.msg === 'get money') {
+                console.log('取得存款');
+                user_money = response_json.money;
+                return user_money;
+            }
+        });
+        return res;
+    }
 
     //Fetch All Stocks
     const [allStocks, setAllStocks] = useState([]);
@@ -161,14 +201,14 @@ const StockPage = () => {
                 return response.json();
             });
             setAllStocks(res)
-          //  console.log(res.name)
-            setSelectedData({name:res.name[0], price:res.price[0], id:res.id[0], high:res.high[0], low:res.low[0]})
+            //  console.log(res.name)
+            setSelectedData({ name: res.name[0], price: res.price[0], id: res.id[0], high: res.high[0], low: res.low[0] })
         }
         getAllStocks()
     }, [])
 
     //Handle Transaction
-    
+
     const sellStocks = async (num, price, stock_id) => {
         console.log(stock_id)
         console.log(num, price)
@@ -361,24 +401,70 @@ const StockPage = () => {
                     margin: '5px',
                 }}
             >
-                <Box>
-                    <SelectGroup apply={apply} />
-                </Box>
-                <Box  >
-                    <TabStocks data1={allStocks} func1={getClickId} data2={myStocks} func2={getMyStockClickId} />
-                    {/* <EnhancedTable data={allStocks} func={getClickId} /> */}
-                </Box>
-                <Box sx={{ width: 600 }}>
-                    <CanvasJSChart options={options} />
-                    <Trade data={selected_data} funcs={sellStocks} funcb={buyStocks} />
-                </Box>
+                <Stack
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="flex-start"
+                >
+                    <Box>
+                        <UserInfo
+                            user_name={user_name}
+                            user_id={user_id}
+                            user_money={user_money}
+                            store_value={store_Value} />
+
+                        <SelectGroup apply={apply} />
+                    </Box>
+                    <Box >
+                        <TabStocks data1={allStocks} func1={getClickId} data2={myStocks} func2={getMyStockClickId} />
+                        {/* <EnhancedTable data={allStocks} func={getClickId} /> */}
+                    </Box>
+                    <Box sx={{
+                        width: 500,
+                        backgroundColor: '#f4f9fd',
+                        padding: '30px 20px 10px',
+                        margin: '10px',
+                        borderRadius: '12px',
+                        boxShadow: 1,
+                    }}>
+                        <CanvasJSChart options={options} />
+                        <Trade data={selected_data} funcs={sellStocks} funcb={buyStocks} />
+                    </Box>
+                </Stack>
             </Box>
         </div>
     );
 
 };
 
-
+const store_Value = async (id) => {
+    let data = {
+        user_id: id,
+    }
+    const res = await fetch(
+        'http://localhost:3000/storeValue', {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        })
+    }
+    ).then((response) => {
+        //   console.log(response.status);
+        return response.json();
+    }).then((response_json) => {
+        if (response_json.msg === 'money error') {
+            console.log('儲值失敗');
+            return;
+        }
+        else if (response_json.msg === 'store successsful') {
+            alert('儲值成功！\n增加 500 元。');
+            return
+        }
+    });
+    window.location.reload();
+    return;
+}
 
 export default StockPage;
 
