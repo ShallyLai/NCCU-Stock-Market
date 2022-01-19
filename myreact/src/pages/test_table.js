@@ -159,8 +159,8 @@ export default function EnhancedTable(props) {
     const selectedIndex = selected.indexOf(data.name);
     let newSelected = [];
     newSelected = (selected, data.name);
-    console.log(data)
-    props.func( data.id )
+    //console.log(data)
+    props.func( data)
     setSelected(newSelected);
     //console.log( name);
   };

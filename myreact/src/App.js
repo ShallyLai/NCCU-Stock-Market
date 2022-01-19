@@ -14,7 +14,7 @@ import LoginPage from "./pages/index";
 import NotFoundPage from './pages/404';
 import HistoryPage from './pages/history';
 import StockPage from './pages/stock';
-import TestPage from './pages/test_table';
+import TestPage from './pages/test';
 
 class App extends React.Component {
   render() {
