@@ -1,35 +1,35 @@
 import { useState, useEffect } from 'react'
 import React from "react";
-//import Button from './component/Button';
 import EnhancedTable from "./test_table";
 import { CanvasJSChart } from 'canvasjs-react-charts'
 
-let options = {
-    animationEnabled: true,
-    exportEnabled: true,
-    theme: "light2",
-    title: {
-    },
-    axisY: {
-        suffix: "%"
-    },
-    axisX: {
-        prefix: "W",
-        interval: 2
-    },
-    data: [{
-        type: "line",
-        toolTipContent: "Week {x}: {y}%",
-        dataPoints: [
-            { x: 1, y: 64 },
-            { x: 2, y: 61 },
-            { x: 3, y: 64 },
-            { x: 16, y: 60 }
-        ]
-    }]
-}
-
 const StockPage = () => {
+
+    let my_options = {
+        animationEnabled: true,
+        exportEnabled: true,
+        theme: "light2",
+        title: {
+        },
+        axisY: {
+            suffix: "%"
+        },
+        axisX: {
+            prefix: "W",
+            interval: 500
+        },
+        data: [{
+            type: "line",
+            toolTipContent: "Week {x}: {y}%",
+            dataPoints: [
+                { x: 500, y: 64 },
+                { x: 1000, y: 61 },
+                { x: 1500, y: 64 },
+                { x: 2000, y: 60 }
+            ]
+        }]
+    }
+
     //Fetch All Stocks
     const [allStocks, setAllStocks] = useState([]);
     useEffect(() => {
@@ -53,25 +53,77 @@ const StockPage = () => {
         getAllStocks()
     }, [])
 
-    // const [allStocks, setAllStocks] = useState([]);
-    // useEffect(() => {
-    //     const getAllStocks = async () => {
-    //         const allStocksFromServer = await fetchAllStocks()
-    //         setAllStocks(allStocksFromServer)
-    //     }
-    //     getAllStocks()
-    // }, [])
 
-    // //Fetch All Stocks
-    // const fetchAllStocks = async () => {
-    //     const res = await fetch('http://localhost:3000/getAllStock')
-    //     const data = await res.json()
-    //     console.log(data)
-    //     return data
-    // }
+
+    const [options, setOptions] = useState(my_options);
+    const getClickId = async (id) => {
+        console.log(id, "======")
+        let payload = {company_id: id};
+        const res = await fetch(
+            'http://localhost:3000/getHistory', {
+            method: "POST",
+            body: JSON.stringify(payload),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        }
+        ).then((response) => {
+            console.log(response.status);
+            return response.json();
+        });
+        let myDataPoints = []
+
+        let my_date_base = new Date(res.datetime[0]).getTime();
+        for (var i = 0; i < res.datetime.length; i++) {
+            let my_date = new Date(res.datetime[i]).getTime();
+            console.log(my_date)
+            // let myDataPoint = new Object();
+            // myDataPoint.x = my_date;
+            // myDataPoint.y = res.price[i];
+            let xx = (my_date-my_date_base)/100000
+            myDataPoints.push( {x: xx, y: res.price[i]} );
+            //my_new_options.data[0].dataPoints.push(myDataPoint);
+        }
+
+        console.log(res)
+        console.log(myDataPoints)
+        setOptions( 
+            {
+                animationEnabled: true,
+                exportEnabled: true,
+                theme: "light2",
+                title: {
+                },
+                axisY: {
+                    suffix: "%"
+                },
+                axisX: {
+                    prefix: "W",
+                    interval: 500
+                },
+                data: [{
+                    type: "line",
+                    toolTipContent: "Week {x}: {y}%",
+                    dataPoints: myDataPoints
+                    // [
+                    //     //`${myDataPoints}`
+                    //     {x: 10000, y: 30},
+                    //     {x: 15000, y: 20},
+                    //     {x: 17281, y: 25}
+                    //     // { x: 22, y: 2 },
+                    //     // { x: 26, y: 100 },
+                    //     // { x: 29, y: 100 }
+                    // ]
+                }]
+            }
+
+        )
+    }
+
 
     return (
         <div>
+            {console.log('render')}
             {/* <Button color='blue' text='get_stock' onClick = {getStock}/> */}
             <table>
                 <tr>
@@ -89,39 +141,7 @@ const StockPage = () => {
             </table>
         </div>
     );
+
 };
-
-const getClickId = async (id) => {
-    console.log(id, "======")
-    let payload = {
-        company_id: id
-    }
-    const res = await fetch(
-        'http://localhost:3000/getHistory', {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: new Headers({
-            'Content-Type': 'application/json'
-        })
-    }
-    ).then((response) => {
-        console.log(response.status);
-        return response.json();
-    });
-    console.log(res)
-    for (var i = 0; i < res.date.length; i++) {
-        let my_date = new Date(res.date[i]).getTime()
-        console.log(my_date)
-    }
-
-    //console.log(my_date)
-    //console.log(my_date.getFullYear())
-
-    console.log(options.data[0].dataPoints[0].x)
-    console.log(options.data[0].dataPoints[0].y)
-    console.log(options.data[0].dataPoints)
-
-    //let data = 
-}
 
 export default StockPage;
