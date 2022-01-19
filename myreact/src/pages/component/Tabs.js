@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import MyHistory from "./MyHistory";
+import HistoryTable from "./HistoryTable";
 
 function TabPanel(props) {
   const { children, value, index, data, ...other } = props;
@@ -55,12 +55,13 @@ export default function BasicTabs(props) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <MyHistory
-                data={props.dataT} />
+        <HistoryTable
+          data={props.dataT} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <MyHistory
-                data={props.dataO} />
+        <HistoryTable
+          data={props.dataO} />
+        <p>* 僅顯示本日掛單</p>
       </TabPanel>
 
     </Box>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from 'react'
-import MyHistory from "./component/MyHistory";
+import HistoryTable from "./component/HistoryTable";
+import Header from './component/Header';
 import UserInfo from "./component/UserInfo";
 import Tabs from "./component/Tabs";
 
@@ -53,26 +54,25 @@ const HistoryPage = () => {
             const userHistory_dct = await fetchOrder(user_id);
 
             let order_history = [];
-            for (var i = 0;
-                  i < userHistory_dct['buy_num'].length + userHistory_dct['sell_num'].length;
-                   i++) {
-                if (userHistory_dct['buy_num'].length !== 0) {
-                    order_history[i]['BuyOrSell'] = "買";
-
-                }
-                else {
-                    order_history[i]['BuyOrSell'] = "賣";
-                }
-
+            for (let i = 0; i < userHistory_dct['buy_num'].length; i++) {
                 order_history.push({
-                    "BuyOrSell": "",
-                    "TransactionPrice": userHistory_dct['TransactionPrice'][i],
-                    "TransactionTime": userHistory_dct['TransactionTime'][i].substr(0, 10)
-                        + " " + userHistory_dct['TransactionTime'][i].substr(11, 5),
-                    "num": userHistory_dct['num'][i],
-                    "stock_name": userHistory_dct['stock_name'][i],
+                    "BuyOrSell": "買",
+                    "TransactionPrice": userHistory_dct['buy_price'][i],
+                    "TransactionTime": userHistory_dct['buy_time'][i].substr(0, 10)
+                        + " " + userHistory_dct['buy_time'][i].substr(11, 5),
+                    "num": userHistory_dct['buy_num'][i],
+                    "stock_name": userHistory_dct['buy_stock_id'][i],
                 });
-
+            }
+            for (let i = 0; i < userHistory_dct['sell_num'].length; i++) {
+                order_history.push({
+                    "BuyOrSell": "賣",
+                    "TransactionPrice": userHistory_dct['sell_price'][i],
+                    "TransactionTime": userHistory_dct['sell_time'][i].substr(0, 10)
+                        + " " + userHistory_dct['sell_time'][i].substr(11, 5),
+                    "num": userHistory_dct['sell_num'][i],
+                    "stock_name": userHistory_dct['sell_stock_id'][i],
+                });
             }
             console.log(order_history);
             setOrderHistory(order_history);
@@ -176,14 +176,13 @@ const HistoryPage = () => {
 
     return (
         <div className="container">
+            <Header title='歷史紀錄' />
             <UserInfo
                 user_name={user_name}
                 user_id={user_id}
                 user_money={user_money}
                 store_value={store_Value} />
             <Tabs dataT={trans_history} dataO={order_history} />
-            <MyHistory
-                data={trans_history} />
         </div>
     );
 };
