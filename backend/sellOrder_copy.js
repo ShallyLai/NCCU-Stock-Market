@@ -365,7 +365,7 @@ handle_request = async (data, callback) => {
     } else {
       console.log(err);
       //if (stopMapFlag == 0) {
-        //callback(err, response);
+        callback(err, response);
       //}
     }
 
