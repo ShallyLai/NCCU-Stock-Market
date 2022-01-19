@@ -3,6 +3,7 @@ import React from "react";
 import EnhancedTable from "./test_table";
 import { CanvasJSChart } from 'canvasjs-react-charts'
 
+
 const StockPage = () => {
 
     let my_options = {
@@ -29,7 +30,7 @@ const StockPage = () => {
             ]
         }]
     }
-
+   
     //Fetch All Stocks
     const [allStocks, setAllStocks] = useState([]);
     useEffect(() => {
@@ -56,6 +57,7 @@ const StockPage = () => {
 
 
     const [options, setOptions] = useState(my_options);
+
     const getClickId = async (id) => {
         console.log(id, "======")
         let payload = {company_id: id};
@@ -77,10 +79,9 @@ const StockPage = () => {
         for (var i = 0; i < res.datetime.length; i++) {
             let my_date = new Date(res.datetime[i]).getTime();
             console.log(my_date)
-            // let myDataPoint = new Object();
-            // myDataPoint.x = my_date;
-            // myDataPoint.y = res.price[i];
-            let xx = (my_date-my_date_base)/100000
+           
+            //let xx = (my_date-my_date_base)/100000
+            let xx = i;
             myDataPoints.push( {x: xx, y: res.price[i]} );
             //my_new_options.data[0].dataPoints.push(myDataPoint);
         }
@@ -95,15 +96,15 @@ const StockPage = () => {
                 title: {
                 },
                 axisY: {
-                    suffix: "%"
+                    prefix: "$"
                 },
                 axisX: {
-                    prefix: "W",
-                    interval: 500
+                    //prefix: "W",
+                    interval: 1
                 },
                 data: [{
                     type: "line",
-                    toolTipContent: "Week {x}: {y}%",
+                    toolTipContent: "${y}",
                     dataPoints: myDataPoints
                     // [
                     //     //`${myDataPoints}`
