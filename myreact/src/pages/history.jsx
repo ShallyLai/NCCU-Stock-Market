@@ -135,7 +135,7 @@ const HistoryPage = () => {
             else if (response_json.msg === 'get transaction') {
                 console.log('取得交易紀錄');
                 row = response_json;
-                //   console.log(row);
+              //  console.log(row);
                 return row;
             } else if (response_json.msg === 'no transaction') {
                 alert('沒有交易紀錄');
@@ -167,6 +167,7 @@ const HistoryPage = () => {
             else if (response_json.msg === 'get order') {
                 console.log('取得掛單紀錄');
                 row = response_json;
+               // console.log(row);
                 return row;
             } else if (response_json.msg === 'no order') {
                 alert('沒有掛單紀錄');
