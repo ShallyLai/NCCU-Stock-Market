@@ -1,7 +1,4 @@
 import PropTypes from 'prop-types'
-import Button from './Button'
-import Button2 from '@mui/material/Button';
-import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 
-const MyHistory = ({data}) => {
+const HistoryTable = ({data}) => {
 
     // const onClick = async () => {
     //     console.log('儲值');
@@ -51,7 +48,7 @@ const MyHistory = ({data}) => {
     )
 }
 
-MyHistory.defaultProps = {
+HistoryTable.defaultProps = {
     data: [{
       "BuyOrSell": " ",
       "TransactionPrice": " ",
@@ -61,9 +58,9 @@ MyHistory.defaultProps = {
     ],
 }
 
-MyHistory.protoType = {
+HistoryTable.protoType = {
      data: PropTypes.object,
 }
 
 
-export default MyHistory
+export default HistoryTable

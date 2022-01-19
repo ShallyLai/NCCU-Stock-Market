@@ -13,7 +13,6 @@ const Login = ({onType}) => {
 
     return (
       <form className='add-form' onSubmit={onSubmit}>
-        <h2>帳號登入</h2>
         <div className='form-control'>
           <label>帳號：</label>
           <input type='text' placeholder='輸入帳號'
