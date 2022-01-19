@@ -131,12 +131,13 @@ export default function EnhancedTable(props) {
     return { name, price, id, high, low};
   }
   const rows = [];
+  // console.log(props.data);
+  // console.log("----")
   if(props.data.name!== undefined) {
     for ( var i=0; i<props.data.name.length; i++){
       rows.push(createData(props.data.name[i], props.data.price[i], props.data.id[i], props.data.high[i], props.data.low[i]) )
     }
   }
-  //console.log(rows)
   
   
   const [order, setOrder] = React.useState('asc');

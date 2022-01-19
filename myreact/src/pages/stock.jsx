@@ -7,7 +7,7 @@ import { CanvasJSChart } from 'canvasjs-react-charts'
 let options = {
     animationEnabled: true,
     exportEnabled: true,
-    theme: "light2", 
+    theme: "light2",
     title: {
     },
     axisY: {
@@ -30,22 +30,45 @@ let options = {
 }
 
 const StockPage = () => {
+    //Fetch All Stocks
     const [allStocks, setAllStocks] = useState([]);
     useEffect(() => {
         const getAllStocks = async () => {
-            const allStocksFromServer = await fetchAllStocks()
-            setAllStocks(allStocksFromServer)
+            let payload = {
+                group_id: "[000]"
+            }
+            const res = await fetch(
+                'http://localhost:3000/getAllStock', {
+                method: "POST",
+                body: JSON.stringify(payload),
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            }).then((response) => {
+                console.log(response.status);
+                return response.json();
+            });
+            setAllStocks(res)
         }
         getAllStocks()
     }, [])
 
-    //Fetch All Stocks
-    const fetchAllStocks = async () => {
-        const res = await fetch('http://localhost:3000/getAllStock')
-        const data = await res.json()
-        console.log(data)
-        return data
-    }
+    // const [allStocks, setAllStocks] = useState([]);
+    // useEffect(() => {
+    //     const getAllStocks = async () => {
+    //         const allStocksFromServer = await fetchAllStocks()
+    //         setAllStocks(allStocksFromServer)
+    //     }
+    //     getAllStocks()
+    // }, [])
+
+    // //Fetch All Stocks
+    // const fetchAllStocks = async () => {
+    //     const res = await fetch('http://localhost:3000/getAllStock')
+    //     const data = await res.json()
+    //     console.log(data)
+    //     return data
+    // }
 
     return (
         <div>
@@ -68,29 +91,29 @@ const StockPage = () => {
     );
 };
 
-const getClickId = async (id) =>{
+const getClickId = async (id) => {
     console.log(id, "======")
     let payload = {
-        company_id : id
+        company_id: id
     }
     const res = await fetch(
         'http://localhost:3000/getHistory', {
         method: "POST",
         body: JSON.stringify(payload),
         headers: new Headers({
-          'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         })
-      }
+    }
     ).then((response) => {
         console.log(response.status);
         return response.json();
     });
     console.log(res)
-    for( var i =0; i< res.date.length; i++){
+    for (var i = 0; i < res.date.length; i++) {
         let my_date = new Date(res.date[i]).getTime()
         console.log(my_date)
     }
-    
+
     //console.log(my_date)
     //console.log(my_date.getFullYear())
 
