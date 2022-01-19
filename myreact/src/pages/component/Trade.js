@@ -9,8 +9,16 @@ const Trade = (props) => {
     const [buyNum, setBuyNum] = useState('')
 
     const SellSubmit = (e) =>{
+        
         e.preventDefault()
-        props.func(sellNum, sellPrice, props.data.id);
+        props.funcs(sellNum, sellPrice, props.data.id);
+        console.log("SELL: ",sellNum, sellPrice, props.data.id);
+    }
+    const BuySubmit = (e) =>{
+       
+        e.preventDefault()
+        props.funcb(sellNum, sellPrice, props.data.id);
+         console.log("BUY: ",sellNum, sellPrice, props.data.id);
     }
 
     return (
@@ -26,7 +34,8 @@ const Trade = (props) => {
                      <input type='number' placeholder='' style={{width: "60px"}}
                      value={sellNum} onChange={(e) =>setSellNum(e.target.value)}/>
                      <br/>
-                     <input type='submit' value='售出' style={{width: "60px"}}/>
+                     <button type='submit' style={{width: "60px"}}>售出</button>
+                     <button type="button" style={{width: "60px"}} onClick={BuySubmit}>買入</button>
                 </div>
             </form>
             

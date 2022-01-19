@@ -2,11 +2,10 @@ import PropTypes from 'prop-types'
 import Button2 from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
-const UserInfo = (props) => {
+const StockDetail = (props) => {
 
     const onClick = async () => {
-        console.log('儲值');
-        props.store_value(props.user_id)
+        console.log('購入');
     }
     return (
           <Box
@@ -56,15 +55,15 @@ const UserInfo = (props) => {
     )
 }
 
-UserInfo.defaultProps = {
+StockDetail.defaultProps = {
     user_name: '使用者名稱',
     user_money: '0',
 }
 
-UserInfo.protoType = {
+StockDetail.protoType = {
     user_name: PropTypes.string.isRequired,
     user_money: PropTypes.string.isRequired,
 }
 
 
-export default UserInfo
+export default StockDetail

@@ -20,8 +20,7 @@ const Header = (props) => {
     }
     return (
         <header className='header'>
-
-            <h2>{props.title}</h2>
+            <h1>　　{props.title}</h1>
             <h4>NCCU Stock Market</h4>
             <Box
                 sx={{
@@ -35,7 +34,7 @@ const Header = (props) => {
             >
                 <ButtonGroup variant="outlined" aria-label="text button group">
                     <Button  onClick={goToStock} size="small">當前股市</Button>
-                    <Button  onClick={goToHistory} size="small">歷史紀錄</Button>
+                    <Button  onClick={goToHistory} size="small">我的紀錄</Button>
                     <Button  onClick={goToIndex} size="small">登出</Button>
                 </ButtonGroup></Box>
         </header >

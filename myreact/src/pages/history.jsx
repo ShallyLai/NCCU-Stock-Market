@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Header from './component/Header';
 import UserInfo from "./component/UserInfo";
 import Tabs from "./component/Tabs";
-import SelectGroup from "./component/SelectGroup";
+//import SelectGroup from "./component/SelectGroup";
 
 const HistoryPage = () => {
 
@@ -177,15 +177,12 @@ const HistoryPage = () => {
 
     return (
         <div className="container">
-            <Header title='歷史紀錄' />
-             <SelectGroup apply={apply} />
+            <Header title='我的紀錄' />
             <UserInfo
                 user_name={user_name}
                 user_id={user_id}
                 user_money={user_money}
                 store_value={store_Value} />
-
-            
             <Tabs dataT={trans_history} dataO={order_history} />
         </div>
     );
@@ -220,26 +217,6 @@ const store_Value = async (id) => {
     return;
 }
 
-const apply = async (data) => {
-    console.log('套用 check box');
-  //  console.log(data);
-    
-  let group_in_set = [];
 
-    data['g100']&&(group_in_set.push('100'));
-    data['g102']&&(group_in_set.push('102'));
-    data['g200']&&(group_in_set.push('200'));
-    data['g203']&&(group_in_set.push('203'));
-    data['g300']&&(group_in_set.push('300'));
-    data['g400']&&(group_in_set.push('400'));
-    data['g500']&&(group_in_set.push('500'));
-    data['g600']&&(group_in_set.push('600'));
-    data['g700']&&(group_in_set.push('700'));
-    data['g703']&&(group_in_set.push('703'));
-
-    let group_set_str = "['"+group_in_set.join('\',\'')+"']";
-    console.log(group_set_str);
-
-}
 
 export default HistoryPage;
