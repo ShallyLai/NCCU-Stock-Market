@@ -47,26 +47,33 @@ let handle_request = async (user, callback) => {
         }
       }
     });
-    
-    response.status = 200;
+
+    if(buy_price.length == 0 && sell_price.length == 0 ){
+      response.msg = 'no order';
+      response.status = 204;
+    } else {
+      response.msg = "get order";
+      response.status = 200;
+    }
 
     response.buy_order_id = buy_order_id;
     response.buy_stock_id = buy_stock_id;
     response.buy_num = buy_num;
-    response.buy_price = buy_time;
+    response.buy_price = buy_price;
     response.buy_time = buy_time;
     response.sell_order_id = sell_order_id;
     response.sell_stock_id = sell_stock_id;
     response.sell_num = sell_num;
     response.sell_price = sell_price;
     response.sell_time = sell_time;
-    
+    console.log(response);
     console.log("\n---callback---\n");
     callback(null, response);
 
   } catch (error) {
     console.log("catch error");
     console.log(error);
+    response.msg = "catch error";
     callback(error, response);
   }
 

@@ -20,13 +20,12 @@ handle_request = (async(data, callback) => {
     			throw(err);
     		} else {
     			console.log("Buy Transaction Get ");
-    			response.status = 204;
     			for(a=0;a<result.length;a++){
-    				stock_name.push(result[a].company_name);
+    				stock_name.push(result[a][0]);
     				BuyOrSell.push("TRUE");
-    				TransactionPrice.push(result[a].price);
-    				num.push(result[a].num);
-    				TransactionTime.push(result[a].finish_time);
+    				TransactionPrice.push(result[a][1]);
+    				num.push(result[a][2]);
+    				TransactionTime.push(result[a][3]);
     			}
     		}	
 
@@ -37,22 +36,31 @@ handle_request = (async(data, callback) => {
     			throw(err);
     		} else {
     			console.log("Sell Transaction Get ");
-    			response.status = 204;
     			for(a=0;a<result.length;a++){
-    				stock_name.push(result[a].company_name);
+    				stock_name.push(result[a][0]);
     				BuyOrSell.push("FALSE");
-    				TransactionPrice.push(result[a].price);
-    				num.push(result[a].num);
-    				TransactionTime.push(result[a].finish_time);
+    				TransactionPrice.push(result[a][1]);
+    				num.push(result[a][2]);
+    				TransactionTime.push(result[a][3]);
     			}
     		}	
 
     	});
+			if(TransactionPrice.length == 0){
+				response.msg = 'no transaction';
+				response.status = 204;
+			} else {
+				response.msg = "get transaction";
+				response.status = 200;
+			}
     	response.stock_name = stock_name;
     	response.BuyOrSell = BuyOrSell;
     	response.TransactionPrice = TransactionPrice;
     	response.num = num;
     	response.TransactionTime = TransactionTime;
+
+			console.log("callback response");
+			console.log(response);
 
     	callback(null, response);
     } catch(err){

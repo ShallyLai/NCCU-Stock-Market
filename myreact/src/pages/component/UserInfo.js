@@ -32,7 +32,7 @@ const UserInfo = (props) => {
               maxWidth: { xs: 200, md: 150 },
             }}
             alt="頭貼"
-            src="https://imgur.com/MdUTCZ3.png"
+            src="https://i.imgur.com/zLjoyLI.jpg"
           />
           <Box
             sx={{

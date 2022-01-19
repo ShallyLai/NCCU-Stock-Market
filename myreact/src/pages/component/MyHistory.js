@@ -10,43 +10,39 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
-const rows = [];
-
-const MyHistory = (props) => {
+const MyHistory = ({data}) => {
 
     // const onClick = async () => {
     //     console.log('儲值');
     //     props.store_value(props.user_id)
-    // }
+    // }\
+   console.log(typeof(data));
     return (
       <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 650 }} aria-label="simple table" >
         <TableHead>
-          <TableRow>
-            <TableCell>股票名稱</TableCell>
-            <TableCell align="right">買/賣</TableCell>
-            <TableCell align="right">價格</TableCell>
-            <TableCell align="right">股數</TableCell>
-            <TableCell align="right">交易時間</TableCell>
-          </TableRow>
+          <TableRow align="center">
+            <TableCell><b>股票名稱</b></TableCell>
+            <TableCell><b>買/賣</b></TableCell>
+            <TableCell><b>價格</b></TableCell>
+            <TableCell><b>股數</b></TableCell>
+            <TableCell ><b>交易時間</b></TableCell>
+            </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
+          {data.map((row) => (
+            <TableRow  align="center"
+              key={row["stock_name"]}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}
+                {row["stock_name"]}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell>{row["BuyOrSell"]}</TableCell>
+              <TableCell>{row["TransactionPrice"]}</TableCell>
+              <TableCell>{row["num"]}</TableCell>
+              <TableCell>{row["TransactionTime"]}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -56,13 +52,17 @@ const MyHistory = (props) => {
 }
 
 MyHistory.defaultProps = {
-    user_name: '使用者名稱',
-    user_money: '0',
+    data: [{
+      "BuyOrSell": " ",
+      "TransactionPrice": " ",
+      "TransactionTime": " ",
+      "num": " ",
+      "stock_name": " "}
+    ],
 }
 
 MyHistory.protoType = {
-    user_name: PropTypes.string.isRequired,
-    user_money: PropTypes.string.isRequired,
+     data: PropTypes.object,
 }
 
 
