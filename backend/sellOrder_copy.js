@@ -201,7 +201,7 @@ handle_request = async (data, callback) => {
       console.log("i:" + i + ", matcharr:" + matcharr[i][1]);
       console.log("i:" + i + ", matcharr:" + matcharr[i][2]);
 
-      min = Math.min(curBuyNum, matcharr[i][1]);
+      min = Math.min(curSellNum, matcharr[i][1]);
       console.log("min:" + min);
 
       // 更新掛單數量
@@ -251,7 +251,7 @@ handle_request = async (data, callback) => {
       });
 
       // 更新賣方持有數量
-      console.log("index: " + i);
+      console.log("i: " + i);
       let sell_own_now = 0;
       let get_own = "select num from Own where Ouser_id=" + data.suser_id + " and Ostock_id=" + data.stock_id + ";";
       await mysql.myFetch(get_own, function (err, get_num_res) {
@@ -277,7 +277,7 @@ handle_request = async (data, callback) => {
         }
       });
       // 更新賣方持有的錢
-      console.log("index: " + i);
+      console.log("i: " + i);
       let cashflow = min * newprice;
       let sell_money = 0;
       let get_sell_money = "select money from User where user_id=" + data.suser_id + ";";
@@ -327,7 +327,7 @@ handle_request = async (data, callback) => {
       });
 
       // 更新買方持有的錢
-      console.log("index: " + index);
+      console.log("i: " + i);
       let buy_money = 0;
       let get_buy_money = "select money from User where user_id=" + matcharr[i][2] + ";";
       await mysql.myFetch(get_buy_money, function (err, getBuyMoney_res) {
@@ -364,9 +364,9 @@ handle_request = async (data, callback) => {
       console.log("catch stop");
     } else {
       console.log(err);
-      if (stopMapFlag == 0) {
-        callback(err, response);
-      }
+      //if (stopMapFlag == 0) {
+        //callback(err, response);
+      //}
     }
 
   }
