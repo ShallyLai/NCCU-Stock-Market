@@ -33,21 +33,7 @@ const Trade = (props) => {
             
 
         </div>
-        // <div>
-        //     <form className='trade_form'>
-        //         <div className='form-control'>
-        //             <label>帳號：</label>
-        //             <input type='text' placeholder='輸入帳號'
-        //                 value={acc} onChange={(e) => setAcc(e.target.value)} />
-        //         </div>
-        //         <div className='form-control'>
-        //             <label>密碼：</label>
-        //             <input type='text' placeholder='輸入密碼'
-        //                 value={pwd} onChange={(e) => setPwd(e.target.value)} />
-        //         </div>
-        //         <input type='submit' value='登入' />
-        //     </form>
-        // </div>
+        
     )
 }
 

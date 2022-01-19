@@ -10,10 +10,53 @@ import SelectGroup from "./component/SelectGroup";
 const StockPage = () => {
     if (!sessionStorage.getItem("user_name")) {
         alert('您尚未登入！');
-        window.location.href="./";
+        window.location.href = "./";
     }
     const user_name = sessionStorage.getItem("user_name");
     const user_id = sessionStorage.getItem("user_id");
+
+    //Filter
+    const apply = async (data) => {
+        console.log('套用 check box');
+        //  console.log(data);
+    
+        let group_in_set = [];
+    
+        data['g100'] && (group_in_set.push(100));
+        data['g102'] && (group_in_set.push(102));
+        data['g200'] && (group_in_set.push(200));
+        data['g203'] && (group_in_set.push(203));
+        data['g300'] && (group_in_set.push(300));
+        data['g400'] && (group_in_set.push(400));
+        data['g500'] && (group_in_set.push(500));
+        data['g600'] && (group_in_set.push(600));
+        data['g700'] && (group_in_set.push(700));
+        data['g703'] && (group_in_set.push(703));
+    
+        //let group_set_str = "['"+group_in_set.join('\',\'')+"']";
+        let group_set_str = "[" + group_in_set.toString() + "]";
+        console.log(group_set_str);
+        console.log(typeof (group_set_str));
+    
+        let payload = { group_id: group_set_str };
+        const res = await fetch(
+            'http://localhost:3000/getAllStock', {
+            method: "POST",
+            body: JSON.stringify(payload),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        }
+        ).then((response) => {
+            //console.log(response.status);
+            return response.json();
+        });
+        console.log(res);
+        setAllStocks(res);
+    
+    }
+
+
 
     //Fetch first History
     const [options, setOptions] = useState([]);
@@ -94,10 +137,10 @@ const StockPage = () => {
 
     //Handle Transaction
     const [selected_data, setSelectedData] = useState({});
-    const sellStocks = async (num, price, stock_id)=>{
+    const sellStocks = async (num, price, stock_id) => {
         console.log(stock_id)
         console.log(num, price)
-        let payload = { num:num, price:price, suser_id:user_id, stock_id:stock_id};
+        let payload = { num: num, price: price, suser_id: user_id, stock_id: stock_id };
         const res = await fetch(
             'http://localhost:3000/sellOrder', {
             method: "POST",
@@ -109,7 +152,19 @@ const StockPage = () => {
             //console.log(response.status);
             return response.json();
         });
-        console.log(res)
+        console.log(res.status)
+        if(res.status === 404){
+            alert("掛單成功");
+        }
+        else if(res.status === 201){
+            alert("販賣股數超過持有股數，請重新掛單");
+        }
+        else if(res.status === 200){
+            alert("掛單成功")
+        }
+        else{
+            alert("??")
+        }
     }
 
 
@@ -117,7 +172,7 @@ const StockPage = () => {
     const getClickId = async (data) => {
         //console.log(data.id, "======")
         //console.log(data.name)
-       
+
         setSelectedData(data)
         //Fetch History by id
         let payload = { company_id: data.id };
@@ -172,41 +227,21 @@ const StockPage = () => {
         )
     }
 
-    
+
 
     return (
         <div className="container">
             <Header title='當前股市' />
-             <SelectGroup apply={apply} />
+            <SelectGroup apply={apply} />
             <EnhancedTable data={allStocks} func={getClickId} />
             <CanvasJSChart options={options} />
-            <Trade data={selected_data} func={sellStocks}/>
+            <Trade data={selected_data} func={sellStocks} />
 
         </div>
     );
 
 };
 
-const apply = async (data) => {
-    console.log('套用 check box');
-  //  console.log(data);
-    
-  let group_in_set = [];
 
-    data['g100']&&(group_in_set.push('100'));
-    data['g102']&&(group_in_set.push('102'));
-    data['g200']&&(group_in_set.push('200'));
-    data['g203']&&(group_in_set.push('203'));
-    data['g300']&&(group_in_set.push('300'));
-    data['g400']&&(group_in_set.push('400'));
-    data['g500']&&(group_in_set.push('500'));
-    data['g600']&&(group_in_set.push('600'));
-    data['g700']&&(group_in_set.push('700'));
-    data['g703']&&(group_in_set.push('703'));
-
-    let group_set_str = "['"+group_in_set.join('\',\'')+"']";
-    console.log(group_set_str);
-
-}
 
 export default StockPage;
