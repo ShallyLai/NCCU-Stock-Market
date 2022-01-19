@@ -5,6 +5,7 @@ import EnhancedTable from "./test_table";
 import { CanvasJSChart } from 'canvasjs-react-charts'
 import Trade from './component/Trade';
 import SelectGroup from "./component/SelectGroup";
+import TabStocks from "./component/TabStocks";
 
 
 const StockPage = () => {
@@ -167,6 +168,36 @@ const StockPage = () => {
         }
     }
 
+    const buyStocks = async (num, price, stock_id) => {
+        console.log(stock_id)
+        console.log(num, price)
+        let payload = { num: num, price: price, suser_id: user_id, stock_id: stock_id };
+        const res = await fetch(
+            'http://localhost:3000/buyOrder', {
+            method: "POST",
+            body: JSON.stringify(payload),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        }).then((response) => {
+            //console.log(response.status);
+            return response.json();
+        });
+        console.log(res.status)
+        if(res.status === 404){
+            alert("掛單成功");
+        }
+        else if(res.status === 201){
+            alert("餘額不足");
+        }
+        else if(res.status === 200){
+            alert("掛單成功")
+        }
+        else{
+            alert("??")
+        }
+    }
+
 
     //Handle Click
     const getClickId = async (data) => {
@@ -233,9 +264,10 @@ const StockPage = () => {
         <div className="container">
             <Header title='當前股市' />
             <SelectGroup apply={apply} />
-            <EnhancedTable data={allStocks} func={getClickId} />
+            <TabStocks data1={allStocks} func1={getClickId}/>
+            {/* <EnhancedTable data={allStocks} func={getClickId} /> */}
             <CanvasJSChart options={options} />
-            <Trade data={selected_data} func={sellStocks} />
+            <Trade data={selected_data} funcs={sellStocks} funcb={buyStocks}/>
 
         </div>
     );
