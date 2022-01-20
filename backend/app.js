@@ -30,7 +30,6 @@ let getMyStock = require('./getMyStock.js');
 app.get('/', function(req, res){
     console.log("connected to port 3000");
     res.send("connected to port 3000");
-    //res.sendfile('./views/index.html');
 });
 app.get('/test', function(req, res){
     console.log("test success");
