@@ -1,5 +1,6 @@
 import React from "react";
 import Login from './component/Login';
+import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
 const LoginPage = () => {
@@ -29,6 +30,7 @@ const LoginPage = () => {
         <br />
         <h2>帳號登入</h2>
         <Login onType={loginSummit} />
+        <a href="/signup">立即註冊</a>
       </Box>
     </Box>
   );
