@@ -15,5 +15,5 @@
 * 每天更新掛單，刪除昨天未交易完成之掛單
 
 ## Demo畫面
-<img width="1204" alt="截圖 2022-01-29 下午1 59 54" src="https://user-images.githubusercontent.com/79987875/151649692-250d956a-817a-45d0-92b8-88488f25d82f.png">
+<img width="1304" alt="截圖 2022-03-30 上午10 56 55" src="https://user-images.githubusercontent.com/79987875/160742214-cc4a028c-8892-4893-9705-86f4d2acf74c.png">
 
