@@ -33,7 +33,7 @@ const UserInfo = (props) => {
           padding: '1px',
         }}
         alt="頭貼"
-        src="https://i.imgur.com/zLjoyLI.jpg"
+        src="https://i.imgur.com/e5eLSJB.png"
       />
       <Box
         sx={{
