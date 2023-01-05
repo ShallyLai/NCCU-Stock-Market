@@ -30,21 +30,21 @@ const SignupPage = () => {
           >
             <br />
             <h2>立即註冊</h2>
-            <SignUp onType={loginSummit} />
-            {/*<a href="/signup">立即註冊</a>   */}
+            <SignUp onType={signupSummit} />
+            <a href="/">已經有帳號了嗎？立刻登入</a>
           </Box>
         </Box>
     );
 };
 
-const loginSummit = async (acc) => {
+const signupSummit = async (acc) => {
   console.log(acc);
   let payload = {
     user_name: acc.acc,
     password: acc.pwd
   }
   const res = await fetch(
-    'http://localhost:3000/login', {
+    'http://localhost:3000/signup', {
     method: "POST",
     body: JSON.stringify(payload),
     headers: new Headers({
@@ -56,19 +56,15 @@ const loginSummit = async (acc) => {
     console.log(response.status);
     return response.json();
   }).then((response_json) => {
-    if (response_json.msg === 'no user found') {
-      alert('帳號錯誤');
+    if (response_json.msg === 'user name already used') {
+      alert('此帳號已被註冊，請重新設定！');
       return;
     }
-    else if (response_json.msg === 'password error') {
-      alert('密碼錯誤');
-      return;
-    }
-    else if (response_json.msg === 'found user') {
-      alert('登入成功');
-      sessionStorage.setItem('user_name', response_json.user_name);
-      sessionStorage.setItem('user_id', response_json.user_id);
-      window.location.href = "../history";
+    else if (response_json.msg === 'signup success') {
+      alert('註冊成功');
+      // sessionStorage.setItem('user_name', response_json.user_name);
+      // sessionStorage.setItem('user_id', response_json.user_id);
+      window.location.href = "../";
       return;
     }
 

@@ -14,7 +14,7 @@ handle_request = ((data, callback) => {
         callback(err, response);
       } else if (fetch_res.length == 0) {
         let insertUser = "insert into User (user_name, password, money) values ('" +
-          data.user_name + "', " + data.password + ", 10000);";
+          data.user_name + "', '" + data.password + "', 10000);";        
 
         mysql.insertData(insertUser, function (insert_err, insert_res) {
           if (insert_err) {
