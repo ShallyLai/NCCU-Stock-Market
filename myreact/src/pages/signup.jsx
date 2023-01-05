@@ -41,7 +41,8 @@ const signupSummit = async (acc) => {
   console.log(acc);
   let payload = {
     user_name: acc.acc,
-    password: acc.pwd
+    password:  acc.pwd
+    //password: acc.hash
   }
   const res = await fetch(
     'http://localhost:3000/signup', {

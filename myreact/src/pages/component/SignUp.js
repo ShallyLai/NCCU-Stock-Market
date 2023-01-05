@@ -2,6 +2,8 @@ import { useState } from 'react'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+const jsSHA = require("jssha");
+
 
 const SignUp = ({ onType }) => {
   const [acc, setAcc] = useState('')
@@ -20,6 +22,13 @@ const SignUp = ({ onType }) => {
       return;
     }
 
+    //const shaObj = new jsSHA("SHA-512", "TEXT", { encoding: "UTF8" });
+    //console.log(shaObj)
+    /* .update() can be chained */
+    //shaObj.update(pwd);
+    //console.log(shaObj)
+    //const hash = shaObj.getHash("HEX");
+    //onType({ acc, hash })
     onType({ acc, pwd })
   }
 
