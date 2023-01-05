@@ -2,6 +2,8 @@ import React from "react";
 import Login from './component/Login';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+const jsSHA = require("jssha");
+
 
 const LoginPage = () => {
   return (
@@ -38,9 +40,17 @@ const LoginPage = () => {
 
 const loginSummit = async (acc) => {
   console.log(acc);
+  const shaObj = new jsSHA("SHA-512", "TEXT", { encoding: "UTF8" });
+  //console.log(shaObj)
+  /* .update() can be chained */
+  shaObj.update(acc.pwd);
+  //console.log(shaObj)
+  let hash = shaObj.getHash("HEX");
+  hash = hash.slice(0,30);
   let payload = {
     user_name: acc.acc,
-    password: acc.pwd
+    password: hash
+    //password: acc.pwd
   }
   const res = await fetch(
     'http://localhost:3000/login', {
