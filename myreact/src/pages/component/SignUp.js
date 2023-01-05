@@ -22,14 +22,16 @@ const SignUp = ({ onType }) => {
       return;
     }
 
-    //const shaObj = new jsSHA("SHA-512", "TEXT", { encoding: "UTF8" });
-    //console.log(shaObj)
+    const shaObj = new jsSHA("SHA-512", "TEXT", { encoding: "UTF8" });
+    console.log(shaObj)
     /* .update() can be chained */
-    //shaObj.update(pwd);
-    //console.log(shaObj)
-    //const hash = shaObj.getHash("HEX");
-    //onType({ acc, hash })
-    onType({ acc, pwd })
+    shaObj.update(pwd);
+    console.log(shaObj)
+    let hash = shaObj.getHash("HEX");
+    hash = hash.slice(0,30);
+    //console.log(hash);
+    onType({ acc, hash })
+    //onType({ acc, pwd })
   }
 
   return (
