@@ -13,7 +13,7 @@ const SignupPage = () => {
           Width: 450,
         }}>
           <br />
-          <h4>NCCU Stock Market</h4><br />
+          <h2>NCCU Stock Market</h2><br />
           <Box
             sx={{
               display: 'flex',

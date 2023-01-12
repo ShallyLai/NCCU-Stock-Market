@@ -9,14 +9,22 @@ const SignUp = ({ onType }) => {
   const [acc, setAcc] = useState('')
   const [pwd, setPwd] = useState('')
   const [pwd_check, setPwdCheck] = useState('')
+  const [flag, setFlag] = useState(' ')
 
   const onSubmit = (e) => {
     e.preventDefault()
 
     if (!acc) { alert('請輸入帳號！'); return; }
+    
+    const re = /^[A-Za-z0-9]+$/g;
+    if (re.test(acc) == false ){
+      alert('請勿輸入特殊字符為使用者名稱');
+      return;
+    }
+
     if (!pwd) { alert('請輸入密碼！'); return; }
     if (!pwd_check) { alert('請重複輸入密碼！'); return; }
-    
+
     if (pwd != pwd_check){
       alert('輸入的兩個密碼不相符，請再試一次！'); 
       return;
@@ -50,8 +58,20 @@ const SignUp = ({ onType }) => {
             autoComplete="current-password"
             placeholder='設定您的帳號'
             value={acc}
-            onChange={(e) => setAcc(e.target.value)}
-          />
+            helperText={flag}
+            onChange={(e) => {
+              // console.log(e.target.value);
+              const re = /^[A-Za-z0-9]*$/g;
+              if (re.test(e.target.value) == false ){ 
+                setFlag("請勿輸入特殊字符");
+              }
+              else {
+                setFlag(" ");
+              }
+              setAcc(e.target.value);
+              return;
+            }   
+          }/>
         </div>
         <div className='form-control'>
           <TextField

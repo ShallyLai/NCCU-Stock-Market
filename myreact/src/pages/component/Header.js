@@ -23,7 +23,7 @@ const Header = (props) => {
     }
     return (
         <header className='header'>    
-            <h4>　　NCCU Stock Market</h4> 
+            <h2>&emsp;NCCU Stock Market</h2> 
             <h1>{props.title}</h1>
             <Box
                 sx={{
