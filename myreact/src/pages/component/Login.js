@@ -6,11 +6,19 @@ import Stack from '@mui/material/Stack';
 const Login = ({ onType }) => {
   const [acc, setAcc] = useState('')
   const [pwd, setPwd] = useState('')
+  const [flag, setFlag] = useState(' ')
 
   const onSubmit = (e) => {
     e.preventDefault()
 
     if (!acc) { alert('請輸入帳號！'); return; }
+
+    const re = /^[A-Za-z0-9]+$/g;
+    if (re.test(acc) == false ){
+      alert('請勿輸入特殊字符');
+      return;
+    }
+    
     if (!pwd) { alert('請輸入密碼！'); return; }
     onType({ acc, pwd })
   }
@@ -31,8 +39,19 @@ const Login = ({ onType }) => {
             autoComplete="current-password"
             placeholder='輸入您的帳號'
             value={acc}
-            onChange={(e) => setAcc(e.target.value)}
-          />
+            helperText={flag}
+            onChange={(e) => {
+              const re = /^[A-Za-z0-9]*$/g;
+              if (re.test(e.target.value) == false ){ 
+                setFlag("請勿輸入特殊字符");
+              }
+              else {
+                setFlag(" ");
+              }
+              setAcc(e.target.value);
+              return;
+            }
+          }/>
         </div>
         <div className='form-control'>
           <TextField
